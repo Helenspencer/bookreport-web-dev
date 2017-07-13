@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <title>File Preview</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible"></meta>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width" />    
+    <style type="text/css" media="screen">
+        html, body  { height:100%; }
+        body { margin:0; padding:0; overflow:auto; }
+        .infoBox > * {font-family:Lato;}
+        #flashContent { display:none; }
+    </style>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/styles/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/scripts/vendors/flowpaper/css/flowpaper_flat.css" />
+    <script type="text/javascript" src="/scripts/vendors/flowpaper/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendors/flowpaper/js/jquery.extensions.min.js"></script>
+    <script type="text/javascript" src="/scripts/vendors/flowpaper/js/flowpaper.js"></script>
+    <script type="text/javascript" src="/scripts/vendors/flowpaper/js/flowpaper_handlers.js"></script>
+    <script type="text/javascript">
+    jQuery.extend({
+
+        getQueryParameters : function(str) {
+            return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+        }
+
+    });    
+    </script>
+</head>
+<body>
+    <!-- <h3>Document Preview</h3> -->
+    <div id="noPreview" style="position:absolute;left:40%;top:40%;width:100%;height:75%;">        
+    </div>
+    <div id="documentViewer" class="flowpaper_viewer" style="position:absolute;left:0px;top:0px;width:100%;height:100%;"></div>
+<script type="text/javascript">
+
+var startDocument = "Paper";
+var queryParams = jQuery.getQueryParameters();
+if(queryParams.hasPreview=='true'){
+    jQuery.get((!window.isTouchScreen)?'/views/flowpaper/UI_flowpaper_desktop_flat.html':'/views/flowpaper/UI_flowpaper_mobile.html',
+        function(toolbarData) {        
+            var fileUrl = queryParams.url+'/file/'+queryParams.fileId+'?token='+queryParams.token;
+
+            document.title = decodeURIComponent(queryParams.name);
+            jQuery('#documentViewer').FlowPaperViewer(
+                { config : {
+                    key                     : '@167ad39d7f42fb7ab03$2966bce72532408aaeb',
+                    SWFFile                 : '/scripts/vendors/flowpaper/docs/Paper.pdf.swf',
+                    IMGFiles                : '/scripts/vendors/flowpaper/docs/Paper.pdf_{page}.png',
+                    JSONFile                : '/scripts/vendors/flowpaper/docs/Paper.js',
+                    PDFFile                 : fileUrl,
+                    Scale                   : 0.6,
+                    ZoomTransition          : 'easeOut',
+                    ZoomTime                : 0.5,
+                    ZoomInterval            : 0.2,
+                    FitPageOnLoad           : true,
+                    FitWidthOnLoad          : true,
+                    FullScreenAsMaxWindow   : false,
+                    ProgressiveLoading      : false,
+                    MinZoomSize             : 0.2,
+                    MaxZoomSize             : 5,
+                    SearchMatchAll          : false,
+
+                    Toolbar                 : toolbarData,
+                    BottomToolbar           : '/views/flowpaper/UI_flowpaper_annotations.html',
+                    InitViewMode            : 'Portrait',
+                    RenderingOrder          : 'html5,html',
+                    StartAtPage             : '',
+
+                    ViewModeToolsVisible    : true,
+                    ZoomToolsVisible        : true,
+                    NavToolsVisible         : true,
+                    CursorToolsVisible      : true,
+                    SearchToolsVisible      : true,
+
+                    UserCollaboration       : true,
+                    CurrentUser             : 'Test user',
+
+                    WMode                   : 'window',
+                    localeChain             : 'en_US'
+                }}
+                );
+});    
+} else{
+    jQuery('#documentViewer').hide();
+    jQuery("#noPreview").html(
+        "<span>No preview available</span>" +
+        "<div style=\"margin-top: 30px;\">"+
+        "<a href=\""+queryParams.url+'/file/'+queryParams.fileId+'?token='+queryParams.token+"\" target=\"_new\">Download file...</a>"+
+        "</div>"
+        );
+
+}
+
+</script>
+
+
+<script type="text/javascript">
+    var url = window.location.href.toString();
+
+    if(location.length==0){
+        url = document.URL.toString();
+    }
+
+    if(url.indexOf("file:")>=0){
+        jQuery('#documentViewer').html("<div style='position:relative;background-color:#ffffff;width:420px;font-family:Verdana;font-size:10pt;left:22%;top:20%;padding: 10px 10px 10px 10px;border-style:solid;border-width:5px;'><img src='https://flowpaper.com/resources/warning_icon.gif'>&nbsp;<b>You are trying to use FlowPaper from a local directory.</b><br/><br/> FlowPaper needs to be copied to a web server before the viewer can display its document properlty.<br/><br/>Please copy the FlowPaper files to a web server and access the viewer through a http:// url.</div>");
+    }
+</script>
+</body>
+</html>

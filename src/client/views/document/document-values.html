@@ -1,0 +1,42 @@
+<form name="documentValuesForm" ng-submit="documentCtrl.save()" novalidate>
+    <div class="form-group" ng-show="!documentCtrl.selectedDocumentType.Data">
+        (No Document Values)
+    </div>
+    <div class="form-group" ng-repeat="dataType in documentCtrl.selectedDocumentType.Data">
+        <label class="control-label">
+            <span>{{ dataType.Name }}</span>
+        </label>
+        <div>
+            <textarea class="cw-input" ng-if="dataType.DataType==0" ng-model="dataType.Value" rows="5"
+                      placeholder="Text Value">
+            </textarea>
+            <!--
+                inputName MUST exist and be set for name, is-open check, and ng-click.
+                Otherwise a really nasty bug will present itself after validation of the form.
+                TODO: Update/upgrade angular UI bootstrap to avoid this?
+            -->
+            <div ui-datepicker class="cw-date-input-wrapper" ng-if="dataType.DataType==1"
+                 ng-init="inputName='date-'+$index">
+                <input name="{{ inputName }}" type="text"
+                       class="cw-input"
+                       datepicker-popup="{{ documentCtrl.format }}"
+                       ng-model="dataType.Value"
+                       is-open="documentCtrl.dateOptions[inputName]"
+                       datepicker-options="documentCtrl.dateOptions"
+                       close-text="Close"
+                       ng-click="documentCtrl.openDate($event, inputName)" placeholder="Date Value">
+            </div>
+            <input type="text" class="cw-input" ng-model="dataType.Value" ng-if="dataType.DataType==2"
+                   placeholder="Number Value">
+        </div>
+    </div>
+    <div class="form-footer">
+        <button class="btn btn-blue" type="submit" ng-disabled="saving">
+            Save
+        </button>
+        <a href="#/app/documents" class="btn btn-default">
+            <span ng-i18next="button.cancel"></span>
+        </a>
+    </div>
+
+</form>

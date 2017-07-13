@@ -1,0 +1,151 @@
+<div class="form-table">
+  <div class="form-group" ng-class="{'has-error': proposalForm.$dirty && proposalForm.inputName.$invalid}">
+    <label class="control-label required">
+      <span ng-i18next="form.proposals.fields.name"></span>
+    </label>
+    <div>
+      <input type="text" class="cw-input" ng-model="proposalsCtrl.proposal.Name" name="inputName" required ng-if="!proposalsCtrl.proposal.EntityID">
+      <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.Name"></p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">
+      <span ng-i18next="form.proposals.fields.description"></span>
+    </label>
+    <div>
+      <input type="text" class="cw-input" ng-model="proposalsCtrl.proposal.Description" name="inputDescription" highlight-row="selected" ng-if="!proposalsCtrl.proposal.EntityID">      
+      <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.Description"></p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label ng-class="{'has-error': proposalForm.$dirty && proposalForm.inputStartDate.$invalid}" class="control-label required">
+      <span ng-i18next="form.proposals.fields.start_date"></span>
+    </label>
+    <div>
+      <div class="cw-date-input-wrapper ui-datepicker" ng-if="!proposalsCtrl.proposal.EntityID">
+        <input name="inputStartDate" type="text" 
+        class="cw-input"
+        datepicker-popup="{{proposalsCtrl.format}}"
+        ng-model="proposalsCtrl.proposal.StartDate"
+        is-open="proposalsCtrl.dateOptions.startDateOpened"
+        datepicker-options="proposalsCtrl.dateOptions" 
+        close-text="Close"
+        ng-click="proposalsCtrl.openDate($event, 'startDateOpened')"
+        required>
+      </div>
+      <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.StartDate| date:'MM/dd/yyyy'"></p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label ng-class="{'has-error': proposalForm.$dirty && proposalForm.inputEndDate.$invalid}" class="control-label">
+      <span ng-i18next="form.proposals.fields.end_date"></span>
+    </label>
+    <div>
+      <div class="cw-date-input-wrapper ui-datepicker" ng-if="!proposalsCtrl.proposal.EntityID">
+        <input name="inputEndDate" type="text" 
+        class="cw-input"
+        datepicker-popup="{{proposalsCtrl.format}}"
+        ng-model="proposalsCtrl.proposal.EndDate"
+        is-open="proposalsCtrl.dateOptions.endDateOpened"
+        datepicker-options="proposalsCtrl.dateOptions" 
+        close-text="Close"
+        ng-click="proposalsCtrl.openDate($event, 'endDateOpened')">
+      </div>
+      <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.EndDate| date:'MM/dd/yyyy'"></p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">
+      <span ng-i18next="form.proposals.fields.schedules"></span>
+    </label>
+    <div>
+      <textarea class="cw-input" rows="5" cols="50" placeholder="Audit Work, Valuation Work etc..." ng-model="proposalsCtrl.proposal.Schedules"></textarea>
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': proposalForm.$dirty && proposalForm.email.$invalid}">
+    <label class="control-label required">
+      <span ng-i18next="form.proposals.fields.prospect_email"></span>
+    </label>
+    <div>
+      <input type="email" class="cw-input" name="email" id="email" autocomplete="off" ng-model="proposalsCtrl.proposal.ProspectEmail" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/" required autofocus ng-if="!proposalsCtrl.proposal.EntityID">
+      <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.ProspectEmail"></p>
+    </div>
+  </div>
+
+  <div class="form-group" ng-if="!proposalsCtrl.proposal.EntityID">
+    <label class="control-label">
+      <span>Organization</span>
+    </label>
+    <div>
+      <input class="cw-input" name="organizationName" id="organizationName" autocomplete="off" ng-model="proposalsCtrl.proposal.OrganizationName" autofocus >
+      <!-- <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.OrganizationName"></p> -->
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': proposalForm.$dirty && proposalForm.inputMessage.$invalid}">
+    <label class="control-label required">
+      <span ng-i18next="form.proposals.fields.message"></span>
+    </label>
+    <div>
+      <textarea class="cw-input" ng-model="proposalsCtrl.proposal.Message" name="inputMessage" highlight-row="selected" rows="10" ng-if="!proposalsCtrl.proposal.EntityID" required>
+      </textarea>
+      <p class="form-control-static" ng-if="proposalsCtrl.proposal.EntityID" ng-bind="proposalsCtrl.proposal.Message"></p>
+    </div>
+  </div>
+
+  <div class="form-group" ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID && proposalsCtrl.proposal.Accepted">
+    <label class="control-label required">
+      <span ng-i18next="form.proposals.fields.organization"></span>
+    </label>
+    <div>
+      <div class="radio">
+        <label>
+         <input type="radio" ng-model="proposalsCtrl.proposal.Organization" value="existing">
+         Select existing organization
+         <select ng-model="proposalsCtrl.proposal.SelectedOrganization" ng-if="proposalsCtrl.proposal.ShowOrganizations">
+          <option value="">Select</option>
+          <option ng-repeat="option in proposalsCtrl.organizations" value="{{option.EntityID}}">{{option.Name}}</option>
+        </select>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" ng-model="proposalsCtrl.proposal.Organization" value="new">
+        Create a new organization
+        <input style="width: 400px;margin-left: 10px;" type="text" ng-model="proposalsCtrl.proposal.NewOrganizationName" ng-if="proposalsCtrl.proposal.Organization=='new'">
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="form-group" ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID && proposalsCtrl.proposal.Rejected">
+  <label class="control-label required">
+    <span ng-i18next="form.proposals.fields.rejection_comments"></span>
+  </label>
+  <div>
+    <textarea class="form-control" ng-model="proposalsCtrl.proposal.RejectionComments" name="inputDescription" highlight-row="selected" rows="10">
+    </textarea>      
+  </div>
+</div>
+</div>
+
+<div class="form-footer">
+  <button ng-if="proposalsCtrl.proposal && !proposalsCtrl.proposal.EntityID" class="btn btn-blue" type="submit" ng-disabled="saving || proposalForm.$invalid">
+    Send Proposal
+  </button>   
+
+  <a href="#/app/proposals" ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID && proposalsCtrl.proposal.Accepted" class="btn btn-primary" ng-click="proposalsCtrl.save()" ng-disabled="!proposalsCtrl.proposal.Organization || (proposalsCtrl.proposal.Organization == 'existing' && !proposalsCtrl.proposal.SelectedOrganization)">Accept</a>         
+  <a href="#/app/proposals" ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID && proposalsCtrl.proposal.Rejected" class="btn btn-primary" ng-click="proposalsCtrl.save()" ng-disabled="!proposalsCtrl.proposal.RejectionComments">Reject</a>         
+
+  <a href="#/app/proposals" class="btn btn-default" >
+    <span ng-i18next="button.cancel"></span>
+  </a>
+  <!-- <a class="btn btn-danger pull-right" ng-click="proposalsCtrl.removeProposal()" ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID">
+   <span ng-i18next="button.remove"></span>
+ </a>  -->
+</div>

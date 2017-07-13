@@ -1,0 +1,19 @@
+<table class="files">
+	<tbody>
+		<tr class="file">
+			<td class="tags">
+				<div ng-if="documentCtrl.editedRow == $index" class="tags-editor" style="display:inline-block;">
+					<tags-input ng-model="documentCtrl.file.Tags" on-tag-added="documentCtrl.updateTags()" on-tag-removed="documentCtrl.updateTags()" ng-if="!documentCtrl.file.Relation || documentCtrl.file.Relation==0" replace-spaces-with-dashes="false">
+						<auto-complete source="documentCtrl.loadTags($query)" min-length="1" max-results-to-show="5"></auto-complete>
+					</tags-input>
+
+					<div ng-if="documentCtrl.file.Relation==1" ng-bind="documentCtrl.file.Tags.join(',')"> </div>
+				</div>
+				<div ng-if="documentCtrl.editedRow != $index" style="display:inline-block;">
+					<span class="tags-text">{{documentCtrl.getTagsPlainArray(documentCtrl.file.Tags).join(', ')}}</span>
+					<a href="" class="edit-tags" ng-click="documentCtrl.editTags($index, $event)">Edit tags</a>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>

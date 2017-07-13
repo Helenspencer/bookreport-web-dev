@@ -1,0 +1,19 @@
+<div class="page">
+	<div class="title" ng-if="organizationsCtrl.settingsPage">
+		<h2>{{organizationsCtrl.organization.Name}} Settings</h2>
+	</div>
+	<div class="panel panel-default">
+		<div ng-if="!organizationsCtrl.settingsPage" class="panel-heading no-border">
+			<strong>
+				<span class="glyphicon glyphicon-th"></span> 
+				<span ng-i18next="form.organizations.title"></span>
+			</strong>
+		</div>
+		<div class="">
+			<form name="organizationForm" role="form" novalidate data-ng-submit="organizationForm.$dirty=true;organizationForm.$valid && organizationsCtrl.save()" class="form-horizontal">
+				<div ng-include="'views/organizations/elements.html'">
+				</div>    
+			</form>
+		</div>
+	</div>
+</div>

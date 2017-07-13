@@ -1,0 +1,55 @@
+<div class="panel panel-default">
+    <div>
+        <a ng-if="user.IsCedarwoodUser" class="btn btn-primary"  ui-sref="app.documentRequestsEdit({projectId: projectsCtrl.project.EntityID,id: 'new'})">Initiate request</a>
+        <a ng-if="user.IsCedarwoodUser" class="btn btn-primary"  ng-disabled="!projectsCtrl.selectedRequest || projectsCtrl.selectedRequest.Status!=1" ui-sref="app.documentRequestsEdit({projectId: projectsCtrl.project.EntityID,id: projectsCtrl.selectedRequest.EntityID})">Review request</a>
+        <a class="btn btn-primary"  ng-disabled="!projectsCtrl.selectedRequest || projectsCtrl.selectedRequest.Status==2 || !projectsCtrl.selectedRequest.isClient" ui-sref="app.documentRequestsEdit({projectId: projectsCtrl.project.EntityID,id: projectsCtrl.selectedRequest.EntityID})">Fulfilll request</a>
+    </div>
+    <div class="table-responsive no-border">
+        <table class="table table-model-2 table-hover clickable-table">      
+            <thead>
+                <tr class="left-align">
+                   <tr class="left-align">                       
+                    <th>
+                        <span>Requested By</span>                            
+                    </th>
+                    <th>
+                        <span>Requested From</span>
+                    </th>
+                    <th>
+                        <span>Requested On</span>
+                    </th>
+                    <th>
+                        <span>Completed On</span>
+                    </th>
+                    <th>
+                        <span>Status</span>
+                    </th>
+                </tr>                                            
+            </tr>
+        </thead>
+        <tbody>         
+            <tr class="plain-data" ng-repeat="request in projectsCtrl.documentRequests" ng-click="projectsCtrl.selectedRequest=request;" ng-class="{'active': projectsCtrl.selectedRequest.EntityID==request.EntityID}">
+                <td>
+                    <span ng-bind="request.RequestedBy"></span>
+                </td> 
+                <td>
+                    <span ng-bind="request.RequestedFrom"></span>
+                </td>    
+                <td>
+                    <span ng-bind="request.RequestedOn|date:'MM/dd/yyyy'"></span>
+                </td>  
+                <td>
+                    <span ng-bind="request.CompletedOn|date:'MM/dd/yyyy'"></span>
+                </td>                     
+                <td>
+                    <span ng-if="request.Status==0" class="label label-default">
+                        Pending
+                    </span>
+                    <span ng-if="request.Status==1" class="label label-info">InReview</span>
+                    <span ng-if="request.Status==2" class="label label-success">Completed</span>
+                </td>                                              
+            </tr>  
+        </tbody>
+    </table>
+</div>
+</div>

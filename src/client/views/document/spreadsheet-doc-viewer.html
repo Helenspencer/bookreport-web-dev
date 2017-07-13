@@ -1,0 +1,7 @@
+<div ng-controller="BasicController as basicController" class="excelbook" style="width:100%; height: 800px;">
+
+	<wj-flex-sheet control="ctx.excelIOSheet" initialized="initializeExcelIOSheet(s)">
+	<wj-sheet items-source="ctx.data"></wj-sheet>
+	<wj-sheet row-count="20" column-count="8"></wj-sheet>
+</wj-flex-sheet>
+</div>

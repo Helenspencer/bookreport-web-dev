@@ -1,0 +1,48 @@
+<div class="page" id="engagementsList">
+    <div class="title">
+        <h2 ng-i18next="list.engagements.title"></h2>
+        <div>
+            <a class="btn btn-blue btn-text-symbol" ui-sref="app.proposalEdit({id: 'new'})" href="">+</a>
+        </div>       
+    </div>
+    <div  style="margin-bottom: 10px;">
+        <button class="btn btn-primary" ui-sref="app.engagementEdit({id: engagementsCtrl.selectedEngagement.EntityID})" ng-class="{disabled:!engagementsCtrl.selectedEngagement || engagementsCtrl.selectedEngagement.OrganizationID != engagementsCtrl.user.CurrentOrganization.OrganizationID}" >Edit engagement</button>
+        <button class="btn btn-primary" ng-click="engagementsCtrl.showAddProjectModal()" ng-class="{disabled:!engagementsCtrl.selectedEngagement || engagementsCtrl.selectedEngagement.OrganizationID != engagementsCtrl.user.CurrentOrganization.OrganizationID}">Add project</button>
+    </div>    
+    <div class="panel panel-default">
+        <div class="table-responsive no-border">
+            <table class="table table-model-2 table-hover clickable-table">      
+                <thead>
+                    <tr class="left-align">
+                        <th><span ng-i18next="list.engagements.columns.name"></span></th> 
+                        <th><span ng-i18next="list.engagements.columns.start_date"></span></th> 
+                        <th><span ng-i18next="list.engagements.columns.end_date"></span></th>                        
+                        <th><span ng-i18next="list.engagements.columns.projects"></span></th>                        
+                        <th></th>                        
+                    </tr>
+                </thead>
+                <tbody>         
+                    <tr class="plain-data" ng-repeat="engagement in engagementsCtrl.engagements" ng-click="engagementsCtrl.selectedEngagement=engagement;" ng-dblclick="engagementsCtrl.edit(engagement)" ng-class="{'active': engagement.EntityID && engagementsCtrl.selectedEngagement.EntityID == engagement.EntityID}">
+                        <td>
+                            <span class="label label-warning" ng-if="engagement.Status==0 || engagement.Status==1">Proposed</span> <span ng-bind="engagement.Name"></span>
+                        </td>                        
+                        <td>
+                            <span ng-bind="engagement.StartDate| date:'MM/dd/yyyy'"></span>
+                        </td> 
+                        <td>
+                            <span ng-bind="engagement.EndDate | date:'MM/dd/yyyy'"></span>
+                        </td> 
+                        <td>
+                            <ul ng-if="engagement.Projects.length > 0" class="ul-list">
+                                <li ng-repeat="project in engagement.Projects" ng-bind="project.Name"></li>
+                            </ul>                            
+                        </td>
+                        <td>
+                            <span ng-click="engagementsCtrl.showAddProjectModal(engagement)" class="active-text" ng-if="engagement.OrganizationID==engagementsCtrl.user.CurrentOrganization.OrganizationID">Add project</span>
+                        </td>
+                    </tr>  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

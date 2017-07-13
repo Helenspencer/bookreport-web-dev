@@ -1,0 +1,23 @@
+<div class="row" style="padding: 0 15px 0 15px;">
+    <a href="" class="list-group-item">
+        <ui-select ng-model="documentCtrl.selectedLegalEntity"
+                   theme="bootstrap"
+                   ng-disabled="disabled"
+                   reset-search-input="false">
+            <ui-select-match placeholder="Search...">{{$select.selected.Name}}</ui-select-match>
+            <ui-select-choices repeat="le in documentCtrl.legalEntities track by $index"
+                               refresh="documentCtrl.refreshLegalEntities($select.search)"
+                               refresh-delay="300">
+                <div ng-bind-html="le.Name | highlight: $select.search"></div>
+            </ui-select-choices>
+        </ui-select>
+    </a>
+    <div class="list-group list-group-minimal" style="overflow-y: scroll;max-height: 400px;
+overflow-x: hidden;">
+        <a href="" class="list-group-item" ng-repeat="documentLegalEntity in documentCtrl.documentLegalEntities"
+           ng-click="documentCtrl.showLegalEntityModal(documentLegalEntity)">
+            {{ documentLegalEntity.Name }}
+        </a>
+    </div>
+</div>
+

@@ -1,0 +1,149 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					<span class="glyphicon glyphicon-th"></span> 
+					Add/Edit Trade
+				</strong>
+			</div>
+			<div class="panel-body">				
+				<form name="tradeForm" role="form" novalidate data-ng-submit="tradeForm.$dirty=true;tradeForm.$valid && tradeCtrl.save()" class="form-horizontal">
+					<div class="form-table">
+						<div class="form-group" ng-class="{'has-error':tradeForm.$dirty && tradeForm.tradeType.$invalid}">
+							<label class="control-label required">
+								Trade Type
+							</label>
+							<div >
+								<select class="form-control " name="tradeType" ng-options="tradeType.EntityID as tradeType.Name for tradeType in tradeCtrl.tradeTypes" ng-model="tradeCtrl.selectedTradeType" ng-change="tradeCtrl.copyTradeType()" required>
+									<option value=''>Select</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" ng-class="{'has-error':tradeForm.$dirty && tradeForm.inputName.$invalid}">
+							<label class="control-label required">
+								<span ng-i18next="form.trade.fields.name"></span>
+							</label>
+							<div>
+								<input type="text" class="form-control" ng-model="tradeCtrl.trade.Name" name="inputName" required >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">
+								<span ng-i18next="form.trade.fields.notes"></span>
+							</label>
+							<div>
+								<textarea class="form-control" id="description" rows="5" cols="20" ng-model="tradeCtrl.trade.Notes" >
+								</textarea>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="panel panel-default row" ng-if="tradeCtrl.selectedTradeType">
+						<div class="col-sm-12">
+							<h4 ng-i18next="form.trade.fields.requiredDocument"></h4>
+							<div class="table-responsive ">
+								<table class="table table-striped table-bordered clickable-table table-hover dataTable">
+									<thead>
+										<tr class="left-align">                       
+											<th>
+												<span>Name</span>                            
+											</th>
+											<th>
+												<span>Description</span>                            
+											</th>
+											<th>
+												<span>Document</span>                            
+											</th>
+											<th>
+												
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="plain-data" ng-repeat="document in tradeCtrl.trade.Documents">
+											<td>
+												<input class="form-control" ng-model="document.Name">
+											</td>
+
+											<td>
+												<input class="form-control" ng-model="document.Description">
+											</td>
+											<td>
+												<input type="file"  ng-file-select="document.onFileSelect($files)" accept="file/*" >
+											</td>
+											<td>
+												<a class="text-success" ng-if="document.NewRow" ng-disabled="!document.Name" ng-click="tradeCtrl.save(undefined,'add')">
+													<span class="fa fa-check"></span>
+												</a>
+												<a class="text-danger" ng-if="!document.NewRow"  ng-click="tradeCtrl.removeDocument('remove')">
+													<span class="fa fa-remove"></span>
+												</a>
+											</td>
+										</tr>
+									</tbody> 
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default row" ng-if="tradeCtrl.selectedTradeType">
+						<div class="col-sm-12">
+							<h4 ng-i18next="form.trade.fields.data"></h4>
+							<div class="table-responsive">
+								<table class="table table-striped table-bordered clickable-table table-hover dataTable">
+									<thead>
+										<tr class="left-align">                       
+											<th>
+												<span>Name</span>                            
+											</th>
+											<th>
+												<span>Description</span>                            
+											</th>
+											<th>
+												<span>Value</span>                            
+											</th>
+											<th>
+												
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="plain-data" ng-repeat="dataItem in tradeCtrl.trade.Data">
+											<td>
+												<input class="form-control" ng-model="dataItem.Name">
+											</td>
+
+											<td>
+												<input class="form-control" ng-model="dataItem.Description">
+											</td>
+											<td>
+												<input class="form-control" ng-model="dataItem.Value">
+											</td>
+											<td>
+												<a class="text-success" ng-if="dataItem.NewRow" ng-disabled="!dataItem.Name" ng-click="tradeCtrl.save(undefined,'add')">
+													<span class="fa fa-check"></span>
+												</a>
+												<a class="text-danger" ng-if="!dataItem.NewRow"  ng-click="tradeCtrl.removeDataItem('remove')">
+													<span class="fa fa-remove"></span>
+												</a>
+											</td>
+										</tr>
+									</tbody> 
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="form-footer pull-right">    
+						<button type="submit" class="btn btn-primary" ng-disabled="tradeForm.$invalid">
+							<span>Save</span> 
+						</button>
+						<a class="btn btn-default" href="#/app/projects/{{tradeCtrl.projectId}}/funds/{{tradeCtrl.fundId}}">
+							<span>Cancel</span> 
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>	

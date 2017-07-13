@@ -1,0 +1,106 @@
+<table class="files">
+	<thead>
+		<tr style="background: #F4F4F4;">
+			<th></th>
+			<th>
+				<input type="checkbox" ng-model="library.rootItem.Selected" ng-change="library.updateDownloadableProjects(library.rootItem)">
+			</th>
+			<th>
+				<span ng-click="library.orderList(library.row == 'Name' ? '-Name' : 'Name')">
+					Name
+					<span class="order-buttons">
+						<span class="fa fa-caret-up" ng-show="library.row == 'Name'"></span>
+						<span class="fa fa-caret-down" ng-show="library.row == '-Name'"></span>
+					</span>
+				</span>
+			</th>
+
+			<th class="disabled-text">Tags</th>
+			<th>
+				<span ng-click="library.orderList(library.row == 'ChangedOn' ? '-ChangedOn' : 'ChangedOn')">
+					Date modified
+					<span class="order-buttons">
+						<span class="fa fa-caret-up" ng-show="library.row == 'ChangedOn'"></span>
+						<span class="fa fa-caret-down" ng-show="library.row == '-ChangedOn'"></span>
+					</span>
+				</span>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="file" ng-repeat="file in library.searchResponse.Files" ng-class="{'archived-file':file.Archived}">
+			<td class="menu">
+
+				<ul class="list-inline list-unstyled" ng-if="user.IsCedarwoodUser">
+					<li class="dropdown" dropdown on-toggle="toggled(open)">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown"  dropdown-toggle>
+							<i class="ti-menu"></i>
+						</a>
+						<ul class="dropdown-menu list-unstyled">
+							<li>
+								<a href="" target="_new" ng-click="library.downloadFile(file)"  style="padding:10px;">		Download
+								</a>
+							</li>
+							
+							<li>
+								<a href=""  ng-class="{disabled:!library.filesSelected}" style="padding:10px;" ng-click="library.showUploadFilesModal(file)">		
+									Replace
+								</a>
+							</li>
+							<li>
+								<a href="" ng-click="library.archiveFiles(file)"  style="padding:10px;">		
+									Archive
+								</a>
+							</li>
+							<li>
+								<a href=""   ng-click="library.details(file)" style="padding:10px;">		
+									Details
+								</a>
+							</li>
+							<li>
+								<a href=""   ng-click="library.reProcess(file)" style="padding:10px;">
+									Re-process
+								</a>
+							</li>
+						</ul>
+
+					</li>
+				</ul>
+			</td>
+
+			<td class="chk">
+				<input type="checkbox" ng-model="file.Selected" ng-change="library.updateDownloadableFiles(library.rootItem, file, this)">
+			</td>			
+			<td class="file-name" ng-class="{'new-file': file.IsNewFile, 'highlight-file':!file.isdownloadedByUser}">
+				<i ng-if="file.Extension=='txt' || file.Extension=='text' || file.Extension=='rtf'" class="fa fa-file-text-o" ng-click="library.getDocumentAbstract(file)"><div class="popup" ng-if="file.EntityID==library.fileId"><span class="popuptext" id="myPopup">{{library.Abstract}}</span></div></i>
+				<i ng-if="file.Extension=='pdf'" class="fa fa-file-pdf-o" ng-click="library.getDocumentAbstract(file)"><div class="popup" ng-if="file.EntityID==library.fileId"><span class="popuptext" id="myPopup">{{library.Abstract}}</span></div></i> 
+				<i ng-if="file.Extension=='ppt' || file.Extension=='pptx'" class="fa fa-file-powerpoint-o" ng-click="library.getDocumentAbstract(file)"><div class="popup" ng-if="file.EntityID==library.fileId"><span class="popuptext" id="myPopup">{{library.Abstract}}</span></div></i>
+				<i ng-if="file.Extension=='xls' || file.Extension=='xlsx'" class="fa fa-file-excel-o" ng-click="library.getDocumentAbstract(file)"><div class="popup" ng-if="file.EntityID==library.fileId"><span class="popuptext" id="myPopup">{{library.Abstract}}</span></div></i>
+				<i ng-show="file.Extension=='doc' || file.Extension=='docx'" class="fa fa-file-word-o" ng-click="library.getDocumentAbstract(file)"><div class="popup" ng-if="file.EntityID==library.fileId"><span class="popuptext" id="myPopup">{{library.Abstract}}</span></div></i>
+				<a href="" target="_new" ng-click="library.previewOrDownloadFile(file)" tooltip="{{file.Name || file.FileName}}">
+					{{file.Name}}.{{file.Extension}}
+					<i ng-if="file.IsNewFile" class="fa fa-leaf" ></i> 
+				</a>
+			</td>
+
+			<td class="tags" >
+				<div ng-if="library.editedRow == $index" class="tags-editor" style="display:inline-block;">
+					<tags-input ng-model="file.Tags" on-tag-added="library.updateTags(file)"
+					on-tag-removed="library.updateTags(file)" ng-if="!file.Relation || file.Relation==0" replace-spaces-with-dashes="false">
+					<auto-complete source="library.loadTags($query)" min-length="1" max-results-to-show="5"></auto-complete>
+				</tags-input>
+
+				<div ng-if="file.Relation==1" ng-bind="file.Tags.join(',')">
+				</div>               									
+			</div>
+			<div ng-if="library.editedRow != $index" style="display:inline-block;">
+				<span class="tags-text">{{library.getTagsPlainArray(file.Tags).join(', ')}}</span>
+				<a href="" ng-if="user.IsCedarwoodUser" class="edit-tags" ng-click="library.editTags($index, $event)">Edit tags</a>
+			</div>
+		</td>
+		<td>
+			<span ng-bind="file.ChangedOn |date:'MM.dd.yyyy'"></span>
+		</td>
+	</tr>
+</tbody>
+</table>

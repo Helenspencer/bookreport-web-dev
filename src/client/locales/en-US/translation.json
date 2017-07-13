@@ -1,0 +1,352 @@
+{
+	"logout": "Log out",
+	"loading": "Loading...",
+	"header_menu": {
+		"profile": "Profile",
+		"change_password": "Change Password",
+		"logout": "Log out"
+	},
+	"menu": {
+		"dashboard": "Dashboard",
+		"admin": "Admin",
+		"users": "Users",
+		"distributors": "Distributors",
+		"brands": "Brands",
+		"purchase_orders": "Purchase Orders",
+		"projections": "Projections"
+	},
+
+	"title": {
+		"dashboard": "Dashboard",
+		"add-edit": "Add/Edit"
+	},
+
+	"list": {
+		"library": {
+			"title": "Library"
+		},
+		"diagram": {
+			"title": "Diagram"
+		},
+		"users": {
+			"title": "Users",
+			"columns": {
+				"organization": "Organization",
+				"first_name": "First Name",
+				"last_name": "Last Name",
+				"email": "Email",
+				"phone": "Phone",
+				"active": "Active",
+				"name" : "Name",
+				"permission" : "Permission"
+			}
+		},
+		"organizations": {
+			"title": "Organizations",
+			"columns": {
+				"name": "Name"
+			}
+		},
+		"engagements": {
+			"title": "Engagements",
+			"columns": {
+				"name": "Name",
+				"description": "Description",
+				"start_date": "Start Date",
+				"end_date": "End Date",
+				"projects": "Projects"
+			}
+		},
+		"proposals": {
+			"title": "Proposals",
+			"columns": {
+				"name": "Name",
+				"description": "Description",
+				"start_date": "Start Date",
+				"end_date": "End Date",
+				"status": "Status",
+				"organization": "Organization",
+				"prospect_email": "Prospect Email"
+			}
+		},
+		"projects": {
+			"title": "Projects",
+			"columns": {
+				"name": "Name"
+			}
+		},
+		"projectTypes": {
+			"title": "Project Types",
+			"columns": {
+				"name": "Name"
+			}
+		},
+		"trade_types": {
+			"title": "Trade Types"
+		},
+		"trade": {
+			"title": "Trade"
+		},
+		"document_types": {
+			"title": "Document Types"
+		},
+
+		"fund_templates": {
+			"title": "Fund Templates",
+			"columns": {
+				"name": "Name"
+			}
+		}
+	},
+
+	"form": {
+		"hint_1": "Fields marked with ",
+		"hint_2": "are required.",
+		"all_required": "All fields are required.",
+		"users": {
+			"title": "Add/Edit User",
+			"fields": {
+				"organization": "Organization",
+				"first_name": "First Name",
+				"last_name": "Last Name",
+				"email": "Email",
+				"phone": "Phone",
+				"password": "Password",
+				"is_admin": "Is Administrator",
+				"send_login_email": "Send login email"
+			},
+			"error_messages": {
+				"first_name_required": "First Name is required",
+				"last_name_required": "Last Name is required",
+				"email_required": "Valid Email is required"
+			}
+		},
+		"profile": {
+			"fields": {
+				"email": "Email",
+				"first_name": "First Name",
+				"last_name": "Last Name",
+				"password": "Password",
+				"email_signature":"Email Siganture"
+			},
+			"error_messages": {
+				"email_required": "Email is required",
+				"first_name_required": "First Name is required",
+				"last_name_required": "Last Name is required",
+				"password_required": "Password is required",
+				"email_signature_required": "Email Siganture is required"
+			}
+		},
+		"change_password": {
+			"fields": {
+				"current_password": "Current Password",
+				"new_password": "New Password",
+				"cnfrm_password": "Confirm Password"
+			},
+			"error_messages": {
+				"current_password_required": "Current Password is required.",
+				"new_password_required": "New Password is required.",
+				"new_password_validation_msg": "Requires atleast one lower case letter, one upper case letter, one digit and shouldnt contain any spaces. Password must be atleast 8 characters in length.",
+				"cnfrm_password_required": "Confirm Password is required.",
+				"password_mismatch_msg": "Error ! New password and confirm password fields must match."
+			}
+		},
+		"organizations": {
+			"title": "Add/Edit Organization",
+			"fields": {
+				"name": "Name"
+			},
+			"remove": "Remove organization"
+		},
+		"upload_files": {
+			"fields": {
+				"select_project": "Choose where to upload file(s)",
+				"tags": "Tags"
+			}
+		},
+		"invite_user": {
+			"fields": {
+				"email": "Email",
+				"permission": "Permission",
+				"note" : "Note"
+			}
+		},
+		"org_user": {
+			"title": "User Details",
+			"fields": {
+				"name": "Name",
+				"permission": "Permission",
+				"surname": "Surname",
+				"email" : "Email",
+				"title" : "Title",
+				"phone" : "Phone",
+				"url" : "Url"
+			}
+		},
+		"add_folder": {
+			"title" : "Create folder",
+			"fields":{
+				"name" : "Name"
+			}
+		},
+		"add_tags": {			
+			"fields":{
+				"name" : "Tags"
+			}
+		},
+		"engagements": {
+			"title": "Add/Edit Engagement",
+			"fields": {
+				"name": "Name",
+				"description": "Description",
+				"start_date": "Start Date",
+				"end_date": "End Date",
+				"schedules" : "Schedules"
+			}
+		},
+		"add_project": {
+			"title" : "Create Project",
+			"fields":{
+				"name" : "Name"
+			}
+		},
+		"proposals": {
+			"title": "Create Proposal",
+			"fields": {
+				"name": "Name",
+				"description": "Description",
+				"start_date": "Start Date",
+				"end_date": "End Date",
+				"prospect_email": "Prospect Email",
+				"message": "Message",
+				"organization": "Organization",
+				"rejection_comments" : "Rejection Comments",
+				"schedules": "Schedules"
+			}
+		},
+		"projects": {
+			"title": "Add/Edit Project",
+			"fields": {
+				"name": "Name",
+				"engagement": "Engagement",
+				"type": "Type",
+				"start_date": "Start Date",
+				"schedule": "Schedule"
+			}
+		},
+		"projectTypes": {
+			"title": "Add/Edit Project Type",
+			"fields": {
+				"name": "Name"
+			}
+		},
+		"tradeTypes": {
+			"title": "Add/Edit Trade Form",
+			"fields": {
+				"name": "Name",
+				"notes": "Notes",
+				"requiredDocument" : "Required Documents",
+				"data":"Data To Be Extracted"
+			}
+		},
+		"trade": {
+			"title": "Add/Edit Trade Type",
+			"fields": {
+				"name": "Name",
+				"notes": "Notes",
+				"requiredDocument" : "Required Documents",
+				"data":"Data To Be Extracted"
+			}
+		},
+		"fundTemplate": {
+			"title": "Add/Edit Fund Template",
+			"fields": {	
+				"tname":"Template Name",
+				"tdescription": "Template Description",
+				"name": "Document Name",
+				"description": "Description"
+			}
+		},
+		"documentTypes": {
+			"title": "Add/Edit Documenttype Form",
+			"fields": {
+				"name": "Name",
+				"data" : "Data"
+			}
+		},
+		"document": {			
+			"fields": {
+				"title": "Title",
+				"purpose" : "Purpose",
+				"documentDate": "Document Date",
+				"effectiveDate": "Effective Date",
+				"documentType": "Document Type"
+			}
+		},
+		"update_details": {
+			"fields":{
+				"first_name": "First Name",
+				"last_name" : "Last Name",
+				"org_name" : "Organization Name"
+			},
+			"error_messages":{
+				"first_name_required": "First Name is required",
+				"last_name_required": "Last Name is required",
+				"org_name_required": "Organization Name is required" 
+			}
+		}
+	},
+
+	"button": {
+		"add": "Add",
+		"edit": "Edit",
+		"delete": "Delete",
+		"remove": "Remove",
+		"save": "Save",
+		"cancel": "Cancel",
+		"done": "Done",
+		"create": "Create",
+		"send_invite" : "Send Invitation",
+		"back_to_list_view" : "Back to list view",
+		"close": "Close",
+		"update": "Update"
+	},
+
+	"label": {
+		"active": "Active",
+		"inactive": "InActive"
+	},
+
+	"modal": {
+		"my_profile": {
+			"title": "My Profile"
+		},
+		"change_password": {
+			"title": "Change Password"
+		},
+		"upload_files": {
+			"title": "Upload Files"
+		},
+		"user_invitation": {
+			"title": "Send Invite for"
+		},
+		"add_folder":{
+			"title": "Create folder"
+		},
+		"add_tags":{
+			"title": "Tags"
+		},
+		"add_project":{
+			"title": "Create Project"
+		},
+		"update_details":{
+			"title": "Update Details"
+		},
+		"folder_history":{
+			"title": "Folder History"
+		},
+		"project_history":{
+			"title": "Project History"
+		}
+	}
+}

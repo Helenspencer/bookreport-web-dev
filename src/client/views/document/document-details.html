@@ -1,0 +1,57 @@
+<form name="documentForm" ng-submit="documentCtrl.save()" novalidate>
+  <div class="form-group">
+    <label class="control-label required" ng-class="{'has-error': documentForm.$dirty && documentForm.inputName.$invalid}">
+      <span ng-i18next="form.document.fields.title"></span>
+    </label>
+    <div>
+      <input type="text" class="cw-input" ng-model="documentCtrl.documentObj.Title" name="inputName" placeholder="Document Title" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label">
+      <span ng-i18next="form.document.fields.purpose"></span>
+    </label>
+    <div>
+      <textarea class="cw-input" ng-model="documentCtrl.documentObj.Purpose"  name="inputDescription" highlight-row="selected" rows="5" placeholder  ="Document Purpose"> 
+      </textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label ng-class="{'has-error': documentForm.$dirty && documentForm.inputEffectiveDate.$invalid}" class="control-label">
+      <span ng-i18next="form.document.fields.effectiveDate"></span>
+    </label>
+    <div>
+      <div ui-datepicker class="cw-date-input-wrapper">
+        <input name="inputEffectiveDate" type="text"
+        class="cw-input"
+        datepicker-popup="{{ documentCtrl.format }}"
+        ng-model="documentCtrl.documentObj.EffectiveDate"
+        is-open="documentCtrl.dateOptions.effectiveDateOpened"
+        datepicker-options="documentCtrl.dateOptions"
+        close-text="Close"
+        ng-click="documentCtrl.openDate($event, 'effectiveDateOpened')"
+        placeholder="Select Date">
+      </div>
+    </div>
+  </div>
+  <div class="form-group" ng-class="{'has-error': documentForm.$dirty && documentForm.email.$invalid}">
+    <label class="control-label">
+      <span ng-i18next="form.document.fields.documentType"></span>
+    </label>
+    <div>
+      <select class="form-control" ng-model="documentCtrl.documentObj.TypeID"ng-options="type.EntityID as type.Name for type in documentCtrl.documentTypes">
+        <option value=''>Select Type</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-blue" type="submit" ng-disabled="saving"z>
+      Save
+    </button>
+
+    <a href="#/app/documents" class="btn btn-default">
+      <span ng-i18next="button.cancel"></span>
+    </a>
+  </div>
+</form>

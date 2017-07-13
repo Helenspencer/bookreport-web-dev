@@ -1,0 +1,38 @@
+<div class="page" id="projectsList">
+    <div class="title">
+        <h2 ng-i18next="list.projects.title"></h2>
+        <div>
+            <button class="btn btn-blue btn-text-symbol" ng-click="projectsCtrl.createProject()">+</button>
+        </div>       
+    </div>
+    <div  style="margin-bottom: 10px;" ng-if="projectsCtrl.noEngagementMessage">
+       <alert ng-repeat="alert in projectsCtrl.noEngagementMessage" type="{{alert.type}}" close="projectsCtrl.closeAlert($index)">{{alert.msg}} Please<a ui-sref="app.proposalEdit({id: 'new'})" href=""> create a proposal</a></alert>
+   </div>
+   <div  style="margin-bottom: 10px;">
+    <button class="btn btn-primary" ng-click="projectsCtrl.createProject()" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">Add project</button>
+    <button class="btn btn-primary" ng-click="projectsCtrl.showProjectInvitationModal()" ng-class="{disabled:!projectsCtrl.selectedProject}" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">Invite user</button>
+    <a class="btn btn-primary" ui-sref="app.projectEdit({id: projectsCtrl.selectedProject.EntityID})" href="" ng-class="{disabled:!projectsCtrl.selectedProject}">
+        <span ng-if="user.IsCedarwoodUser">Edit</span>
+        <span ng-if="!user.IsCedarwoodUser">View</span> project
+    </a>        
+    <button class="btn btn-primary" ng-class="{disabled:!projectsCtrl.selectedProject}" ng-click="projectsCtrl.removeProject()" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">Delete project</button>       
+</div>    
+<div class="panel panel-default">
+    <div class="table-responsive no-border">
+        <table class="table table-model-2 table-hover clickable-table">      
+            <thead>
+                <tr class="left-align">
+                    <th><span ng-i18next="list.projects.columns.name"></span></th>                                            
+                </tr>
+            </thead>
+            <tbody>         
+                <tr class="plain-data" ng-repeat="project in projectsCtrl.projects" ng-click="projectsCtrl.selectedProject=project;" ng-dblclick="projectsCtrl.edit(project)" ng-class="{'active': project.EntityID && projectsCtrl.selectedProject.EntityID == project.EntityID}">
+                    <td>
+                        <span ng-bind="project.Name"></span>
+                    </td>                                               
+                </tr>  
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>

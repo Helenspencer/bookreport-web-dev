@@ -1,0 +1,81 @@
+<div class="form-table">
+  <div class="form-group" ng-class="{'has-error': engagementForm.$dirty && engagementForm.inputName.$invalid}">
+    <label class="control-label required">
+      <span ng-i18next="form.engagements.fields.name"></span>
+    </label>
+    <div>
+      <input type="text" class="cw-input" ng-model="engagementsCtrl.engagement.Name" name="inputName" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">
+      <span ng-i18next="form.engagements.fields.description"></span>
+    </label>
+    <div>
+      <input type="text" class="cw-input" ng-model="engagementsCtrl.engagement.Description" name="inputDescription" highlight-row="selected">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label ng-class="{'has-error': engagementForm.$dirty && engagementForm.inputStartDate.$invalid}" class="control-label required">
+      <span ng-i18next="form.engagements.fields.start_date"></span>
+    </label>
+    <div>
+      <div class="cw-date-input-wrapper ui-datepicker">
+        <input name="inputStartDate" type="text" 
+        class="cw-input"
+        datepicker-popup="{{engagementsCtrl.format}}"
+        ng-model="engagementsCtrl.engagement.StartDate"
+        is-open="engagementsCtrl.dateOptions.startDateOpened"
+        datepicker-options="engagementsCtrl.dateOptions" 
+        close-text="Close"
+        ng-click="engagementsCtrl.openDate($event, 'startDateOpened')"
+        required>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label ng-class="{'has-error': engagementForm.$dirty && engagementForm.inputEndDate.$invalid}" class="control-label required">
+      <span ng-i18next="form.engagements.fields.end_date"></span>
+    </label>
+    <div>
+      <div class="cw-date-input-wrapper ui-datepicker">
+        <input name="inputEndDate" type="text" 
+        class="cw-input"
+        datepicker-popup="{{engagementsCtrl.format}}"
+        ng-model="engagementsCtrl.engagement.EndDate"
+        is-open="engagementsCtrl.dateOptions.endDateOpened"
+        datepicker-options="engagementsCtrl.dateOptions" 
+        close-text="Close"
+        ng-click="engagementsCtrl.openDate($event, 'endDateOpened')" 
+        required>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">
+      <span ng-i18next="form.engagements.fields.schedules"></span>
+    </label>
+    <div>
+      <textarea class="cw-input" rows="5" cols="50" placeholder="Audit Work, Valuation Work etc..." ng-model="engagementsCtrl.engagement.Schedules"></textarea>
+    </div>
+  </div>
+</div>
+
+<div class="form-footer">
+  <button ng-if="engagementsCtrl.engagement && !engagementsCtrl.engagement.EntityID" class="btn btn-blue" type="submit" ng-disabled="saving">
+    <span ng-i18next="button.create"></span>
+  </button>   
+
+  <a href="#/app/engagements" ng-if="engagementsCtrl.engagement && engagementsCtrl.engagement.EntityID" class="btn btn-primary" ng-click="engagementsCtrl.save()"><span ng-i18next="button.done"></span></a>         
+
+  <a href="#/app/engagements" class="btn btn-default" ng-if="engagementsCtrl.engagement && !engagementsCtrl.engagement.EntityID">
+    <span ng-i18next="button.cancel"></span>
+  </a>
+  <!-- <a class="btn btn-danger pull-right" ng-click="engagementsCtrl.removeEngagement()" ng-if="engagementsCtrl.engagement && engagementsCtrl.engagement.EntityID">
+   <span ng-i18next="button.remove"></span>
+ </a>  -->
+</div>

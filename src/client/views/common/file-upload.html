@@ -1,0 +1,142 @@
+<div class="fileupload" id="library-upload-modal">
+  <div class="modal-header"> 
+    <h4 class="modal-title" ng-if="!fileToBeReplaced.EntityID"><span ng-i18next="modal.upload_files.title"></span></h4>
+    <h4 class="modal-title" ng-if="fileToBeReplaced.EntityID">
+      Replace file {{fileToBeReplaced.Name}}
+    </h4>
+  </div>
+  <div class="modal-body">
+    <alert ng-repeat="alert in fileUploadAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <form class="form-horizontal " role="form" name="uploadFilesForm" ng-submit="ok()" novalidate>      
+      <div class="form-group">        
+        <!-- <select ng-options="project.EntityID as project.Name for project in modal.projectsAndFolders" class="form-control" ng-model="modal.selectedItem" id="inputProject" style="display:inline-block;"></select> -->
+        <ul class="list-inline list-unstyled" ng-if="!fileToBeReplaced.EntityID">
+          <span>Add files to </span>
+          <li class="dropdown" dropdown on-toggle="toggled(open)">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+              {{selectedItem.Name}}
+
+              <i class="fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu list-unstyled">
+              <li ng-repeat="project in modal.projectsAndFolders">
+                <a href="" ng-click="modal.selectItem(project)" style="padding:10px;">
+                  {{project.Name}} 
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="form-group" style="margin-bottom: 15px;" ng-if="!fileToBeReplaced.EntityID">
+        <label for="inputTags" class="col-sm-1 control-label"><span ng-i18next="form.upload_files.fields.tags"></span>:</label>
+        <div class="col-sm-11" style="padding-right: 0">
+          <tags-input ng-model="modal.tags" ng-if="user.IsCedarwoodUser" replace-spaces-with-dashes="false">
+          <auto-complete source="modal.loadTags($query)" min-length="1" max-results-to-show="5"></auto-complete>
+        </tags-input>
+        <tags-input ng-model="modal.tags" ng-if="!user.IsCedarwoodUser" replace-spaces-with-dashes="false">
+        <auto-complete source="modal.loadTags($query)" min-length="1" max-results-to-show="5"></auto-complete>
+      </tags-input>      
+    </div>
+  </div>
+  <div class="form-group" ng-if="!fileToBeReplaced.EntityID">
+   <div ngf-drop ngf-select ng-model="modal.files" class="drop-box" 
+   ngf-drag-over-class="dragover" ngf-multiple="true" ngf-allow-dir="true"
+   accept="*/*" 
+   ngf-pattern="'*/*'">
+   <div>Drop documents here or 
+    <a href=""  ngf-select="modal.uploadFiles($files)" multiple accept="*/*">select them
+    </a>
+  </div>
+</div>
+<div ngf-no-file-drop><button class="btn btn-primary" ngf-select="modal.uploadFiles($files)" multiple accept="*/*">Select files...</button></div>
+</div>    
+
+  <div class="form-group" ng-if="fileToBeReplaced.EntityID">
+   <div ngf-drop ngf-select ng-model="modal.files" class="drop-box" 
+   ngf-drag-over-class="dragover" ngf-multiple="false" ngf-allow-dir="false"
+   accept="*/*" 
+   ngf-pattern="'*/*'">
+   <div>Drop document here or 
+    <a href=""  ngf-select="modal.uploadFiles($files)" accept="*/*">select
+    </a>
+  </div>
+</div>
+<div ngf-no-file-drop><button class="btn btn-primary" ngf-select="modal.uploadFiles($files)" accept="*/*">Select file...</button></div>
+</div>
+
+<div class="form-group" style="margin-bottom:5px;" ng-if="!fileToBeReplaced.EntityID">
+  <input type="text" class="cw-search-input" id="search-file" ng-model="modal.searchCriteria" debounce="300">
+</div>
+
+<div class="form-group" ng-if="filesToBeUploaded" style="max-height: 200px;min-height:100px;overflow-x:auto;overflow-y:auto;" ng-if="!fileToBeReplaced.EntityID">
+  <ul class="uploadableFilesList">    
+    <li ng-repeat="file in modal.filteredUploadFiles" style="list-style: none;"> 
+      <!-- <a href="">      -->
+      <div class="col-sm-11" ng-class="{'text-danger':file.uploadFailed}">
+        <i class="fa {{modal.getFileTypeClass(file)}}" style="padding:10px;"></i> {{ file.name | limitTo: 25 }}{{file.name.length > 25 ? '...' : ''}} ({{formatBytes(file.loaded||0)}}/{{formatBytes(file.size)}})    
+
+        <span ng-if="file.$error=='maxSize'" class="text-danger">Max size allowed: 100MB.</span>
+        <div style="margin-top:-8px;">
+          <span class="progress" ng-show="file.progressPercentage >= 0">
+            <div style="width:{{file.progressPercentage}}%"  
+            ng-bind="file.progressPercentage + '%'"></div>
+          </span>
+        </div> 
+      </div>
+      <div class="col-sm-1" ng-if="!filesUploadInProgress">
+        <a ng-click="modal.deleteFile($index)" href="">
+          <i class="fa fa-times-circle" style="font-size:1.5em;"></i>
+        </a>
+      </div> 
+      <!-- </a>      -->        
+    </li>    
+  </ul>
+</div> 
+</form>
+<div class="modal-footer">
+  <div class="row" ng-if="!fileToBeReplaced.EntityID">
+    <div class="col-sm-12" >
+      <div class="checkbox">
+        <label class="col-sm-6" style="text-align: left;"><input type="checkbox" ng-model="modal.flattenZip">Treat ZIP as multiple files</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+   <div class="col-sm-8" >
+
+     <select ng-if="filesToBeUploaded.length>10" class="form-control" style="width:90px;" ng-model="modal.itemsPerPage" ng-options="pageSize as pageSize for pageSize in modal.pageSizes">            
+     </select>
+     <pagination ng-if="modal.totalItems>modal.itemsPerPage" boundary-links="true" style="margin-top:-30px" ng-model="modal.currentPage" ng-change="modal.pageChange()" total-items="modal.totalItems" max-size="3" items-per-page="modal.itemsPerPage" class="pagination-sm pull-right" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+
+
+   </div>
+   <div class="col-sm-4">
+    <button type="submit" class="btn btn-primary" ng-click="modal.startUpload()" ng-disabled="filesUploadInProgress || !filesToBeUploaded || filesToBeUploaded.length<=0" ng-hide="aggregateFilesProgressPercentage>=100">
+      <span ng-if="!fileToBeReplaced.EntityID">Upload</span>
+      <span ng-if="fileToBeReplaced.EntityID">Replace</span>
+    </button>
+    <button type="reset" class="btn btn-default" ng-click="modal.cancel()" ng-if="!filesUploadInProgress">
+      <span >Cancel</span>
+    </button> 
+    <button type="reset" class="btn btn-default" ng-click="modal.close()" ng-if="filesUploadInProgress">    
+      <span >Close</span>
+    </button>
+  </div>
+</div>
+
+<div class="row" ng-if="filesToBeUploaded">
+  <div class="col-sm-12" style="text-align:left;margin-top:10px;">
+    <div class="col-sm-6">Number of files: {{filesToBeUploaded.length}}</div>
+    <div class="col-sm-6">Total size: {{formatBytes(aggregateFilesProgress||0)}}/{{formatBytes(getTotalFilesSize())}}</div>
+  </div>
+  <div class="col-sm-12" style="text-align:left;margin-top:10px;">
+   <div class="col-sm-6">Total progress: {{aggregateFilesProgressPercentage||0}}% 
+    <span ng-if="aggregateFilesProgressPercentage>=100" class="animated flash text-success infinite">Finalizing ...</span>
+   </div>
+   <div class="col-sm-6" ng-if="timeRemaining>=0">Time remaining : {{formatTime(timeRemaining)}} </div>
+ </div>  
+</div>  
+</div>
+</div>
+</div>

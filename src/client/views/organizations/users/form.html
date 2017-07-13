@@ -1,0 +1,125 @@
+<div class="page" id="organizationUserDetails">	
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span ng-i18next="form.org_user.title"></span></strong></div>
+			<div class="panel-body">
+				<form name="userForm" role="form"  class="form-horizontal" ng-submit="organizationUserCtrl.save()" novalidate>
+					<alert ng-repeat="alert in organizationUserCtrl.EmailAlert" type="{{alert.type}}" close="organizationUserCtrl.closeAlert($index)">{{alert.msg}}</alert>
+					<div class="user-header">
+						<a href="#" class="user-img"> <img src="{{organizationUserCtrl.user.GravatarUrl}}" alt="user-img" class="img-cirlce img-responsive img-thumbnail"> </a>
+						<div style="border-radius: 100%; background-image: url(); width: 40px; height: 40px;">
+						</div>					
+						<h3 ng-bind="organizationUserCtrl.user.DisplayName"></h3>
+					</div>
+
+					<div class="row" style="margin-top: 10px;">
+						<div class="col-sm-6">
+							<div class="form-table">
+								<label ng-class="{'has-error': userForm.inputFirstName.$dirty && userForm.inputFirstName.$invalid}">
+									<div>
+										<span ng-i18next="form.org_user.fields.permission"></span>
+									</div>
+									<div>
+										<select name="inputPermission" ng-model="organizationUserCtrl.user.Permission" ng-options="permission.key as permission.value for permission in organizationUserCtrl.permissions" required>
+											<option value="">Select</option>
+										</select>
+									</div>
+								</label>
+								<label ng-class="{'has-error': userForm.inputFirstName.$dirty && userForm.inputFirstName.$invalid}">
+									<div>
+										<span ng-i18next="form.org_user.fields.name"></span>
+									</div>
+									<div>
+										<input type="text" class="form-control" ng-model="organizationUserCtrl.user.FirstName" name="inputName" highlight-row="selected" required>
+									</div>
+									
+								</label>
+								<label>
+									<div>
+										<span ng-i18next="form.org_user.fields.surname"></span>
+									</div>
+									<div>
+										<input type="text" class="form-control" ng-model="organizationUserCtrl.user.LastName" name="lastName" highlight-row="selected" required>
+									</div>
+									
+								</label>
+								<label>
+									<div>
+										<span ng-i18next="form.org_user.fields.email"></span>
+									</div>
+
+									<div>
+										<ul class="list-group list-group-minimal">           
+											<li class="list-group-item" ng-repeat="email in organizationUserCtrl.user.Email track by $index" style="padding:0px 15px;">             
+												{{email}} <a href="" class="btn btn-primary" ng-click="organizationUserCtrl.removeEmail($index)" ng-if="organizationUserCtrl.isRemove" style="margin-top: 10px;" ng-disabled="organizationUserCtrl.loadingUser">
+												<i class="fa fa-times text-danger"></i>
+											</a>
+										</li>              
+									</ul>  
+								</div> 								
+							</label>
+							<label>
+								<div>
+									Alternate Email
+								</div>
+
+								<div>
+									<input type="text" class="form-control col-sm-10" name="inputEmail" ng-model="organizationUserCtrl.user.NewEmail" ng-pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" style="width: 90%;">
+									<a class="btn btn-primary" ng-click="organizationUserCtrl.addNewEmail()">
+										<i class="fa fa-plus"></i>
+									</a>
+								</div>
+								</label>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-table">
+								<label ng-class="{'has-error': userForm.inputFirstName.$dirty && userForm.inputFirstName.$invalid}">
+									<div>
+										<button type="button" class="btn btn-primary no-margin">Reset password</button>
+									</div>
+								</label>
+								<label ng-class="{'has-error': userForm.inputFirstName.$dirty && userForm.inputFirstName.$invalid}">
+									<div>
+										<span ng-i18next="form.org_user.fields.title"></span>
+									</div>
+									<div>
+										<input type="text" class="form-control" ng-model="organizationUserCtrl.user.Title" name="title" highlight-row="selected" required>
+									</div>
+
+								</label>
+								<label>
+									<div>
+										<span ng-i18next="form.org_user.fields.phone"></span>
+									</div>
+									<div>
+										<input type="text" class="form-control" ng-model="organizationUserCtrl.user.Phone" name="phone" highlight-row="selected" required>
+									</div>
+
+								</label>
+								<label>
+									<div>
+										<span ng-i18next="form.org_user.fields.url"></span>
+									</div>
+									<div>
+										<input type="text" class="form-control" ng-model="organizationUserCtrl.user.Url" name="url" highlight-row="selected" required>
+									</div>
+
+								</label>
+							</div>
+						</div>
+					</div>	
+					<div class="form-footer">  						
+						<button type="submit" class="btn btn-primary">
+							<span>Save</span> 
+						</button>				
+						<button ng-click="organizationUserCtrl.cancel()" class="btn btn-primary">
+							<span ng-i18next="button.cancel"></span> 
+						</button>  		
+					</div>		
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

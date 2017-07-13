@@ -1,0 +1,139 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					Add/Edit Milestone
+				</strong>
+			</div>
+			<div class="panel-body">				
+				<form name="milestoneForm" ng-submit="milestonesCtrl.save()">
+					<div class="form-table">
+						<div class="form-group">
+							<label class="control-label required">
+								Name
+							</label>
+							<div>
+								<input type="text" class="cw-input" ng-model="milestonesCtrl.milestone.Name" name="inputName" required >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">
+								Description
+							</label>
+							<div>
+								<textarea rows="5" class="cw-input" ng-model="milestonesCtrl.milestone.Description" name="inputDescription" > </textarea>
+							</div>
+						</div>
+
+						<div class="form-group" ng-if="milestonesCtrl.milestone && milestonesCtrl.milestone.EntityID">
+							<label class="control-label">
+								Status
+							</label>
+							<div>
+								<select ng-model="milestonesCtrl.milestone.Status" ng-options="milestone.Value as milestone.Name for milestone in milestonesCtrl.statuses">
+									<option value='' selected> Select </option>    
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label  class="control-label required">
+								Estimated Start Date
+							</label>
+							<div>
+								<div class="cw-date-input-wrapper ui-datepicker">
+									<input name="inputEstimatedStartDate" type="text" 
+									class="cw-input"
+									datepicker-popup="{{milestonesCtrl.formats[0]}}"
+									ng-model="milestonesCtrl.milestone.EstimatedStartDate"
+									is-open="milestonesCtrl.dateOptions.estimatedStartDateOpened"
+									datepicker-options="milestonesCtrl.dateOptions" 
+									close-text="Close"
+									ng-click="milestonesCtrl.openDate($event, 'estimatedStartDateOpened')"
+									required>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label required">
+								Estimated Duration (Days)
+							</label>
+							<div>
+								<input class="cw-input" ng-model="milestonesCtrl.milestone.EstimatedDuration" required style="width: 100px">
+							</div>
+						</div>
+
+						<div class="form-group" ng-if="milestonesCtrl.milestone.EstimatedDuration">
+							<label  class="control-label required">
+								Estimated End Date
+							</label>
+							<div>
+								<!-- <div class="input-group ui-datepicker" style="width:250px;">
+									<input name="inputEstimatedEndDate" type="text" 
+									class="form-control"
+									datepicker-popup="{{milestonesCtrl.formats[0]}}"
+									ng-model="milestonesCtrl.milestone.EstimatedEndDate"
+									is-open="milestonesCtrl.dateOptions.estimatedEndDateOpened"
+									datepicker-options="milestonesCtrl.dateOptions" 
+									close-text="Close"
+									ng-click="milestonesCtrl.openDate($event, 'estimatedEndDateOpened')"
+									required>
+									<span class="input-group-addon" ng-click="milestonesCtrl.openDate($event, 'estimatedEndDateOpened')"><i class="fa fa-calendar"></i></span>
+								</div> -->
+								<p class="form-control-static">{{milestonesCtrl.milestone.EstimatedEndDate|date:'MM/dd/yyyy'}}</p>
+							</div>
+						</div>
+
+						<div class="form-group" ng-if="milestonesCtrl.milestone.Status>=1">
+							<label  class="control-label required" >
+								Actual Start Date
+							</label>
+							<div>
+								<div class="cw-date-input-wrapper ui-datepicker" style="width:250px;">
+									<input name="inputActualStartDate" type="text" 
+									class="cw-input"
+									datepicker-popup="{{milestonesCtrl.formats[0]}}"
+									ng-model="milestonesCtrl.milestone.ActualStartDate"
+									is-open="milestonesCtrl.dateOptions.actualStartDateOpened"
+									datepicker-options="milestonesCtrl.dateOptions" 
+									close-text="Close"
+									ng-click="milestonesCtrl.openDate($event, 'actualStartDateOpened')"
+									required>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group" ng-if="milestonesCtrl.milestone.Status==2">
+							<label  class="control-label required" >
+								Actual End Date
+							</label>
+							<div>
+								<div class="cw-date-input-wrapper ui-datepicker">
+									<input name="inputActualEndDate" type="text" 
+									class="cw-input"
+									datepicker-popup="{{milestonesCtrl.formats[0]}}"
+									ng-model="milestonesCtrl.milestone.ActualEndDate"
+									is-open="milestonesCtrl.dateOptions.actualEndDateOpened"
+									datepicker-options="milestonesCtrl.dateOptions" 
+									close-text="Close"
+									ng-click="milestonesCtrl.openDate($event, 'actualEndDateOpened')"
+									required>
+								</div>
+							</div>
+						</div>
+					</div>	
+					<div class="form-footer">    
+						<button type="submit" class="btn btn-primary" ng-disabled="milestoneForm.$invalid">
+							<span>Save</span> 
+						</button>
+						<a class="btn btn-default" href="#/app/projects/{{milestonesCtrl.milestone.ProjectID}}">
+							<span>Cancel</span> 
+						</a>
+					</div>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</div>	

@@ -1,0 +1,18 @@
+<div class="modal-content" id="project-modal">
+  <div class="modal-header">
+    <h4 class="modal-title"><span ng-i18next="modal.add_project.title"></span></h4>
+  </div>
+  <div class="modal-body">
+    <alert ng-repeat="alert in projectAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <form class="form-horizontal" role="form" name="addProjectForm" ng-submit="modal.createProject()" novalidate>      
+      <div class="form-group">
+        <label for="inputProject"><span ng-i18next="form.add_project.fields.name"></span>:</label>
+        <input type="text" class="form-control" ng-model="modal.project.Name" autofocus>
+      </div>     
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"><span ng-i18next="button.done"></span></button>
+        <button type="reset" class="btn btn-default" ng-click="modal.cancel()"><span ng-i18next="button.cancel"></span></button> 
+      </div>
+    </form>    
+  </div>
+</div>

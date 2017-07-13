@@ -1,0 +1,31 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					<span class="glyphicon glyphicon-th"></span> 
+					<span ng-i18next="form.proposals.title" ng-if="proposalsCtrl.proposal && !proposalsCtrl.proposal.EntityID"></span>
+					<div ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID && proposalsCtrl.proposal.Accepted">
+						<span>Accept Proposal</span>
+						<h5>Please confirm that you would like to accept this proposal. Select or create an organization for this proposal below.</h5>
+					</div>					
+
+					<div ng-if="proposalsCtrl.proposal && proposalsCtrl.proposal.EntityID && proposalsCtrl.proposal.Rejected">
+						<span>Reject Proposal</span>
+						<h5>Please confirm that you would like to reject this proposal. Provide rejection comments in the box below.</h5>
+					</div>										
+				</strong>
+			</div>
+			<div class="panel-body">
+				<!-- <h2 ng-i18next="form.proposals.title"></h2> -->
+				<form name="proposalForm" role="form" novalidate data-ng-submit="proposalForm.$dirty=true;proposalForm.$valid && proposalsCtrl.save()" class="form-horizontal">
+					<div ng-include="'views/proposals/elements.html'">
+					</div>    
+				</form>
+
+				<!-- <div ng-if="proposal.EntityID" ng-include="'views/proposals/elements.html'" class="form-horizontal">
+			</div> -->
+		</div>
+	</div>
+</div>
+</div>

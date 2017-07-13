@@ -1,0 +1,65 @@
+<div class="container-fluid full-height" ng-controller="DocumentCtrl as documentCtrl">
+    <div class="row full-height"> 
+        <div class="panel panel-default" jqyoui-draggable="{animate:true}" data-drag="true" data-jqyoui-options="{handle: '.panel-heading'}" resizable style="height: 100%;position: absolute;top:50px;left:50px;z-index:999;" on-resize="resize($evt, $ui)" ng-if="documentCtrl.showDocumentText"> 
+            <div class="panel-heading" role="tab" id="headingFour" style="cursor: move;">                
+                <h4 class="panel-title pull-left">Document Text</h4>
+                <button ng-click="documentCtrl.toggleDocumentText()" class="btn btn-default pull-right"><i class="fa fa-close"></i> Close</button>
+                <div class="clearfix"></div>
+            </div>    
+            <div class="panel-body">
+                <div ng-include="'views/document/document-text.html'"></div>   
+            </div>
+            <div class="panel-heading" role="tab" id="headingFour" style="cursor: move;margin-top:-16px;">
+                <!-- <h4 class="panel-title">Document Text</h4> -->
+            </div>    
+        </div>
+        
+        <div class="col-sm-8 full-height flexpaper-container">
+            <div ng-if="documentCtrl.isLoading" class="text-center">
+                <span class="refresh-icon-animated" style="display: inline-block;">
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                    Loading ...
+                </span>
+            </div>
+            <pdfjs-viewer src="{{documentCtrl.fileUrl}}" ng-if="documentCtrl.file && documentCtrl.file.HasPreview && !documentCtrl.excelView" scale="scale" download="true" print="false" open="false" on-init="documentCtrl.onInit()" on-page-load="documentCtrl.onPageLoad(page)">
+            </pdfjs-viewer>
+            <div ng-include="'views/document/spreadsheet-doc-viewer.html'" ng-if="documentCtrl.file && (documentCtrl.file.Extension == 'xls' || documentCtrl.file.Extension == 'xlsx' || documentCtrl.file.Extension == 'ods')"></div>
+            <div id="noPreview" style="position:absolute;left:40%;top:40%;width:100%;height:75%;" ng-if="documentCtrl.file.HasPreview && (documentCtrl.file.Extension != 'xls' && documentCtrl.file.Extension != 'xlsx' && documentCtrl.file.Extension != 'ods')">
+                <span ng-if="!documentCtrl.file.HasPreview && !documentCtrl.excelView"> No preview available </span>
+                <a ng-if="documentCtrl.file && !documentCtrl.file.HasPreview" href="{{documentCtrl.fileUrl}}"> Download file... </a>
+            </div>
+        </div>
+
+        <div ng-if="!documentCtrl.isCollapse" class="col-sm-9" style="top:50%; left:60px">
+            <button class="btn btn-default pull-right" ng-click="documentCtrl.pdfSize()"><i class="fa fa-arrow-right"></i> </button>
+        </div>
+        <div ng-if="documentCtrl.isCollapse" class="col-sm-12" style="top:50%">
+            <button class="btn btn-default pull-right" ng-click="documentCtrl.pdfSize()"> <i class="fa fa-arrow-left"></i> </button>
+        </div>
+        <div class="col-sm-3 full-height document-details-container" ng-hide="documentCtrl.isCollapse" style="left:38px">
+            <div ng-if="documentCtrl.file.Extension == 'xls' || documentCtrl.file.Extension == 'xlsx' || documentCtrl.file.Extension == 'ods'" style="margin-bottom: 10px;">
+                <button class="btn btn-primary" ng-click="documentCtrl.excelView = !documentCtrl.excelView" ng-if="!documentCtrl.excelView">Excel view</button>
+                <button class="btn btn-primary" ng-click="documentCtrl.excelView = !documentCtrl.excelView" ng-if="documentCtrl.excelView">Pdf view</button>
+            </div>
+            <accordion close-others="documentCtrl.oneAtATime">    
+                <accordion-group is-open="documentCtrl.isFirstOpen">
+                    <accordion-heading>
+                        Document Details
+                    </accordion-heading>
+                    <div ng-include="'views/document/document-details.html'"></div>
+                </accordion-group>
+                <accordion-group ng-repeat="group in documentCtrl.groups" ng-if="group.Display">
+                    <accordion-heading>
+                        {{group.title}}
+                        <a ng-if="group.title=='Legal Entities'" href="" ng-click="documentCtrl.showLegalEntityModal(undefined,$event)">
+                            <i class="fa fa-plus-circle pull-right" style="font-size:1.2em;color:gray;"></i>
+                        </a>
+                    </accordion-heading>
+                    <div ng-include="group.url"></div>
+                </accordion-group>
+            </accordion>
+            <button class="btn btn-primary" ng-click="documentCtrl.toggleDocumentText()">Document Text</button>
+            <button class="btn btn-primary" ng-click="documentCtrl.copyText()">Copy To Clipboard</button>
+        </div>
+    </div>
+</div>

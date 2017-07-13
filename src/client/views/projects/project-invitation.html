@@ -1,0 +1,48 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title"><span ng-i18next="modal.user_invitation.title"></span> <span ng-bind="modal.project.Name"></span></h4>
+  </div>
+  <div class="modal-body">
+    <alert ng-repeat="alert in profileAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <alert ng-repeat="alert in modal.duplicateUserAlert" type="{{alert.type}}" close="modal.closeAlert($index)">{{alert.msg}}</alert>
+    <form class="form-horizontal" role="form" name="inviteProjectForm" ng-submit="modal.invite()" novalidate>      
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="inputEmail" class="col-sm-2 control-label"><span ng-i18next="form.invite_user.fields.email"></span></label>
+              <div class="col-sm-10">
+               <input type="email" class="cw-input" name="inputEmail" ng-model="modal.project.ProjectUser.Email" required ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/">
+             </div>
+           </div>
+         </div>
+         <!-- <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputPermission" class="col-sm-4 control-label"><span ng-i18next="form.invite_user.fields.permission"></span></label>
+            <div class="col-sm-8">
+             <select class="form-control" name="inputPermission" ng-model="modal.projectInvitation.Permission" ng-options="permission.key as permission.value for permission in modal.permissions" required></select>
+           </div>
+         </div>
+       </div> -->
+     </div>
+   </div>  
+   <div class="row">
+    <div class="col-sm-12">
+     <div class="form-group">
+      <label for="inputNote" class="col-sm-12 control-label" style="text-align:left;">
+        <span ng-i18next="form.invite_user.fields.note"></span>
+      </label>
+      <div class="col-sm-12">       
+          <div text-angular ng-model="modal.project.ProjectUser.Message" ta-toolbar = "''"></div>  
+      </div>
+    </div>
+  </div>
+</div>  
+</form>
+
+<div class="modal-footer">  
+    <button type="submit" class="btn btn-primary" ng-click="modal.invite()" ng-disabled="inviteProjectForm.$invalid"><span ng-i18next="button.send_invite"></span></button>
+    <button type="reset" class="btn btn-default" ng-click="modal.cancel()"><span ng-i18next="button.cancel"></span></button>
+</div>
+</div>
+</div>

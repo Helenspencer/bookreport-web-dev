@@ -1,0 +1,79 @@
+<div class="page">
+	<h2 ng-i18next="list.users.title"></h2>
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span ng-i18next="title.add-edit"></span></strong></div>
+			<div class="panel-body">
+				<form name="userForm" role="form" novalidate ng-submit="save()" class="form-horizontal">
+					<div class="form-group">
+						<label class="control-label col-sm-2" ng-class="{'has-error': userForm.inputFirstName.$dirty && userForm.inputFirstName.$invalid}">
+							<span ng-i18next="form.users.fields.first_name"></span>
+						</label>
+						<div class="col-sm-4">
+							<input type="text" name="inputFirstName" ng-model="user.FirstName"  class="form-control" required>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-sm-2" ng-class="{'has-error': userForm.inputLastName.$dirty && userForm.inputLastName.$invalid}">
+							<span ng-i18next="form.users.fields.last_name"></span>
+						</label>
+						<div class="col-sm-4">
+							<input type="text" name="inputLastName" ng-model="user.LastName"  class="form-control" required>
+						</div>
+					</div>								
+					<div class="form-group">
+						<label class="control-label col-sm-2" ng-class="{'has-error': userForm.inputEmail.$dirty && userForm.inputEmail.$invalid}">
+							<span ng-i18next="form.users.fields.email"></span>
+						</label>
+						<div class="col-sm-4">
+							<input type="text" name="inputEmail" ng-model="user.Email"  class="form-control" required>
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-sm-2" ng-class="{'has-error': userForm.inputPhone.$dirty && userForm.inputPhone.$invalid}">
+							<span ng-i18next="form.users.fields.phone"></span>
+						</label>
+						<div class="col-sm-4">
+							<input type="text" name="inputPhone" ng-model="user.Phone"  class="form-control">
+						</div>
+					</div>				
+					<div class="form-group">
+						<label class="control-label col-sm-2" ng-class="{'has-error': userForm.inputPassword.$dirty && userForm.inputPassword.$invalid}">
+							<span ng-i18next="form.users.fields.password"></span>
+						</label>
+						<div class="col-sm-4">
+							<input type="password" name="inputPassword" ng-model="user.Password"  class="form-control">
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="control-label col-sm-2" ng-class="{'has-error': userForm.isAdmin.$dirty && userForm.isAdmin.$invalid}">
+							<span ng-i18next="form.users.fields.is_admin"></span>
+						</label>
+						<div class="col-sm-4">
+							<input name="isAdmin" type="checkbox" value="true" ng-model="user.IsAdministrator">
+						</div>
+					</div>								
+					
+					<div class="form-group-separator"></div>
+
+					<div class="form-footer">    
+						<button type="submit" class="btn btn-primary" ng-if="!user.EntityID" ng-disabled="saving">
+							<span ng-i18next="button.create"></span>
+						</button>   
+
+						<button type="submit" class="btn btn-primary" ng-if="user.EntityID" ng-disabled="saving">
+							<span ng-i18next="button.done"></span>
+						</button> 
+
+						<a href="#/app/users" class="btn btn-default" ng-if="!user.EntityID">
+							<span ng-i18next="button.cancel"></span> 
+						</a>
+						<a class="btn btn-danger" ng-click="removeUser()" ng-if="user.EntityID">
+							<span ng-i18next="button.remove"></span>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

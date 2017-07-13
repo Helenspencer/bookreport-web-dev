@@ -1,0 +1,49 @@
+<section class="sidebar-user-info" ng-class="{'mobile-is-visible': layoutOptions.sidebar.isMenuOpenMobile}">
+	<div class="sidebar-user-info-inner">
+		<div class="user-profile" style="padding:10px 30px;">
+			<!-- <img src="images/assets/user-4.png" width="30" height="30" class="img-circle" alt="user-pic"> -->
+
+			<span>
+				<span ng-if="filesToBeUploaded.length>0">
+					{{user.CurrentOrganization.Name}} 
+					<i class="fa fa-warning text-warning" popover="Organization can not be changed while file uploads are in progress" popover-trigger="mouseenter"></i>	
+				</span>
+				<ul class="list-inline list-unstyled" ng-if="!filesToBeUploaded || filesToBeUploaded.length<=0">
+					<li class="dropdown" dropdown on-toggle="toggled(open)">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+							{{user.CurrentOrganization.Name}}
+
+							<i class="fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu list-unstyled">
+							<li ng-repeat="organization in organizations">
+								<a href="" ng-click="changeOrganization(organization)" style="padding:10px;">		
+									{{organization.Name}}
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				
+			</span>			
+		</div>
+
+		<div style="padding: 10px 0px;">
+			<ul class="user-links list-unstyled">
+				<li>
+					<div class="col-sm-offset-2"> 					
+						{{ user.DisplayName | limitTo: 22 }}{{user.DisplayName.length > 22 ? '...' : ''}}
+					</div>
+					<div class="col-sm-offset-2">
+						{{getPermissionDisplayName(user.CurrentOrganization.Permission)}}
+					</div>
+				</li>
+				<li class="logout-link">
+					<a href="" ng-click="logout()" title="Log out">
+						<i class="fa-power-off"></i>
+					</a>
+				</li>
+			</ul>
+		</div>		
+	</div>
+</section>

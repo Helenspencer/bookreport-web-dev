@@ -1,0 +1,65 @@
+<div id="organizationEditForm">
+  <div class="form-table org-name">
+    <label ng-class="{'has-error': organizationForm.$dirty && organizationForm.inputName.$invalid}">
+      <div>
+        <span ng-i18next="form.organizations.fields.name"></span>
+      </div>
+      <div>
+        <input type="text" class="cw-input" ng-model="organizationsCtrl.organization.Name" name="inputName" highlight-row="selected" required>
+      </div>
+    </label>
+  </div>
+
+  <div class="table-panel" ng-if="organizationsCtrl.organization && organizationsCtrl.organization.EntityID">
+    <div class="row">
+      <div class="col-xs-6">
+        <button class="btn btn-primary" ng-click="organizationsCtrl.showUserInvitationModal()" type="button"><i class="fa fa-envelope"></i> Send invite</button>
+        <button class="btn btn-primary" ng-class="{disabled:!organizationsCtrl.organizationUser}" ng-click="organizationsCtrl.removeUser()" type="button">Remove user</button>
+        <button class="btn btn-primary" ng-class="{disabled:!organizationsCtrl.organizationUser}" ng-click="organizationsCtrl.editUser(organizationsCtrl.organization.EntityID, organizationsCtrl.organizationUser.EntityID)" type="button">Edit user</button>
+      </div>
+      <div class="col-xs-6">
+        <input type="search" class="cw-search-input pull-right" placeholder="Search users by name" ng-model="organizationsCtrl.usersFilter.DisplayName">
+      </div>
+    </div>
+
+    <div class="table-responsive no-border">
+      <table class="table table-model-2 table-hover clickable-table">
+        <thead>
+          <tr class="left-align">
+            <th class="col-sm-6">
+              <span ng-i18next="list.users.columns.name"></span>
+            </th>
+            <th class="col-sm-6">
+              <span ng-i18next="list.users.columns.permission"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr class="plain-data" ng-repeat="user in organizationsCtrl.organization.Users | filter: organizationsCtrl.usersFilter" ng-click="organizationsCtrl.organizationUser=user;" ng-dblclick="organizationsCtrl.editUser( organizationsCtrl.organization.EntityID, organizationsCtrl.organizationUser.EntityID)" ng-class="{active:organizationsCtrl.organizationUser===user}">            
+            <td>
+              <span ng-bind="user.DisplayName"></span>
+            </td>
+            <td>
+              <span ng-bind="user.Permission"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="form-footer no-border">
+    <button ng-if="organizationsCtrl.organization && !organizationsCtrl.organization.EntityID" class="btn btn-blue" type="submit" ng-disabled="saving">
+      <span ng-i18next="button.create"></span>
+    </button>   
+    <a href="#/app/organizations" ng-if="organizationsCtrl.organization && organizationsCtrl.organization.EntityID" class="btn btn-primary" ng-click="organizationsCtrl.save()"><span ng-i18next="button.done"></span></a>         
+    <a href="#/app/organizations" class="btn btn-default" ng-if="organizationsCtrl.organization && !organizationsCtrl.organization.EntityID">
+      <span ng-i18next="button.cancel"></span>
+    </a>
+    <a class="btn btn-danger pull-right" ng-click="organizationsCtrl.removeOrganization()" ng-if="organizationsCtrl.organization && organizationsCtrl.organization.EntityID && organizationsCtrl.organization.EntityID != user.CurrentOrganization.OrganizationID">
+      <span ng-i18next="form.organizations.remove"></span>
+    </a> 
+  </div>
+</div>

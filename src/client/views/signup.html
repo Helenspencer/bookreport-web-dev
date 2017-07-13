@@ -1,0 +1,60 @@
+
+<div class="login-container">
+
+	<div class="row">
+
+		<div class="col-sm-6 form">
+
+			<script type="text/javascript">
+			jQuery(document).ready(function($)
+			{
+					// Reveal Login form
+					setTimeout(function(){ $(".fade-in-effect").addClass('in'); }, 1);					
+
+					// Set Form focus
+					$("form#login .form-group:has(.form-control):first .form-control").focus();
+				});
+			</script>
+
+			<!-- Errors container -->
+			<div class="errors-container">
+
+
+			</div>
+
+			<!-- Add class "fade-in-effect" for login form effect -->
+			<form method="post" role="form" id="login" class="login-form fade-in-effect" autocomplete="off" name="signupForm">
+				<alert ng-repeat="alert in signUpCtrl.alerts" type="{{alert.type}}" close="signUpCtrl.closeAlert($index)">{{alert.msg}}</alert>
+				<div class="login-header">
+					<a href="#/" class="logo">
+						<img src="images/cw/logo-assets/logo.svg" alt="" width="300" />
+					</a>
+				</div>
+
+
+				<div class="form-group align-left">
+					<label class="control-label" for="email">Email</label>
+					<input type="email" class="form-control" name="email" id="email" autocomplete="off" ng-model="signUpCtrl.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/" required autofocus/>
+				</div>		
+
+				<div class="form-group">
+					<button type="submit" class="btn btn-dark  btn-block text-left" ng-click="signUpCtrl.signup()" ng-disabled="signupForm.$invalid">						
+						Sign up
+					</button>
+				</div>
+
+				<div class="login-footer">			
+
+					<div class="info-links">
+						<a href="">ToS</a> -
+						<a href="">Privacy Policy</a>
+					</div>
+
+				</div>
+
+			</form>
+		</div>
+
+	</div>
+
+</div>

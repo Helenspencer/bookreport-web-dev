@@ -1,0 +1,34 @@
+<div class="modal-content">
+    <div class="modal-header" style="cursor:move">
+        <div>
+            <button class="btn btn-default pull-right" ng-click="modal.isEdit=!modal.isEdit"> Edit </button>
+        </div>
+        <h4 class="modal-title">Edit Page Data</h4>
+    </div>
+    <div class="modal-body" style="min-height: 500px;">
+        <div class="row">
+            <div class="col-sm-12" ng-if="!modal.data">
+                Loading ...
+            </div>
+            <div class="col-sm-12" ng-if="modal.data">
+                <div class="col-sm-6">
+                    <img style="width:100%" src="data:image/jpg;base64, {{modal.data.PageImageContent}}">
+                </div>
+                <div class="col-sm-6">
+                    <div ng-bind-html="modal.data.HOCRContent" ng-if="!modal.isEdit"></div>
+                    <div text-angular ng-model="modal.data.HOCRContentBody" ng-if="modal.isEdit" ta-toolbar = "''"></div>
+                    <!-- <textarea ng-model="modal.data.HOCRContent" ng-if="modal.isEdit" style="width:100%" rows="40"> </textarea> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="cursor:move">
+        <button class="btn btn-primary" ng-click="modal.saveHOCRData()" ng-if="modal.isEdit">
+            {{ modal.savingPageData ? "Saving...." : "Save" }}
+        </button>
+        <button class="btn btn-default" ng-click="modal.cancel()">
+            <span ng-if="isEdit" ng-i18next="button.cancel"></span>
+            <span ng-if="!isEdit" ng-i18next="button.close"></span>
+        </button>
+    </div>       
+</div>

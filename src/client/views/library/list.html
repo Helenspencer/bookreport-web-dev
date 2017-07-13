@@ -1,0 +1,39 @@
+<div ng-if="library.isLoading" class="text-center">
+	<span class="refresh-icon-animated" style="display: inline-block;">
+		<i class="fa fa-circle-o-notch fa-spin"></i>
+		Loading ...
+	</span>
+</div>
+<div class="page filesList" id="libraryList">
+
+	<div class="title">
+		<h2 ng-i18next="list.library.title"></h2>
+		<div></div>
+	</div>
+
+	<div class="panel panel-default panel-search" ng-class="{'advanced':library.advanced}">
+		
+		<div ng-include="'views/library/search.html'" class="search-fields"></div>
+		<div class="content" ng-class="{faded:library.loading}">
+			<div class="finder">
+				<div ng-include="'views/library/sidebar.html'" class="sidebar"></div>
+				<div class="files-wrapper">
+					<div class="col-sm-12" ng-if="library.isPusherEvent && library.changedFilesCount != 0">
+						<div class="alert alert-info">
+							{{library.getChangedFilesCount()}} new 
+							<ng-pluralize count="library.getChangedFilesCount()"
+							when="{'one': 'file',
+							'other': 'files'}">
+						</ng-pluralize>
+						<span ng-if="library.changedFilesCount>0">added</span> <span ng-if="library.changedFilesCount<0">archived</span>
+					</div>
+				</div>
+
+				<div ng-include="'views/library/filters.html'" class="header"></div>
+				<div ng-include="'views/library/files-table.html'"></div>
+			</div>			
+		</div>
+		<div ng-include="'views/library/pagination.html'"></div>
+	</div>
+</div>
+</div>

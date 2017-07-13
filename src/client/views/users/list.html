@@ -1,0 +1,62 @@
+<div class="page" id="usersList">
+    <div class="title">
+        <h2 ng-i18next="list.users.title"></h2>
+        <div>
+            <a class="button-add" ui-sref="app.userEdit({id: 'new'})"></a> 
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered clickable-table">
+                <thead>
+                    <tr class="left-align">Test
+                        <th>
+                            <span ng-i18next="list.users.columns.first_name"></span>
+                        </th>
+                        <th>
+                            <span ng-i18next="list.users.columns.last_name"></span>
+                        </th>
+                        <th>
+                            <span ng-i18next="list.users.columns.email"></span>
+                        </th>
+                        <th>
+                            <span ng-i18next="list.users.columns.phone"></span>
+                        </th>
+    					<!--
+                        <th>
+                            <span ng-i18next="list.users.columns.active"></span>
+                        </th>
+    					-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="plain-data" ng-repeat="user in users" ng-click="edit(user)">{{user}}ok  
+                   <!--   <tr class="plain-data" ng-repeat="user in organizationsCtrl.organization.Users | filter: organizationsCtrl.usersFilter" ng-click="organizationsCtrl.organizationUser=user;" ng-dblclick="app.organizationUserEdit({id:organizationsCtrl.organization.EntityID, userId:organizationsCtrl.organizationUser.EntityID})" ng-class="{active:organizationsCtrl.organizationUser===user}">    -->      
+                        <td>
+                            <span ng-bind="user.FirstName"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="user.LastName"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="user.Email"></span>
+                        </td>
+                        <td>
+                            <span ng-bind="user.Phone"></span>
+                        </td> 
+    					<!--
+                        <td>
+                            <span ng-if="user.Active" class="label label-success">
+                                <span ng-i18next="label.active"></span>
+                            </span>
+                            <span ng-if="!user.Active" class="label label-danger">
+                                <span ng-i18next="label.inactive"></span>
+                            </span>
+                        </td>      
+    					-->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

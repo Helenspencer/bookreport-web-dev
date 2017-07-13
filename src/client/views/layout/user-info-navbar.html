@@ -1,0 +1,119 @@
+<nav class="navbar user-info-navbar" ng-class="{'mobile-is-visible': layoutOptions.userInfoNavVisible}" ng-click="mobileUserInfoToggle()" role="navigation">
+	
+	<ul class="user-info-menu left-links list-inline list-unstyled">
+
+		<li class="hidden-sm hidden-xs">
+			<a href="" ng-click="sidebarToggle()">
+				<i class="fa-bars"></i>
+			</a>
+		</li>
+
+		<li class="dropdown hover-line" dropdown on-toggle="toggled(open)" ng-click="data.unReadCount=0">
+			<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" dropdown-toggle>
+				<i class="fa-bell-o"></i>
+				<span class="badge badge-purple">{{data.unReadCount}}</span>
+			</a>
+
+			<ul class="dropdown-menu notifications">
+				<!-- <li class="top">
+					<p class="small">
+						<a href="" class="pull-right">Mark all Read</a>
+						You have <strong>3</strong> new notifications.
+					</p>
+				</li> -->
+
+				<li>
+					<ul class="dropdown-menu-list list-unstyled ps-scrollbar">
+						<li class="active notification-{{data.notificationTypes[organizationEvent.Name]}}" ng-repeat="organizationEvent in data.organizationEvents track by $index">
+							<a href="">
+								<i class="{{data.notificationIcons[organizationEvent.Name]}}"></i>
+				
+								<span class="line">
+									<strong ng-bind="organizationEvent.Message"></strong>
+								</span>
+								
+								<span class="line small time" am-time-ago="organizationEvent.Date">
+								</span>
+							</a>
+						</li>
+						<li class="active notification-default" ng-if="!data.organizationEvents || data.organizationEvents.length <=0">
+							<a href="">
+								<i class="fa-info"></i>
+				
+								<span class="line" style="padding-top:6px;">
+									<strong> No unread messages</strong>
+								</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+				<!-- <li class="external">
+					<a href="">
+						<span>View all notifications</span>
+						<i class="fa-link-ext"></i>
+					</a>
+				</li> -->
+			</ul>
+		</li>
+	</ul>
+	
+	<ul class="user-info-menu right-links list-inline list-unstyled">
+		<li class="fullscreen" ng-show="isFullscreenSupported">
+			<a href="" ng-click="goFullscreen()" title="Fullscreen">
+				<i ng-class="{'fa-expand': ! isFullscreen, 'fa-compress': isFullscreen == true}"></i>
+			</a>
+		</li>
+		<!-- <li class="dropdown" dropdown on-toggle="toggled(open)">
+			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+				
+				{{user.CurrentOrganization.Name}}
+				
+				<i class="fa-angle-down"></i>
+			</a>
+			<ul class="dropdown-menu user-profile-menu list-unstyled">
+				<li ng-repeat="organization in organizations">
+					<a href="javascript:;" ng-click="changeOrganization(organization)">						
+						{{organization.Name}}
+					</a>
+				</li>
+			</ul>
+		</li>    -->
+		<li class="dropdown user-profile" dropdown on-toggle="toggled(open)">
+			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+				<span>					
+					Hi, {{user.DisplayName}}
+					<i class="fa-angle-down"></i>
+				</span>
+			</a>
+			<ul class="dropdown-menu user-profile-menu list-unstyled">
+				<li>
+					<a href="javascript:;" ng-click="profile()" class="header-user">
+						<i class="fa-edit"></i>
+						<span ng-i18next="header_menu.profile"></span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" ng-click="changePassword()" class="header-key">
+						<span ng-i18next="header_menu.change_password"></span>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;" ng-click="logout()" class="header-off">
+						<i class="fa-lock"></i>
+						<span ng-i18next="header_menu.logout"></span>
+					</a>
+				</li>
+			</ul>
+		</li>				
+	</ul>
+	<div ng-if="filesToBeUploaded" style="float: right;margin-top: 19px;background: rgba(128, 128, 128, 0.13);padding: 5px;">
+		<a href="" ng-click="showUploadFilesModal()" style="color:#1F88C2;">
+		File Upload Status: {{filesToBeUploaded.length}} files 
+		<span ng-if="aggregateFilesProgressPercentage<=100">{{aggregateFilesProgressPercentage||0}}%</span> 
+		<span ng-if="aggregateFilesProgressPercentage>=100">Upload completed, processing...  
+		</span>
+		<span ng-if="timeRemaining>0">{{formatTime(timeRemaining)}}</span>
+		</a>
+	</div>
+</nav>

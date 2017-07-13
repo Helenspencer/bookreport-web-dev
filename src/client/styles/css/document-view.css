@@ -1,0 +1,22 @@
+.page-container .main-content {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.red {
+    background-color: red;
+}
+
+html, body, .container-fluid, .full-height {
+    height: 100%;
+}
+
+.flexpaper-container {
+    padding: 0;
+    overflow: hidden;
+}
+
+.document-details-container {
+    padding: 15px;
+}

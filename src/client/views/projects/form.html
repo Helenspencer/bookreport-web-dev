@@ -1,0 +1,104 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					<span class="glyphicon glyphicon-th"></span> 
+					<span ng-i18next="form.projects.title" ng-if="!projectsCtrl.project.EntityID"></span>
+					<span ng-if="projectsCtrl.project.EntityID">{{projectsCtrl.project.Name}} Details</span>
+				</strong>
+				<button class="btn btn-primary pull-right" ng-click="projectsCtrl.showProjectInvitationModal()" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">Invite user</button>
+			</div>			
+			<div class="panel-body">				
+				<form name="projectForm" role="form" novalidate data-ng-submit="projectForm.$dirty=true;projectForm.$valid && projectsCtrl.save()" class="form-horizontal">
+					<alert ng-repeat="alert in projectsCtrl.projectAlerts" type="{{alert.type}}" close="projectsCtrl.closeAlert($index)">{{alert.msg}}</alert>
+					<div class="form-table">
+						<div class="form-group" ng-class="{'has-error': projectForm.$dirty && projectForm.inputName.$invalid}" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">
+							<label class="control-label required">
+								<span ng-i18next="form.projects.fields.name"></span>
+							</label>
+							<div>
+								<input type="text" class="cw-input" ng-model="projectsCtrl.project.Name" name="inputName" required >
+							</div>
+						</div>
+						<div class="form-group" ng-class="{'has-error': projectForm.$dirty && projectForm.inputEngagement.$invalid}">
+							<label class="control-label required">
+								<span ng-i18next="form.projects.fields.engagement"></span>
+							</label>
+							<div>
+								<select ng-options="engagement.EntityID as engagement.Name for engagement in projectsCtrl.engagements|orderBy:'Name'" class="form-control" ng-model="projectsCtrl.project.EngagementID" id="inputEngagement" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)"></select>
+								<p class="form-control-static" ng-if="!projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">{{projectsCtrl.getEngagementName(projectsCtrl.project.EngagementID)}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">
+								<span ng-i18next="form.projects.fields.schedule"></span>
+							</label>
+							<div>
+								<select ng-options="schedule for schedule in projectsCtrl.engagementSchedules | orderBy:'toString()'" class="form-control" ng-model="projectsCtrl.project.Schedule" id="inputProjectSchedule" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">
+									<option value="">Select</option>
+								</select>
+								<p class="form-control-static" ng-if="!projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission)">{{projectsCtrl.project.Schedule}}</p>
+							</div>
+						</div>
+						<div class="form-group" ng-class="{'has-error': projectForm.$dirty && projectForm.inputType.$invalid}" ng-if="projectsCtrl.isOgranizationAdmin(user.CurrentOrganization.Permission) && !projectsCtrl.project.EntityID">
+							<label class="control-label required">
+								<span ng-i18next="form.projects.fields.type"></span>
+							</label>
+							<div>
+								<select ng-options="type.EntityID as type.Name for type in projectsCtrl.projectTypes|orderBy:'Name'" class="form-control" ng-model="projectsCtrl.project.ProjectTypeID" id="inputType"></select>	
+							</div>
+						</div>
+
+						<div class="form-group" ng-if="!projectsCtrl.project.EntityID">
+							<label  class="control-label required">
+								Start Date
+							</label>
+							<div>
+								<div class="cw-date-input-wrapper ui-datepicker">
+									<input name="inputEstimatedStartDate" type="text" 
+									class="cw-input"
+									datepicker-popup="{{projectsCtrl.formats[0]}}"
+									ng-model="projectsCtrl.project.StartDate"
+									is-open="projectsCtrl.dateOptions.startDateOpened"
+									datepicker-options="projectsCtrl.dateOptions" 
+									close-text="Close"
+									ng-click="projectsCtrl.openDate($event, 'startDateOpened')"
+									required>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<accordion close-others="oneAtATime" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID">
+						<accordion-group heading="{{accordionItem.name}}" is-open="accordionItem.isOpen" style="background: rgba(128, 128, 128, 0.03);padding:20px 30px;" ng-repeat="accordionItem in projectsCtrl.accordionItems">
+						<div ng-include="accordionItem.templateUrl" style="background:#FFF;">
+						</div>
+					</accordion-group>	
+
+				</accordion>
+
+
+				<div ng-include="'views/projects/project-funds.html'" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID" style="display:none;"></div>
+
+
+				<div class="form-footer">
+					<button ng-if="projectsCtrl.project && !projectsCtrl.project.EntityID" class="btn btn-blue" type="submit" ng-disabled=" saving || projectForm.$invalid ">
+						<span ng-i18next="button.create"></span>
+					</button>   
+
+					<a href="#/app/projects" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID" class="btn btn-primary" ng-click="projectsCtrl.save()"><span ng-i18next="button.done"></span></a>   
+
+					<a href="#/app/projects" class="btn btn-default" ng-if="projectsCtrl.project && !projectsCtrl.project.EntityID">
+						<span ng-i18next="button.cancel"></span>
+					</a>  
+				</div>
+			</form>
+
+		</div>
+
+
+	</div>
+</div>
+</div>
+

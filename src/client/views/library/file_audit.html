@@ -1,0 +1,45 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <span ng-if="modal.folderId" ng-i18next="modal.folder_history.title"></span>
+      <span ng-if="modal.projectId" ng-i18next="modal.project_history.title"></span>
+    </h4>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group list-group-minimal">
+      <li class="list-group-item" ng-repeat="resource in modal.folderHistoryResult|orderBy: '-ChangedOn'">
+        <span ng-if="(resource.Action==1 || resource.Action==0)&& resource.FileName">File "{{resource.FileName}}"
+          <span class="file-audit-action-name" ng-bind="modal.actionValues[resource.Action].Name"></span>
+        </span>
+        <span ng-if="resource.Action==7">File "{{resource.FileName}}"
+          <span class="file-audit-action-name" ng-bind="modal.actionValues[resource.Action].Name"></span>
+        </span>
+        <span ng-if="resource.Action==2">Folder
+         <span class="file-audit-action-name" ng-bind="modal.actionValues[resource.Action].Name"></span> from "{{resource.FolderName}}"
+         <span ng-if="resource.NewFolderName"> to "{{resource.NewFolderName}}"</span> 
+       </span>
+       <span ng-if="resource.Action==5">
+        <span ng-if="resource.NewDocumentType && resource.DocumentType">
+          <span class="file-audit-action-name" ng-bind="modal.actionValues[resource.Action].Name"></span>" from {{resource.DocumentType}}"
+          <span ng-if="resource.NewDocumentType"> to "{{resource.NewDocumentType}}"</span> 
+        </span>
+        <span ng-if="resource.NewDocumentType && !resource.DocumentType">
+          New document type
+          <span ng-if="resource.NewDocumentType">"{{resource.NewDocumentType}}"</span> assigned to <span ng-if="resource.NewFolderName">"{{resource.NewDocumentName}}"</span>  document "{{resource.DocumentName}}"
+        </span>
+      </span>
+      <span ng-if="resource.Action==3">
+        File
+        <span ng-if="resource.NewFileName && resource.FileName">
+          <span class="file-audit-action-name" ng-bind="modal.actionValues[resource.Action].Name"></span> from "{{resource.FileName}}"
+          <span ng-if="resource.NewFileName"> to "{{resource.NewFileName}}"</span>
+        </span>
+      </span>
+      by <span class="file-audit-action-user-name">{{resource.ChangedByName || 'System'}}</span> <span style="font-size:small" am-time-ago="resource.ChangedOn"></span>
+    </li>
+  </ul>
+</div>
+<div class="form-footer" style="text-align: right;">
+  <button class="btn btn-default" ng-click="modal.cancel()"><span ng-i18next="button.close"></span></button>
+</div>
+</div>

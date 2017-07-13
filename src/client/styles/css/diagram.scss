@@ -1,0 +1,570 @@
+/*CONTROLLERS*/
+
+#diagram {
+    position: relative;
+    border: 1px solid white;
+    float: left;
+    max-width: 100%;
+}
+
+#diagram .addBtn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    display: block;
+    -webkit-transition-property: -webkit-transform, left, top, margin;
+    transition-property: -ms-transform, transform, left, top, margin;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    border-spacing: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#diagram.empty .addBtn {
+    left: 50%;
+    top: 200px;
+    margin-left: -17px;
+    -ms-transform: scale(1.3, 1.3) rotateZ(180deg);
+    -webkit-transform: scale(1.3, 1.3) rotateZ(180deg);
+    transform: scale(1.3, 1.3) rotateZ(180deg);
+}
+
+
+#diagram .addBtn:before, #diagram .addBtn:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 17px;
+    -webkit-transition-property: -webkit-transform, opacity;
+    transition-property: -ms-transform, transform, opacity;
+    -webkit-transition-duration: 0.15s;
+    transition-duration: 0.15s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+}
+
+#diagram .addBtn:before {
+    background-color: #389ceb;
+    opacity: 0;
+}
+
+#diagram .addBtn:hover:before {
+    -ms-transform: scale(1.3, 1.3);
+    -webkit-transform: scale(1.3, 1.3);
+    transform: scale(1.3, 1.3);
+    opacity: 0.3;
+}
+
+.pi-icon {
+    background:  url(../../images/cw/icons-assets/hand.svg) no-repeat center center;
+    background-size: contain;
+}
+
+#diagram-top-menu {
+    margin-bottom: 8px;
+    overflow: hidden;
+    -webkit-transition-property: padding;
+    transition-property: padding;
+    -webkit-transition-duration: 0.15s;
+    transition-duration: 0.15s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+}
+
+#diagram-top-menu button {
+    margin: 0 0 0 5px;
+}
+
+#diagram-top-menu .pi-icon, #diagram-top-menu .pi-text {
+    -webkit-transition-property: opacity, width;
+    transition-property: opacity, width;
+    -webkit-transition-duration: 0.15s;
+    transition-duration: 0.15s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+}
+
+#diagram-top-menu .pi-icon {
+    height: 30px;
+    width: 20px;
+    margin-right: 8px;
+    float: left;
+    
+}
+
+#diagram-top-menu .pi-text { 
+    float: left;
+    margin-top: 7px;
+}
+
+#diagram.empty #diagram-top-menu {
+    padding-left: 0;
+}
+
+#diagram.empty #diagram-top-menu .pi-icon {
+    width: 0;
+    opacity: 0;
+}
+
+#diagram.empty #diagram-top-menu .pi-text {
+    opacity: 0;
+}
+
+#fit-chk {
+    margin: 7px 25px 0 0;
+}
+
+#canvas-wrapper {
+    position: relative;
+}
+
+#position-info {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#position-info .pi-bg,  #position-info .active-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#position-info .pi-bg {
+    background: url(../../images/cw/grid-bg.png) repeat;
+    border: 1px solid #f2f2f2; 
+    -webkit-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+    /*opacity: 0;*/
+}   
+
+#position-info .active-area {
+    cursor: pointer;
+}
+
+
+#diagram.empty #position-info .pi-bg {
+    opacity: 1;
+}
+
+#position-info > span  {
+    display: inline-block;
+    -webkit-transition-property: width, color, opacity;
+    transition-property: width, color, opacity;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+}
+
+#position-info .pi-icon  {
+    width: 0;
+    height: 60px;
+    margin-bottom: 40px;
+    opacity: 0;
+    margin-top: 155px;
+}
+
+#position-info .pi-text  {
+    display: inline-block;
+    position: relative;
+    line-height: 38px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 20px;
+    background-color: white;
+    border: 2px solid #cccccc;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 15px;
+    opacity: 0;
+    width: 220px;
+}
+
+#diagram.empty:not(.new) #position-info .pi-icon {
+    width: 50px;
+    opacity: 0.9;
+}
+
+#diagram.empty:not(.new) #position-info .pi-text {
+    opacity: 1;
+}
+
+#diagram .addBtn:after {
+    background: #389ceb url(../../images/cw/icons-assets/plus.svg) no-repeat center center;
+    border: 2px solid #389ceb;
+}
+
+#diagram .addBtn:hover:after {
+    -ms-transform: scale(1.06, 1.06);
+    -webkit-transform: scale(1.06, 1.06);
+    transform: scale(1.06, 1.06);
+}
+
+#add-block-modal .appearance {
+    overflow: hidden;
+}
+
+#add-block-modal .appearance > div {
+    float: left;    
+}
+
+#add-block-modal .appearance > div:not(:last-child) {
+    margin-right: 40px;
+}
+
+#add-block-modal .appearance > div, #add-block-modal > .modal-body > .text {
+    margin-bottom: 15px;
+}
+
+#add-block-modal .appearance .table-bbar {
+    height: 32px;
+}
+
+#add-block-modal .appearance .table-bbar > div {
+    width: 71px;
+    line-height: 0;
+}
+
+#add-block-modal .appearance .table-bbar.type .shape {
+    fill: #969696;
+}
+
+#add-block-modal .appearance .table-bbar.style svg {
+    overflow: visible;
+}
+
+#add-block-modal .appearance .table-bbar.style circle {
+    /*fill: red;*/
+}
+
+#add-block-modal {
+    .options, .text, .form-group-separator {
+        margin-bottom: 10px;
+    }
+
+    .modal-body {
+        padding-bottom: 0;
+    }
+}
+
+#add-block-modal .connection > .scroll-wrapper {
+    overflow: auto;
+    max-height: 148px;
+}
+
+#add-block-modal .connection table {
+    width: 100%;
+}
+
+#add-block-modal .connection table td {
+    line-height: 32px;
+    border-bottom: 1px solid #e4e4e4;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+#add-block-modal .connection table .text {
+    width: 100%;
+    position: relative;
+
+}
+
+#add-block-modal .connection table .text label {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 20px 0 0;
+    margin: 0;
+}
+
+#add-block-modal .connection table label {
+    cursor: pointer;
+    margin: 0;
+}
+
+#add-block-modal .connection table td:not(:last-child) {
+    padding-right: 20px;
+}
+
+#add-block-modal .connection table tr:first-child td {
+    border-top: 1px solid #e4e4e4;
+}
+
+#add-block-modal .connection input[type="radio"] {
+    margin-right: 5px;
+}
+
+#add-block-modal .connection table .line {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: visible;
+}
+
+#add-block-modal .connection table .line line {
+    stroke: #464646;
+    stroke-width: 2;
+}
+
+#add-block-modal .connection table .line.solid line  {
+
+}
+
+#add-block-modal .connection table .line.dashed line {
+    stroke-dasharray: 2,2;
+}
+
+#diagram-import {
+    position: relative;
+    margin-bottom: 0;
+    overflow: hidden;
+    cursor: pointer;
+
+    > input {
+        font-size: 100px !important;
+        display: block !important;
+        position: absolute !important;
+        opacity: 0 !important;
+        left: 0 !important;
+        top: 0 !important;
+        cursor: pointer !important;
+    }  
+}
+
+svg.diagram * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+svg.diagram .active-layer {
+    cursor:pointer;
+}
+
+svg.diagram .click-pt {
+    fill: #a3a3a3;
+    stroke: #7b7b7b;
+    fill-opacity: 0;
+    stroke-width: 0;
+    -webkit-transition-property: fill-opacity, stroke, stroke-width;
+    transition-property: fill-opacity, stroke, stroke-width;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+}
+
+svg.diagram .click-pt.down-pt {
+   fill-opacity: 1;
+}
+
+svg.diagram .click-pt.active-pt {
+    stroke-width: 3;
+}
+
+/*BLOCKS*/
+
+svg.diagram .block {
+    font-family: Helvetica, sans-serif;
+    cursor: move;
+
+    .rz-rect {
+        cursor: se-resize;
+        position: relative;
+        // -webkit-filter: drop-shadow(16px 16px 20px blue);
+        // filter: drop-shadow(16px 16px 20px blue);
+
+        &:active {
+            path {
+                fill: #0073e0;
+            }
+        }
+
+        path {
+            fill: #000;
+        }
+    }
+}
+
+svg.diagram .block text {
+}
+
+svg.diagram .block .shape {
+    fill: white;
+}
+
+svg.diagram {
+    .block {
+        &.no-fill {
+            .shape {
+                fill-opacity: 0 !important;
+            }
+        }
+
+        &.no-outline {
+            .shape {
+                stroke-opacity: 0 !important;
+            }
+            &:hover, &.resize {
+                .shape {
+                    stroke-opacity: 0.5 !important;
+                    stroke-width: 1 !important;
+                    stroke-dasharray: 5,4;
+                }
+            }
+        }
+    }
+}
+
+svg.diagram .block.active .shape {
+    stroke: #2662db !important;
+    fill: #dfeaff !important;
+}
+
+/*Style 1*/
+
+svg.diagram .block.style1 {
+}
+
+svg.diagram .block.style1 .shape {
+    stroke-width: 2;
+    stroke: #343434;
+}
+
+/*Style 2*/
+
+svg.diagram .block.style2 .shape {
+    stroke-width: 2;
+    stroke: #138500;
+}
+
+/*Style 3*/
+
+svg.diagram .block.style3 {
+}
+
+svg.diagram .block.style3 .shape {
+    stroke-width: 2;
+    stroke: #303030;
+    fill: #fff47a;
+}
+
+/*Style 4*/
+
+svg.diagram .block.style4 .shape {
+    stroke-width: 2;
+    stroke: #e03e3e;
+}
+
+/*Style 5*/
+
+svg.diagram .block.style5 {
+}
+
+svg.diagram .block.style5 .shape {
+    stroke-width: 3;
+    stroke: #36983f;
+}
+
+/*Style 6*/
+
+svg.diagram .block.style6 {
+}
+
+svg.diagram .block.style6 .shape {
+    stroke-width: 2;
+    stroke: #4d4d4d;
+}
+
+/*Style 7*/
+
+svg.diagram .block.style7 {
+}
+
+svg.diagram .block.style7 .shape {
+    stroke-width: 3;
+    stroke: #b87711;
+}
+
+/*Style 7*/
+
+svg.diagram .block.style8 .shape {
+    stroke-width: 2;
+    stroke: #4d4d4d;
+    fill: #fff59c;
+}
+
+
+/*LINES*/
+
+svg.diagram .connection {
+    stroke-width: 2;
+    stroke: red;
+    fill: none;
+}
+
+/*Line Style 1*/
+
+svg.diagram .connection.line1 {
+    stroke: #606060;
+    stroke-width: 2;
+}
+
+/*Line Style 2*/
+
+svg.diagram .connection.line2 {
+    stroke: black;
+    stroke-dasharray: 5,5;
+}
+
+/*Line Style 3*/
+
+svg.diagram .connection.line3 {
+    stroke: #606060;
+    stroke-width: 2;
+}
+
+/*Line Style 4*/
+
+svg.diagram .connection.line4 {
+    stroke: #606060;
+    stroke-width: 2;
+    stroke-dasharray: 4,3;
+}
+
+/*Line Style 5*/
+
+svg.diagram .connection.line5 {
+    stroke: #cb9e58;
+    stroke-width: 2;
+    stroke-dasharray: 4,3;
+}

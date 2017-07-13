@@ -1,0 +1,22 @@
+<div class="modal-content" id="library-upload-modal">
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <span ng-i18next="modal.add_folder.title" ng-if="modal.folder && !modal.folder.EntityID"></span>
+      <span ng-if="modal.folder && modal.folder.EntityID && modal.folder.Type==1">Edit Project Name</span>
+      <span ng-if="modal.folder && modal.folder.EntityID && modal.folder.Type==0">Edit Folder Name</span>
+    </h4>
+  </div>
+  <div class="modal-body">
+    <alert ng-repeat="alert in folderAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <form class="form-horizontal" role="form" name="addFolderForm" novalidate>      
+      <div class="form-group">
+        <label for="inputProject"><span ng-i18next="form.add_folder.fields.name"></span>:</label>
+        <input type="text" class="form-control" ng-model="modal.folder.Name" autofocus>
+      </div>     
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-click="modal.createFolder()" ng-disabled="modal.folder.Name.length<1"><span ng-i18next="button.done"></span></button>
+        <button type="reset" class="btn btn-default" ng-click="modal.cancel()"><span ng-i18next="button.cancel"></span></button> 
+      </div>
+    </form>    
+  </div>
+</div>

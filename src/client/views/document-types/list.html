@@ -1,0 +1,31 @@
+<div class="page" id="documentTypesList">
+	<div class="title">
+		<h2 ng-i18next="list.document_types.title"></h2>      
+	</div>
+	<div  style="margin-bottom: 10px;">
+		<button class="btn btn-primary" ui-sref="app.documentTypeEdit({id: 'new'})">Add </button>		
+		<!-- <a class="btn btn-primary" ui-sref="app.documentTypeEdit({id: documentTypesCtrl.selectedDocumentType.EntityID})" href="" ng-class="{disabled:!documentTypesCtrl.selectedDocumentType}">
+			Edit
+		</a> -->        
+		<!-- <button class="btn btn-primary" ng-class="{disabled:!documentTypesCtrl.selectedDocumentType}" ng-click="documentTypesCtrl.removeDocumentType()">Delete</button> -->
+	</div> 
+	<div class="panel panel-default">
+		<div class="table-responsive no-border">
+			<table class="table table-model-2 table-hover clickable-table">      
+				<thead>
+					<tr class="left-align">
+						<th>Name</th>                                            
+					</tr>
+				</thead>
+				<tbody>         
+					<tr class="plain-data" ng-repeat="documentType in documentTypesCtrl.documentTypes" ng-click="documentTypesCtrl.edit(documentType);" ng-class="{'active': documentType.EntityID && documentTypesCtrl.selectedDocumentType.EntityID == documentType.EntityID}">
+						<td>
+							<span ng-bind="documentType.Name"></span>
+						</td>                                               
+					</tr>  
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+

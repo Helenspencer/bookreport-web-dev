@@ -1,0 +1,119 @@
+<div class="page">
+    <div class="title">
+        <h2 ng-i18next="list.diagram.title"></h2>
+    </div>
+    <div id="diagram" ng-class="{empty:!data || !data.length, new:modalIsOpened}">
+        <div id="diagram-top-menu">
+            <div class="checkbox pull-left" id="fit-chk">
+                <label>
+                    <input type="checkbox" ng-model="fit">
+                    Fit to screen
+                </label>
+            </div>
+            <div class="pi-icon"></div>
+            <div class="pi-text">{{pressType}} to add/edit block</div>
+            <div class="pull-right">
+                <div class="btn btn-primary" id="diagram-import">Import
+                    <input type="file" id="diagram-file-input" onchange="angular.element(this).scope().import()" >
+                </div>
+                <button class="btn btn-primary" ng-click="export()">Export</button>
+                <button class="btn btn-orange" ng-click="savePng(4)">Download image</button>
+            </div>
+        </div>
+        <div id="canvas-wrapper">
+            <div id="position-info">
+                <div class="pi-bg"></div>
+                <span class="pi-icon"></span><br>
+                <span class="pi-text">{{pressType}} to add a block</span>
+            </div>
+            <div diagram data="data" fit="fit"></div>
+        </div>
+    </div>
+    <br style="clear:both">
+</div>
+<script type="text/ng-template" id="add-block-tpl">
+    <div id="add-block-modal">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="currentModal.close();" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">{{activeIndex < 0 ? 'New' : 'Edit'}} Diagram Block</h4>
+        </div>
+        
+        <div class="modal-body">
+            <form>
+                <div class="appearance">
+                    <div>
+                        <label>Type:</label><br>
+                        <div class="table-bbar type">
+                            <div ng-repeat="type in [1, 2, 3]" ng-class="{selected:type == activeData.type}" ng-click="activeData.type = type"><i sample-shape="type"></i></div>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Style:</label><br>
+                        <div class="table-bbar style">
+                            <div ng-repeat="style in [1, 2, 3, 4]" ng-class="{selected:style == activeData.style}" ng-click="activeData.style = style">
+                                <svg class="diagram" width="18" height="18">
+                                    <g class="block {{'style' + style}}">
+                                        <circle class="shape" cx="9" cy="9" r="9" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="options">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="activeData.resizable">
+                        Resizable
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="activeData.centered">
+                        Centered
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="activeData.noFill">
+                        No fill
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="activeData.noOutline">
+                        No outline
+                    </label>
+                </div>
+                <div class="form-group-separator"></div>
+                <div class="text">
+                    <label>Text:</label><br>
+                    <textarea class="form-control" ng-model="activeData.text"></textarea>
+                </div>
+                <div class="connection" ng-if="(data && (data.length > 1 || (data.length == 1 && activeIndex < 0)))">
+                    <label>Connect to:</label><br>
+                    <div class="scroll-wrapper">
+                        <table>
+                            <tr ng-repeat="item in data" data-id="{{item.id}}" ng-if="$index != activeIndex" ng-init="chkState = !!activeData.to[item.id]; selType = activeData.to[item.id] || 1">
+                                <td><input id="conection-chk-{{$index}}" type="checkbox" ng-model="chkState" ng-change="changeConnection(chkState, selType, activeData.to, item.id)"></td>
+                                <td><label for="conection-chk-{{$index}}">{{item.id}}</label></td>
+                                <td class="text"><label for="conection-chk-{{$index}}">{{item.text}}</label></td>
+                                <td>
+                                    <label>
+                                        <input type="radio" name="connection-radio-{{$index}}" value="1" ng-click="activeData.to[item.id] = 1; chkState = true; selType = 1" ng-checked="activeData.to[item.id] == 1">
+                                        <svg class="line solid" width="22" height="1"><line x1="0" y1="0" x2="22" y2="0"/></svg>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label>
+                                        <input type="radio" name="connection-radio-{{$index}}"  value="2" ng-click="activeData.to[item.id] = 2; chkState = true; selType = 2" ng-checked="activeData.to[item.id] == 2">
+                                        <svg class="line dashed" width="22" height="1"><line x1="0" y1="0" x2="22" y2="0"/></svg>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="modal-footer" ng-class="{'no-border':!(data && (data.length > 1 || (data.length == 1 && activeIndex < 0)))}">
+            <button ng-if="activeIndex >= 0" type="button" class="btn btn-danger pull-left" ng-click="removeBlock(activeIndex, activeData.id)">Remove</button>
+            <button type="button" class="btn btn-white" ng-click="currentModal.close();">Cancel</button>
+            <button type="button" class="btn btn-info" ng-click="addBlock(activeData)">{{activeIndex < 0 ? 'Add' : 'Update'}}</button>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,35 @@
+<div class="page" id="tradeTypesList">
+	<div class="title">
+		<h2 ng-i18next="list.trade_types.title"></h2>
+		<!-- <div>
+			<a class="btn btn-blue btn-text-symbol" ui-sref="app.tradeTypeEdit({id: 'new'})" href="">+</a>
+
+		</div>   -->     
+	</div>
+	
+	<div  style="margin-bottom: 10px;">
+		<button class="btn btn-primary" ui-sref="app.tradeTypeEdit({id: 'new'})">Add </button>		
+		<a class="btn btn-primary" ui-sref="app.tradeTypeEdit({id: tradeTypesCtrl.selectedTradeType.EntityID})" href="" ng-class="{disabled:!tradeTypesCtrl.selectedTradeType}">
+			Edit
+		</a>        
+		<button class="btn btn-primary" ng-class="{disabled:!tradeTypesCtrl.selectedTradeType}" ng-click="tradeTypesCtrl.removeTradeType()">Delete</button>
+	</div>   
+	<div class="panel panel-default">
+		<div class="table-responsive no-border">
+			<table class="table table-model-2 table-hover clickable-table">      
+				<thead>
+					<tr class="left-align">
+						<th>Name</th>                                            
+					</tr>
+				</thead>
+				<tbody>         
+					<tr class="plain-data" ng-repeat="tradeType in tradeTypesCtrl.tradeTypes" ng-click="tradeTypesCtrl.selectedTradeType=tradeType;" ng-dblclick="tradeTypesCtrl.edit(tradeType)" ng-class="{'active': tradeType.EntityID && tradeTypesCtrl.selectedTradeType.EntityID == tradeType.EntityID}">
+						<td>
+							<span ng-bind="tradeType.Name"></span>
+						</td>                                               
+					</tr>  
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

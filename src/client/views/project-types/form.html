@@ -1,0 +1,74 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					<span class="glyphicon glyphicon-th"></span> 
+					<span ng-i18next="form.projectTypes.title" ng-if="user.IsCedarwoodUser"></span>
+					<span ng-if="!user.IsCedarwoodUser">{{projectTypesCtrl.projectType.Name}} Details</span>
+				</strong>
+			</div>			
+			<div class="panel-body">				
+				<form name="projectTypeForm" role="form" novalidate class="form-horizontal">
+					<div class="form-table">
+						<div class="form-group" ng-class="{'has-error': projectTypeForm.$dirty && projectTypeForm.inputName.$invalid}" ng-if="user.IsCedarwoodUser">
+							<label class="control-label required">
+								<span ng-i18next="form.projectTypes.fields.name"></span>
+							</label>
+							<div>
+								<input type="text" class="cw-input" ng-model="projectTypesCtrl.projectType.Name" name="inputName" required >
+							</div>
+						</div>						
+					</div>
+					
+					<accordion close-others="oneAtATime" ng-if="projectTypesCtrl.projectType.EntityID">
+						<accordion-group heading="Milestones" is-open="projectTypesCtrl.milestonesIsOpen" style="background: rgba(128, 128, 128, 0.03);padding:20px 30px;">
+						<table class="table table-model-2 table-hover clickable-table" style="background:#FFF;">  
+							<thead>
+								<tr class="left-align">
+									<th>Name</th> 
+									<th>Estimated Duration (in days)</th> 
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>         
+								<tr class="plain-data" ng-repeat="milestone in projectTypesCtrl.projectType.Milestones">
+									<td>
+										<span ng-if="!milestone.NewRow" ng-bind="milestone.Name"></span>
+										<input class="form-control" ng-model="milestone.Name" ng-if="milestone.NewRow">
+									</td> 
+									<td>
+										<span ng-if="!milestone.NewRow" ng-bind="milestone.EstimatedDuration"></span>
+										<input class="form-control" ng-model="milestone.EstimatedDuration" ng-if="milestone.NewRow">
+									</td> 
+									<td>
+										<a href="" ng-if="milestone.NewRow" ng-click="projectTypesCtrl.addMilestone()"><i class="fa fa-check text-success"></i></a>
+										<a href="" ng-if="!milestone.NewRow" ng-click="projectTypesCtrl.deleteMilestone($index)"><i class="fa fa-times text-danger"></i></a>
+									</td>                                     
+								</tr>  
+							</tbody>
+						</table>
+					</div>
+				</accordion-group>	
+
+			</accordion>
+
+			<div class="form-footer">
+				<a ng-if="projectTypesCtrl.projectType && !projectTypesCtrl.projectType.EntityID" class="btn btn-blue" ng-disabled="saving || projectTypeForm.$invalid" ng-click="projectTypesCtrl.save()">
+					<span ng-i18next="button.create"></span>
+				</a>   
+
+				<a href="#/app/projectTypes" ng-if="projectTypesCtrl.projectType && projectTypesCtrl.projectType.EntityID" class="btn btn-primary" ng-click="projectTypesCtrl.save(true)"><span ng-i18next="button.done"></span></a>  
+
+				<a href="#/app/projectTypes" class="btn btn-default" ng-if="projectTypesCtrl.projectType && !projectTypesCtrl.projectType.EntityID">
+					<span ng-i18next="button.cancel"></span>
+				</a>  
+			</div>
+		</form>			   
+	</div>
+
+
+</div>
+</div>
+</div>
+

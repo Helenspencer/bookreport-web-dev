@@ -1,0 +1,322 @@
+<div class="files-wrapper filesList" id="projectFilesList" style="margin-bottom: 30px;margin-top:30px;text-align:center" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID && projectsCtrl.project.Files.length<=0">
+	This project has no files. <a href="" style="text-decoration:underline" ng-click="projectsCtrl.showUploadFilesModal()">Upload files here.</a>
+</div>
+<div ng-if="projectsCtrl.isLoading" class="text-center">
+	<span class="refresh-icon-animated" style="display: inline-block;">
+		<i class="fa fa-circle-o-notch fa-spin"></i>
+		Loading ...
+	</span>
+</div>
+<div class="files-wrapper filesList" id="projectFilesList" style="margin-bottom: 30px;margin-top:15px;" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID">
+	<div class="row search-fields panel panel-default panel-search">
+		<div ng-class="{'advanced':projectsCtrl.advanced}" ng-if="projectsCtrl.advanced">
+			<div class="col-xs-3 extra">
+				<div class="label-wrapper">
+					<label for="name-field">Name:</label>
+				</div>
+				<div>
+					<input type="text" class="cw-search-input" id="name-field" ng-model="projectsCtrl.searchCriteria.Name" debounce="300">
+				</div>
+			</div>
+			<div class="col-xs-3 extra">
+				<div class="label-wrapper">
+					<label for="content-field">Content:</label>
+				</div>
+				<div>
+					<input type="text" class="cw-search-input" id="content-field" ng-model="projectsCtrl.searchCriteria.Body" debounce="300">
+				</div>
+			</div>
+			<div class="col-xs-3 extra">
+				<div class="row">
+					<div class="label-wrapper">
+						<label for="tag-field">Tag:</label>
+					</div>
+					<div class="dropdown dropdown-toggle dropdown-text-input" ng-class="{disabled:!projectsCtrl.projectTags}" dropdown data-toggle="dropdown" dropdown-toggle on-toggle="toggled(open)">
+						<input type="text" class="cw-search-input" id="tag-field" ng-model="projectsCtrl.searchCriteria.Tag" debounce="300">
+						<ul class="dropdown-menu list-unstyled">
+							<li ng-repeat="tag in projectsCtrl.projectTags track by $index" ng-click="projectsCtrl.filterByTag(tag)">
+								<a href="">{{tag}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="pull-left extra" style="margin-left: 15px">
+				<div class="label-wrapper">
+					<label>Date range:</label>
+				</div>
+				<div>
+					<div class="fixed-input">
+						<div>
+							<div class="cw-date-input-wrapper ui-datepicker">
+								<input type="text" 
+								class="cw-input"
+								datepicker-popup="{{projectsCtrl.format}}"
+								ng-model="projectsCtrl.searchCriteria.StartDate"
+								is-open="projectsCtrl.dateOptions.startDateOpened"
+								datepicker-options="projectsCtrl.dateOptions" 
+								close-text="Close"
+								ng-click="projectsCtrl.openDate($event, 'startDateOpened')"
+								>
+							</div>
+						</div>
+					</div>
+					&nbsp;—&nbsp;
+					<div class="fixed-input">
+						<div class="cw-date-input-wrapper ui-datepicker">
+							<input type="text" 
+							class="cw-input"
+							datepicker-popup="{{projectsCtrl.format}}"
+							ng-model="projectsCtrl.searchCriteria.EndDate"
+							is-open="projectsCtrl.dateOptions.endDateOpened"
+							datepicker-options="projectsCtrl.dateOptions" 
+							close-text="Close"
+							ng-click="projectsCtrl.openDate($event, 'endDateOpened')"
+							>
+						</div>
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="projectsCtrl.searchCriteria.IncludeArchive" style="height:15px;">
+							Include archive
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="col-xs-3" ng-if="!projectsCtrl.advanced" style="padding-top:18px;">
+				<input type="text" class="cw-search-input" ng-model="projectsCtrl.searchCriteria.Project" debounce="300">
+			</div>
+			<div class="search-tumbler">
+				<div style="padding-top:22px; padding-left:13px">
+					<span ng-click="projectsCtrl.advanced=!projectsCtrl.advanced" class="active-text center-text">{{projectsCtrl.advanced ? "Back to basic search" : "Advanced search"}}</span>
+				</div>
+			</div>
+			<div class="col-xs-3">
+				<div style="padding-top:22px; padding-left:15px">
+					<a class="btn btn-primary" ng-click="projectsCtrl.showTags()" ng-if="user.IsCedarwoodUser && projectsCtrl.advanced">Edit Organization Tags</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-heading" style="border:0px;">
+		<div class="col-sm-6"><!-- <strong>Project Files</strong> -->&nbsp;</div>
+		<div  class="text-right col-sm-6" style="margin-top: 0px">
+			<div class="label-wrapper"></div>
+			<div>						
+				<a class="btn btn-orange" ng-click="projectsCtrl.showUploadFilesModal()" data-toggle="tooltip" data-placement="bottom" title="Upload files to a project" ng-disabled="filesToBeUploaded.length>0">Upload</a>
+				<a class="btn btn-primary" ng-class="{disabled:!projectsCtrl.filesSelected}" ng-click="projectsCtrl.downloadFiles()"><i class="fa fa-download"></i></a>
+				<a class="btn btn-primary" ng-class="{disabled:!projectsCtrl.filesSelected}" ng-click="projectsCtrl.archiveFiles()" ng-if="user.IsCedarwoodUser"><i class="fa fa-trash-o" style="font-size: 18px"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="row col-md-offset-6">
+		<div class="col-md-3">
+			<ul class="list-inline list-unstyled">
+				<li class="dropdown" dropdown on-toggle="toggled(open)">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+						<span ng-if="!projectsCtrl.searchCriteria.Tag">All tags</span>
+						<span ng-if="projectsCtrl.searchCriteria.Tag">{{projectsCtrl.searchCriteria.Tag}}</span>
+						<i class="fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu list-unstyled">
+						<li ng-click="projectsCtrl.filterSearch=true;projectsCtrl.searchCriteria.Tag=undefined;" ng-if="projectsCtrl.searchCriteria.Tag">
+							<a href="" style="padding:10px;">		
+								<span >All tags
+								</span>
+							</a>
+						</li>
+						<li ng-repeat="(key,value) in projectsCtrl.searchResponse.FileCountByTags" ng-click="projectsCtrl.filterByTag(key);">
+							<a href="" style="padding:10px;">		
+								<span >{{key}} ({{value}})
+								</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>										
+		</div>
+		<div class="col-md-3">
+			<ul class="list-inline list-unstyled">
+				<li class="dropdown" dropdown on-toggle="toggled(open)">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+						<span ng-if="!projectsCtrl.searchCriteria.Extension">All file types</span>
+						<span ng-if="projectsCtrl.searchCriteria.Extension">{{projectsCtrl.searchCriteria.Extension}}</span>
+
+						<i class="fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu list-unstyled">
+						<li ng-click="projectsCtrl.filterSearch=true;projectsCtrl.searchCriteria.Extension=undefined;" ng-if="projectsCtrl.searchCriteria.Extension">
+							<a href="" style="padding:10px;">		
+								<span >All file types
+								</span>
+							</a>
+						</li>
+						<li ng-repeat="(key,value) in projectsCtrl.searchResponse.FileCountByType">
+							<a href="" style="padding:10px;" ng-click="projectsCtrl.searchCriteria.Extension=key;">	
+								<span >{{key}} ({{value}})
+								</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>	
+		</div>
+
+		<div class="col-md-3">
+			<ul class="list-inline list-unstyled">
+				<li class="dropdown" dropdown on-toggle="toggled(open)">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+						<span ng-if="!projectsCtrl.searchCriteria.FileSize">All file sizes</span>
+						<span ng-if="projectsCtrl.searchCriteria.FileSize == 0">{{projectsCtrl.searchResponse.FileCountBySize["0"].Name}}</span>
+						<span ng-if="projectsCtrl.searchCriteria.FileSize == 1">{{projectsCtrl.searchResponse.FileCountBySize["1"].Name}}</span>
+						<span ng-if="projectsCtrl.searchCriteria.FileSize == 2">{{projectsCtrl.searchResponse.FileCountBySize["2"].Name}}</span>
+						<span ng-if="projectsCtrl.searchCriteria.FileSize == 3">{{projectsCtrl.searchResponse.FileCountBySize["3"].Name}}</span>
+
+						<i class="fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu list-unstyled">
+
+						<li ng-click="projectsCtrl.filterSearch=true;projectsCtrl.searchCriteria.FileSize=undefined;" ng-if="projectsCtrl.searchResponse.FileCountBySize[projectsCtrl.searchCriteria.FileSize].Name">
+							<a href="" style="padding:10px;">	
+								<span >All file sizes
+								</span>
+							</a>
+						</li>
+						<li ng-repeat="(key,value) in projectsCtrl.searchResponse.FileCountBySize">
+							<a href="" style="padding:10px;" ng-click="projectsCtrl.filterSearch=true;projectsCtrl.searchCriteria.FileSize=key;">		
+								{{value.Name}} ({{value.Count}})
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>											
+		</div>
+		<div class="col-md-3">
+			<ul class="list-inline list-unstyled">
+				<li class="dropdown" dropdown on-toggle="toggled(open)">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
+						{{projectsCtrl.itemsPerPage}} results on page
+						<i class="fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu list-unstyled">
+						<li ng-repeat="pageSize in projectsCtrl.pageSizes">
+							<a href="" style="padding:10px;" ng-click="projectsCtrl.itemsPerPage=pageSize;">	
+								<span >{{pageSize}}
+								</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>		
+		</div>								
+	</div>
+	<table class="files">
+		<thead>
+			<tr style="background: #F4F4F4;">	
+				<th></th>
+				<th>
+					<input type="checkbox" ng-model="projectsCtrl.searchResponse.Selected" ng-change="projectsCtrl.updateDownloadableProjects(projectsCtrl.searchResponse)">
+				</th>								
+				<th>
+					<span ng-click="projectsCtrl.orderList(projectsCtrl.row == 'Name' ? '-Name' : 'Name')">
+						Name
+						<span class="order-buttons">
+							<span class="fa fa-caret-up" ng-show="projectsCtrl.row == 'Name'"></span>
+							<span class="fa fa-caret-down" ng-show="projectsCtrl.row == '-Name'"></span>
+						</span>
+					</span>
+				</th>
+				<th class="disabled-text">Tags</th>
+				<th>
+					<span ng-click="projectsCtrl.orderList(projectsCtrl.row == 'ChangedOn' ? '-ChangedOn' : 'ChangedOn')">
+						Date modified
+						<span class="order-buttons">
+							<span class="fa fa-caret-up" ng-show="projectsCtrl.row == 'ChangedOn'"></span>
+							<span class="fa fa-caret-down" ng-show="projectsCtrl.row == '-ChangedOn'"></span>
+						</span>
+					</span>
+				</th>
+			</tr>
+		</thead>					
+		<tbody>
+			<tr class="file" ng-repeat="file in projectsCtrl.searchResponse.Files" ng-class="{'archived-file':file.Archived}">
+				<td>
+
+					<ul class="list-inline list-unstyled" ng-if="user.IsCedarwoodUser">
+						<li class="dropdown" dropdown on-toggle="toggled(open)">
+							<a href="" class="dropdown-toggle" data-toggle="dropdown"  dropdown-toggle>
+								<i class="fa fa-navicon" style="margin-top:10px;"></i>
+								<!-- <i class="fa fa-angle-down"></i> -->
+							</a>
+							<ul class="dropdown-menu list-unstyled">
+								<li>
+									<a href="" target="_new" ng-click="projectsCtrl.downloadFile(file)"  style="padding:10px;">		Download
+									</a>
+								</li>
+
+											<!-- <li>
+												<a href=""  ng-class="{disabled:!projectsCtrl.filesSelected}" style="padding:10px;" ng-click="library.showUploadFilesModal(file)">		
+													Replace
+												</a>
+											</li> -->
+											<li>
+												<a href="" ng-click="projectsCtrl.archiveFiles(file)"  style="padding:10px;">		
+													Archive
+												</a>
+											</li>
+											<li>
+												<a href=""   ng-click="projectsCtrl.details(file)" style="padding:10px;">		
+													Details
+												</a>
+											</li>
+											
+										</ul>
+
+									</li>
+								</ul>
+							</td>
+							<td class="chk">
+								<input type="checkbox" ng-model="file.Selected" ng-change="projectsCtrl.updateDownloadableFiles(projectsCtrl.searchResponse, file, this)">
+							</td>			
+							<td class="file-name" ng-class="{'new-file': file.IsNewFile,'highlight-file':!file.isdownloadedByUser}">
+								<a href="" target="_new" ng-click="projectsCtrl.previewOrDownloadFile(file)" tooltip="{{file.FileName || file.Name}}">
+									<i ng-if="file.Extension=='doc'" class="fa fa-file-word-o" ></i>
+									<i ng-if="file.Extension=='txt' || file.Extension=='text' || file.Extension=='rtf'" class="fa fa-file-text-o" ></i>
+									<i ng-if="file.Extension=='pdf'" class="fa fa-file-pdf-o" ></i> 							
+									{{file.Name}}.{{file.Extension}}
+									<i ng-if="file.IsNewFile" class="fa fa-leaf" ></i> 
+								</a>
+							</td>
+							<td class="tags" >
+								<div class="row">
+									<div class="col-md-12">
+										<div class="" ng-class="{'col-md-11': file.editableTags.length>0, 'col-md-12': !file.editableTags ||file.editableTags.length<=0}">
+											<tags-input ng-model="file.Tags" on-tag-added="projectsCtrl.updateTags(file)"
+											on-tag-removed="projectsCtrl.updateTags(file)" ng-if="user.IsCedarwoodUser" replace-spaces-with-dashes="false">
+											<auto-complete source="projectsCtrl.loadTags($query)" min-length="1" max-results-to-show="5"></auto-complete>
+										</tags-input>									
+										<div ng-if="!user.IsCedarwoodUser" ng-bind="file.editableTags.join(',')">
+										</div>           
+									</div>										
+								</div>
+							</div>
+						</td>							
+						<td>
+							<span ng-bind="file.ChangedOn |date:'MM.dd.yyyy'"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row" ng-if="projectsCtrl.searchResponse.TotalFiles > projectsCtrl.itemsPerPage">
+			<div class="col-sm-12 col-sm-offset-1">
+				<div class="col-sm-6" style="margin: 18px 0;">
+				</div>
+
+				<div class="col-sm-6" style="padding-right: 133px;">
+					<pagination boundary-links="true" ng-model="projectsCtrl.currentPage" ng-change="projectsCtrl.pageChange()" total-items="projectsCtrl.searchResponse.TotalFiles" items-per-page="projectsCtrl.itemsPerPage" class="pagination-sm pull-right" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" max-size="10"></pagination>
+				</div>
+			</div>
+		</div>

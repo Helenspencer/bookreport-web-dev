@@ -1,0 +1,106 @@
+<div class="row">
+	<div class="col-xs-3">
+		<div class="label-wrapper">
+			<label for="project-field">Project:</label>
+		</div>
+		<div>
+			<input type="text" class="cw-search-input" id="project-field" ng-model="library.searchCriteria.Project" debounce="500">
+		</div>
+	</div>
+	<div class="col-xs-3 extra">
+		<div class="label-wrapper">
+			<label for="name-field">Name:</label>
+		</div>
+		<div>
+			<input type="text" class="cw-search-input" id="name-field" ng-model="library.searchCriteria.Name" debounce="500">
+		</div>
+	</div>
+	<div class="col-xs-3 extra">
+		<div class="label-wrapper">
+			<label for="content-field">Content:</label>
+		</div>
+		<div>
+			<input type="text" class="cw-search-input" id="content-field" ng-model="library.searchCriteria.Body" debounce="500">
+		</div>
+	</div>
+	<div class="col-xs-3 extra">
+		<div class="label-wrapper">
+			<label for="tag-field">Tag:</label>
+		</div>
+		<div class="dropdown dropdown-toggle dropdown-text-input" ng-class="{disabled:!library.Tags.length}" dropdown data-toggle="dropdown" dropdown-toggle on-toggle="toggled(open)">
+			<input type="text" class="cw-search-input" id="tag-field" ng-model="library.searchCriteria.Tag" debounce="500">
+			<ul class="dropdown-menu list-unstyled">
+				<li ng-repeat="tag in library.Tags track by $index" ng-click="library.selectedTag = tag">
+					<a href="">{{tag}}</a>
+				</li>
+			</ul>	
+		</div>
+	</div>
+	<div class="pull-left extra" style="margin-left: 15px">
+		<div class="label-wrapper">
+			<label>Date range:</label>
+		</div>
+		<div>
+			<div class="fixed-input">
+				<div>
+					<div class="cw-date-input-wrapper ui-datepicker">
+						<input type="text" 
+						class="cw-input"
+						datepicker-popup="{{library.format}}"
+						ng-model="library.searchCriteria.StartDate"
+						is-open="library.dateOptions.startDateOpened"
+						datepicker-options="library.dateOptions" 
+						close-text="Close"
+						ng-click="library.openDt($event, 'startDateOpened')"
+						>
+					</div>
+				</div>
+			</div>
+			&nbsp;—&nbsp;
+			<div class="fixed-input">
+				<div class="cw-date-input-wrapper ui-datepicker">
+					<input type="text" 
+					class="cw-input"
+					datepicker-popup="{{library.format}}"
+					ng-model="library.searchCriteria.EndDate"
+					is-open="library.dateOptions.endDateOpened"
+					datepicker-options="library.dateOptions" 
+					close-text="Close"
+					ng-click="library.openDt($event, 'endDateOpened')"
+					>
+				</div>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="library.searchCriteria.IncludeArchive" style="height:15px;">
+					Include archive
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="search-tumbler">
+		<div class="label-wrapper"></div>
+		<span ng-click="library.advanced=!library.advanced" class="active-text center-text">{{library.advanced ? "Back to basic search" : "Advanced search"}}</span>
+	</div>
+	<div class="search-tumbler">
+		<div class="label-wrapper"></div>
+		<div ng-if= "library.advanced && user.IsCedarwoodUser">	
+			<button class="btn btn-primary" ng-click="library.showTagsModal()" >Edit Organization Tags</button>
+		</div>
+	</div>
+	<div class="pull-right text-right" style="margin-right: 15px">
+		<div class="label-wrapper"></div>
+		<div>
+
+			<span ng-if="library.loading && library.paginatedList.length" ng-i18next="loading" style="margin-right: 10px;"></span>
+
+			<button class="btn btn-orange" ng-click="library.showUploadFilesModal()" data-toggle="tooltip" data-placement="bottom" title="Upload files to a project or folder" ng-disabled="(library.rootItem && library.rootItem.Type==1)||filesToBeUploaded.length>0">
+				Upload												
+			</button>
+			<button class="btn btn-primary" ng-click="library.showFolderModal()" ng-if="user.isOrganizationAdmin">Add folder</button>
+			<button class="btn btn-primary" ng-class="{disabled:library.isDisable}" ng-click="library.downloadFiles()"><i class="ti-download"></i></button>
+			<button class="btn btn-primary" ng-class="{disabled:library.isDisable}" ng-click="library.archiveFiles()" ng-if="user.IsCedarwoodUser" ><i class="ti-trash" style="font-size: 17px"></i></button>
+		</div>						
+	</div>
+	<div class="row col-margin"></div>
+</div>

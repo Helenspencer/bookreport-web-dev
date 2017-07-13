@@ -1,0 +1,30 @@
+<div class="page" id="projectTypesList">
+    <div class="title">
+        <h2 ng-i18next="list.projectTypes.title"></h2>             
+    </div>
+    <div  style="margin-bottom: 10px;">
+        <button class="btn btn-primary" ui-sref="app.projectTypeEdit({id: 'new'})" ng-if="user.IsCedarwoodUser">Add</button>       
+        <a class="btn btn-primary" ui-sref="app.projectTypeEdit({id: projectTypesCtrl.selectedProjectType.EntityID})" href="" ng-class="{disabled:!projectTypesCtrl.selectedProjectType}">
+            <span ng-if="user.IsCedarwoodUser">Edit</span>
+        </a>        
+        <button class="btn btn-primary" ng-class="{disabled:!projectTypesCtrl.selectedProjectType}" ng-click="projectTypesCtrl.removeType()" ng-if="user.IsCedarwoodUser">Delete</button>
+    </div>    
+    <div class="panel panel-default">
+        <div class="table-responsive no-border">
+            <table class="table table-model-2 table-hover clickable-table">      
+                <thead>
+                    <tr class="left-align">
+                        <th><span ng-i18next="list.projectTypes.columns.name"></span></th>                                            
+                    </tr>
+                </thead>
+                <tbody>         
+                    <tr class="plain-data" ng-repeat="projectType in projectTypesCtrl.projectTypes" ng-click="projectTypesCtrl.selectedProjectType=projectType;" ng-dblclick="projectTypesCtrl.edit(projectType)" ng-class="{'active': projectType.EntityID && projectTypesCtrl.selectedProjectType.EntityID == projectType.EntityID}">
+                        <td>
+                            <span ng-bind="projectType.Name"></span>
+                        </td>                                               
+                    </tr>  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

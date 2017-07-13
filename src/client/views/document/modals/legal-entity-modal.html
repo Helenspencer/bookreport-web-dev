@@ -1,0 +1,61 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Add/Edit Legal Entity</h4>
+  </div>
+  <div class="modal-body" style="min-height: 500px;">    
+    <div ng-class="{'col-sm-6': modal.legalEntity.EntityID}">
+      <h4 style="background: #f4f4f4;line-height: 2em;padding: 10px;" ng-if="modal.legalEntity.EntityID">Legal Entity Details</h4>
+      <form class="form-horizontal" role="form" name="legalEntityForm" ng-submit="modal.ok()" novalidate>            
+        <div class="form-group required" ng-class="{'has-error': legalEntityForm.inputName.$dirty && legalEntityForm.inputName.$invalid}">
+          <label for="inputName" class="control-label" ng-class="{'col-sm-4': modal.legalEntity.EntityID, 'col-sm-2': !modal.legalEntity.EntityID}">Name</span></label>
+          <div ng-class="{'col-sm-8': modal.legalEntity.EntityID, 'col-sm-6': !modal.legalEntity.EntityID}">
+            <input type="text" class="form-control" name="inputName" ng-model="modal.legalEntity.Name" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputAddress" class="control-label" ng-class="{'col-sm-4': modal.legalEntity.EntityID, 'col-sm-2': !modal.legalEntity.EntityID}">Address</span></label>
+          <div ng-class="{'col-sm-8': modal.legalEntity.EntityID, 'col-sm-6': !modal.legalEntity.EntityID}">
+           <textarea class="form-control" ng-model="modal.legalEntity.Address" rows="5"></textarea>
+         </div>
+       </div>
+
+       <div class="form-group" >
+        <label for="inputPhoneNumbers" class="control-label" ng-class="{'col-sm-4': modal.legalEntity.EntityID, 'col-sm-2': !modal.legalEntity.EntityID}">Phone Numbers</span></label>
+        <div ng-class="{'col-sm-8': modal.legalEntity.EntityID, 'col-sm-6': !modal.legalEntity.EntityID}">
+         <textarea class="form-control" ng-model="modal.legalEntity.PhoneNumbers" rows="5"></textarea>
+       </div>
+     </div>
+
+     <div class="form-group" >
+      <label for="inputWebsite" class="control-label" ng-class="{'col-sm-4': modal.legalEntity.EntityID, 'col-sm-2': !modal.legalEntity.EntityID}">Website</span></label>
+      <div ng-class="{'col-sm-8': modal.legalEntity.EntityID, 'col-sm-6': !modal.legalEntity.EntityID}">
+       <input type="text" class="form-control" ng-model="modal.legalEntity.Website">
+     </div>
+   </div>
+
+   <div class="form-footer" style="text-align: right;">
+    <button type="submit" class="btn btn-primary" ng-disabled="!legalEntityForm.$dirty || legalEntityForm.$invalid"><span ng-i18next="button.save"></span></button>
+    <button type="reset" class="btn btn-default" ng-click="modal.cancel()"><span ng-i18next="button.cancel"></span></button>
+  </div>
+</form>
+</div>
+<div class="col-sm-6" ng-if="modal.legalEntity.EntityID">
+  <h4 style="background: #f4f4f4;line-height: 2em;padding: 10px;">Party List
+    <a href="" ng-click="modal.showPartyModal()">
+      <i class="fa fa-plus-circle" style="font-size:1.15em;color:gray;float:right;margin:7px;"></i>
+    </a>
+  </h4>
+  <div class="list-group list-group-minimal" style="overflow-y: scroll;max-height: 400px;
+    overflow-x: hidden;">             
+    <div class="list-group-item" ng-repeat="party in modal.legalEntity.Parties">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-checked="modal.partyAssociatedWithDocument(party)" ng-click="modal.partyChanged(party)"> {{party.Name}}
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

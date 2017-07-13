@@ -1,0 +1,31 @@
+<div class="page" id="tradesList">
+	<div class="title">
+		<h2 ng-i18next="list.trade.title"></h2>
+	    
+	</div>
+	<div  style="margin-bottom: 10px;">
+		<button class="btn btn-primary" ui-sref="app.tradeEdit({id: 'new'})">Add </button>		
+		<a class="btn btn-primary" ui-sref="app.tradeEdit({id: tradeCtrl.selectedTrade.EntityID})" href="" ng-class="{disabled:!tradeCtrl.selectedTrade}">
+			Edit
+		</a>        
+		<button class="btn btn-primary" ng-class="{disabled:!tradeCtrl.selectedTrade}" ng-click="tradeCtrl.removeTrade()">Delete</button>
+	</div>   
+	<div class="panel panel-default">
+		<div class="table-responsive no-border">
+			<table class="table table-model-2 table-hover clickable-table">      
+				<thead>
+					<tr class="left-align">
+						<th>Name</th>                                            
+					</tr>
+				</thead>
+				<tbody>         
+					<tr class="plain-data" ng-repeat="trade in tradeCtrl.trades" ng-click="tradeCtrl.selectedTrade=trade;" ng-dblclick="tradeCtrl.edit(trade)" ng-class="{'active': trade.EntityID && tradeCtrl.selectedTrade.EntityID == trade.EntityID}">
+						<td>
+							<span ng-bind="trade.Name"></span>
+						</td>                                               
+					</tr>  
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

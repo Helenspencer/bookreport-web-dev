@@ -1,0 +1,28 @@
+<ul>
+	<li ng-class="{'active': !library.searchCriteria.FolderID && !library.searchCriteria.ProjectID}" ng-click="library.searchAllFiles()">
+		<div>
+			<div class="name">
+				<div>All Files</div>
+			</div>
+			<div>
+				<span class="num">{{library.searchResponse.TotalFiles}}</span>
+			</div>
+		</div>
+	</li>
+	<li ng-repeat="item in library.searchResponse.ItemsByFileCount|orderBy:'Name'" ng-click="library.searchByItemID(item)" ng-class="{'active': library.searchCriteria.FolderID == item.EntityID || library.searchCriteria.ProjectID == item.EntityID}">
+		<div>
+			<div ng-if="item.Type==0" class="edit">
+				<a href="" ng-click="library.showFolderModal(item, $event)">
+					<span ng-if="!item.AllFiles" class="ti-pencil-alt"></span>
+				</a>
+			</div>
+			<div>
+				<div tooltip="{{item.Name}} ({{item.Count}}) "tooltip-placement="bottom">{{item.Name| limitTo:10}}<span ng-if="item.Name.length>10">...</span></div>
+			</div>
+			<span><a href="" ng-click="library.showFolderHistory(item.EntityID, item.Type)"><i class="fa fa-history" popover="{{item.popOverContent}}" popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter"></i></a></span>
+			<div>
+				<span class="num">{{item.Count}}</span>
+			</div>
+		</div>
+	</li>
+</ul>

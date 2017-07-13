@@ -1,0 +1,85 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					<span class="glyphicon glyphicon-th"></span> 
+					<span ng-i18next="form.fundTemplate.title"></span>
+				</strong>
+			</div>
+			<div class="panel-body">				
+				<form name="fundTemplateForm" role="form" novalidate data-ng-submit="fundTemplateForm.$dirty=true;fundTemplateForm.$valid && fundTemplatesCtrl.save()" class="form-horizontal">
+					<div class="form-table">
+						<div class="form-group" ng-class="{'has-error': fundTemplateForm.$dirty && fundTemplateForm.inputName.$invalid}">
+							<label class="control-label ">
+								<span ng-i18next="form.fundTemplate.fields.tname"></span>
+							</label>							
+							<div>
+								<input class="cw-input" ng-model="fundTemplatesCtrl.fundTemplate.Name" name="inputName" style="width:600px">
+							</div>							
+						</div>
+
+					</div>
+					<div class="panel panel-default row" style="margin-top:30px;">
+						<div class="col-sm-12">
+							<h4>Required Documents</h4>
+							<div class="table-responsive ">
+								<table class="table table-striped table-bordered clickable-table table-hover dataTable">
+									<thead>
+										<tr class="left-align">                       
+											<th class="col-md-4">
+												Name                         
+											</th>
+											<th>
+												<span ng-i18next="form.fundTemplate.fields.description"></span>                            
+											</th>
+											<th class="col-md-2">
+												Example Document
+											</th>
+											<th>
+												
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="plain-data"  ng-repeat="document in fundTemplatesCtrl.fundTemplate.Documents" >
+											<td>
+												<input class="form-control" ng-model="document.Name" ng-show="document.NewRow">
+												<span ng-bind="document.Name" ng-if="!document.NewRow"></span>
+											</td>										
+											<td>
+												<textarea class="form-control" ng-model="document.Description" ng-show="document.NewRow" rows="3"></textarea>
+												<span ng-bind="document.Description" ng-if="!document.NewRow"></span>
+											</td>
+											<td>
+												<input class="form-control" ng-model="document.ExampleDocument" ng-show="document.NewRow">
+												<a href="{{document.ExampleDocument}}" ng-if="!document.NewRow && document.ExampleDocument" style="text-decoration:underline">Example document</a>
+											</td>											
+											<td>
+												<a class="text-success" ng-if="document.NewRow" ng-disabled="!document.Name" ng-click="fundTemplatesCtrl.save()">
+													<span class="fa fa-check"></span>
+												</a>
+												<a class="text-danger" ng-if="!document.NewRow"  ng-click="fundTemplatesCtrl.removeDocument($index)">
+													<span class="fa fa-remove"></span>
+												</a>
+											</td>
+										</tr>
+									</tbody> 
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-footer">    
+						<button type="submit" class="btn btn-primary">
+							<span>Save</span> 
+						</button>
+						<a class="btn btn-default" href="#/app/organizationUserEdit">
+							<span>Cancel</span> 
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

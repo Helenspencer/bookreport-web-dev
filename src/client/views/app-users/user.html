@@ -1,0 +1,19 @@
+<div class="modal-content" id="library-upload-modal">
+  <div class="modal-header">
+    <h4 class="modal-title">Add user</h4>
+     <alert ng-repeat="alert in userAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  </div>
+  <div class="modal-body">
+  
+    <form class="form-horizontal" role="form" name="addUserForm" novalidate>      
+      <div class="form-group">
+        <label for="inputProject">Email:</label>
+        <input type="text" class="form-control" ng-model="data.Email" autofocus>
+      </div>     
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" ng-click="createUser()"><span ng-i18next="button.done"></span></button>
+        <button type="reset" class="btn btn-default" ng-click="cancel()"><span ng-i18next="button.cancel"></span></button> 
+      </div>
+    </form>    
+  </div>
+</div>

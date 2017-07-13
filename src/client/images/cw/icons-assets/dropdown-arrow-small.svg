@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="6.156" height="5.344" viewBox="0 0 6.156 5.344">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #acacac;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="dropdown-arrow-small.svg" class="cls-1" d="M68.2,347.668l-3.085-5.343h6.169Z" transform="translate(-65.125 -342.312)"/>
+</svg>

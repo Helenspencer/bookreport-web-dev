@@ -1,0 +1,53 @@
+<div class="modal-content">
+    <div class="modal-header" style="cursor:move">
+        <h4 class="modal-title">Edit Page Data
+            <small style="margin-left: 5px" ng-show="!modal.viewingRevisions && modal.correctionData && modal.correctionData !== 'Loading...'">
+                <a href ng-click="modal.viewText()">
+                    {{ modal.viewingText ? "View Data" : "View Text"  }}
+                </a>
+            </small>
+            <small ng-show="modal.revisions && modal.revisions.length > 0">
+                <a href ng-click="modal.viewRevisions()" class="pull-right" style="margin-top: 10px">
+                    {{ modal.viewingRevisions ? "Edit Data": "Revisions" }}
+                </a>
+            </small>
+        </h4>
+    </div>
+    <div class="modal-body" style="min-height: 500px;">
+        <div ng-if="!modal.viewingRevisions" style="height: 450px; overflow: auto">
+            <div ng-show="modal.viewingText" ng-bind-html="modal.resultingText"></div>
+            <div ng-show="!modal.viewingText" id="correctedPageData">
+                <correction-data data="modal.correctionData" callback="modal.correctionDataChanged(changed)"></correction-data>
+            </div>
+        </div>
+        <div ng-if="modal.viewingRevisions" style="height: 450px; overflow: auto">
+            <h2>Revisions</h2>
+            <ul>
+                <li ng-repeat="revision in modal.revisions">
+                    Revision {{ revision.RevisionNumber }}
+                    <span ng-if="revision.viewing">(currently viewing)</span>
+                    <span ng-if="!revision.viewing">
+                        <a href ng-click="modal.changeToRevision(revision)">Click to View</a>
+                    </span>
+                </li>
+                <li>Original Truth Data
+                    <span ng-if="modal.originalTruthDataActive">(currently viewing)</span>
+                    <span ng-if="!modal.originalTruthDataActive">
+                        <a href ng-click="modal.viewOriginalTruthData()">Click to View</a>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer" style="cursor:move">
+        <button class="btn btn-primary" ng-show="!modal.viewingRevisions && modal.canSave && modal.IsCorrectionDataChanged"
+                ng-click="modal.savePageData()"
+                ng-disabled="modal.savingPageData">
+            {{ modal.savingPageData ? "Saving...." : "Save" }}
+        </button>
+        <button class="btn btn-default" ng-click="modal.cancel()">            
+            <span ng-if="modal.IsCorrectionDataChanged" ng-i18next="button.cancel"></span>
+            <span ng-if="modal.correctionData == 'Loading...' || !modal.IsCorrectionDataChanged" ng-i18next="button.close"></span>
+        </button>
+    </div>
+</div>

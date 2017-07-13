@@ -1,0 +1,50 @@
+ <div class="title">
+    <h2>Proposals</h2>
+    <div>
+        <a class="btn btn-blue btn-text-symbol" ui-sref="app.proposalEdit({id: 'new'})" href="">+</a>
+    </div>       
+</div>
+
+<div class="panel panel-default">
+    <div class="table-responsive no-border">
+        <table class="table table-model-2 table-hover">      
+            <thead>
+                <tr class="left-align">
+                    <th><span ng-i18next="list.proposals.columns.name"></span></th> 
+                    <!-- <th><span ng-i18next="list.proposals.columns.organization"></span></th>  -->
+                    <th><span ng-i18next="list.proposals.columns.prospect_email"></span></th> 
+                    <th><span ng-i18next="list.proposals.columns.start_date"></span></th> 
+                    <th><span ng-i18next="list.proposals.columns.end_date"></span></th>
+                    <th><span ng-i18next="list.proposals.columns.status"></span></th>
+                </tr>
+            </thead>
+            <tbody>  
+                <!-- Assumption: Proposals once sent cant be edited. -->       
+                <!-- ng-dblclick="proposalsCtrl.edit(proposal)" -->
+                <tr class="plain-data" ng-repeat="proposal in proposalsCtrl.proposals" ng-click="proposalsCtrl.selectedProposal=proposal;"  ng-class="{'active': proposal.EntityID && proposalsCtrl.selectedProposal.EntityID == proposal.EntityID}" ng-if="proposal.UserAccountID == proposalsCtrl.user.UserAccountID">
+                    <td>
+                        <span ng-bind="proposal.Name"></span>
+                    </td>                        
+                    <!-- <td>
+                        <span ng-bind="proposal.OrganizationName"></span>
+                    </td> -->
+                    <td>
+                        <span ng-bind="proposal.ProspectEmail"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="proposal.StartDate| date:'MM/dd/yyyy'"></span>
+                    </td> 
+                    <td>
+                        <span ng-bind="proposal.EndDate | date:'MM/dd/yyyy'"></span>
+                    </td> 
+                    <td>
+                        <span ng-if="!proposal.Status || proposal.Status==0" class="label label-default">SENT</span>
+                        <span ng-if="proposal.Status==1" class="label label-info">READ</span>
+                        <span ng-if="proposal.Status==2" class="label label-success">ACCEPTED</span>
+                        <span ng-if="proposal.Status==3" class="label label-danger">REJECTED</span>
+                    </td>     
+                </tr>  
+            </tbody>
+        </table>
+    </div>
+</div>

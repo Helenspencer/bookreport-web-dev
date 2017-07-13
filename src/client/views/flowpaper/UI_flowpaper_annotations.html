@@ -1,0 +1,24 @@
+<script type="text/javascript">
+    jQuery('#documentViewer').bind('onCursorModeChanged',function(e,cursor){
+        jQuery(".flowpaper_tbbutton_cursormode_selected").removeClass("flowpaper_tbbutton_cursormode_selected");
+
+        if(cursor == "StrikeoutCursor"){
+            jQuery(".flowpaper_bttnStrikeout").addClass("flowpaper_tbbutton_cursormode_selected");
+        }else if(cursor == "AnnotationsCursor"){
+            $(".flowpaper_bttnHighlight").addClass("flowpaper_tbbutton_cursormode_selected");
+        }else if(cursor == "NoteCursor"){
+            jQuery(".flowpaper_bttnComment").addClass("flowpaper_tbbutton_cursormode_selected");
+        }else if(cursor == "DrawCursor"){
+            jQuery(".flowpaper_bttnDraw").addClass("flowpaper_tbbutton_cursormode_selected");
+        }
+    });
+</script>
+
+<div id="annotationsToolbar" class="flowpaper_toolbarstd_bottom flowpaper_bottomToolbar">
+    <div data-autocompactwidth="true" class="flowpaper_bttnHighlight flowpaper_tblabelbutton" style="background-image:url(images/annotations/pencil.png);width:70px;" onclick="$FlowPaper('documentViewer').setCurrentCursor('AnnotationsCursor',event.clientX)">Highlight</div>
+    <div data-autocompactwidth="true" class="flowpaper_bttnComment flowpaper_tblabelbutton" style="background-image:url(images/annotations/icon_note.png);width:80px;" onclick="$FlowPaper('documentViewer').setCurrentCursor('NoteCursor',event.clientX)">Create Note</div>
+    <div data-autocompactwidth="true" class="flowpaper_bttnStrikeout flowpaper_tblabelbutton" style="background-image:url(images/annotations/icon_strikeout.png);width:70px;padding-left:23px;" onclick="$FlowPaper('documentViewer').setCurrentCursor('StrikeoutCursor',event.clientX)">Strikeout</div>
+    <div data-autocompactwidth="true" class="flowpaper_bttnDraw flowpaper_tblabelbutton" style="background-image:url(images/annotations/drawIcon.png);width:60px;padding-left:23px;" onclick="$FlowPaper('documentViewer').setCurrentCursor('DrawCursor',event.clientX)">Draw</div>
+    <div data-autocompactwidth="true" class="flowpaper_bttnDelete flowpaper_tblabelbutton" style="background-image:url(images/annotations/deleteIcon.png);width:70px;padding-left:23px;" onclick="$FlowPaper('documentViewer').removeSelectedMark()">Delete</div>
+    <div class="flowpaper_tbtextbutton_pressed flowpaper_bttnShowHide flowpaper_tblabelbutton" style="background-image:url(images/annotations/icon-eye-gray.png);width:80px;padding-left:30px;" onclick="if($FlowPaper('documentViewer').setAnnotationsVisible()){jQuery('.flowpaper_bttnShowHide').addClass('flowpaper_tbtextbutton_pressed');}else{jQuery('.flowpaper_bttnShowHide').removeClass('flowpaper_tbtextbutton_pressed')}">Annotations</div>
+</div>

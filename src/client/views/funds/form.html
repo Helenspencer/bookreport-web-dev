@@ -1,0 +1,160 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					Add/Edit Funds
+				</strong>
+			</div>
+			<div class="panel-body">				
+				<form name="fundForm" role="form" novalidate data-ng-submit="fundForm.$dirty=true;fundForm.$valid && fundsCtrl.save()" class="form-horizontal">
+					<div class="form-table">
+						<div class="form-group" ng-class="{'has-error':fundForm.$dirty && fundForm.inputName.$invalid}">
+							<label class="control-label required">
+								Name
+							</label>
+							<div>
+								<input type="text" class="form-control" ng-model="fundsCtrl.fund.Name" name="inputName" required >
+							</div>
+						</div>
+						<div class="form-group">
+							<label ng-class="{'has-error': fundForm.$dirty && fundForm.inputDueDate.$invalid}" class="control-label required">
+								Due Date
+							</label>
+							<div>
+								<div class="input-group ui-datepicker" style="width:250px;" >
+									<input name="inputDueDate" type="text" 
+									class="form-control"
+									datepicker-popup="{{fundsCtrl.format}}"
+									ng-model="fundsCtrl.fund.DueDate"
+									is-open="fundsCtrl.dateOptions.dueDateOpened"
+									datepicker-options="fundsCtrl.dateOptions" 
+									close-text="Close"
+									ng-click="fundsCtrl.openDate($event, 'dueDateOpened')"
+									required>
+									<span class="input-group-addon" ng-click="fundsCtrl.openDate($event, 'dueDateOpened')"><i class="fa fa-calendar"></i></span>
+								</div>
+								<!-- <p class="form-control-static" ng-if="fundsCtrl.fund.EntityID" ng-bind="fundsCtrl.fund.DueDate| date:'MM/dd/yyyy'"></p> -->
+							</div>
+						</div>
+					</div>
+
+
+					<div class="panel panel-default row" style="margin-top:30px;">
+						<div class="col-sm-12">
+							<h4>Required Documents</h4>
+							<div class="table-responsive ">
+								<table class="table table-striped table-bordered clickable-table table-hover dataTable">
+									<thead>
+										<tr class="left-align">                       
+											<th class="col-md-4">
+												Name                     
+											</th>
+											<th class="col-md-4">												
+												Description
+											</th>
+											<th>												
+												Example Document
+											</th>
+											<th ng-if="!user.IsCedarwoodUser">												
+												Unavailable
+											</th>
+											<th >												
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="plain-data"  ng-repeat="document in fundsCtrl.fund.Documents"  >
+											<td>
+												<input class="form-control" ng-model="document.Name" ng-show="document.NewRow">
+												<span ng-bind="document.Name" ng-if="!document.NewRow"></span>
+												<div>
+													<label></label>
+												</div>
+												<div></div>
+												
+												<label ng-hide="!checked">Reason</label>
+												
+												<div>
+													<textarea  class="form-control" ng-model="document.textarea" ng-hide="!checked">
+													</textarea>
+													<a class="text-success"  ng-hide="!checked" >
+														<span class="fa fa-check"></span>
+													</a>
+												</div>
+												
+
+												<!-- <span ng-bind="document.textarea" ng-if="!document.NewRow"></span> -->
+												
+
+												<input type="file" class="form-control" ng-model="document.file" ng-show="document.NewRow" ng-hide="checked" ng-if="!user.IsCedarwoodUser">
+												<span ng-bind="document.file" ng-if="!document.NewRow" ></span>
+												
+											</td>
+											<td>
+												<textarea class="form-control" ng-model="document.Description" ng-if="document.NewRow"></textarea>
+												<p class="form-control-static" ng-bind="document.Description" ng-if="!document.NewRow"></p>
+											</td>	
+											<td ng-if="!user.IsCedarwoodUser">
+												<input type="checkbox" ng-model="checked" >
+											</td>
+											<td>
+												<input class="form-control" ng-model="document.ExampleDocument" ng-if="document.NewRow">
+												<a href="{{document.ExampleDocument}}"  ng-if="!document.NewRow" style="text-decoration:underline">Example Document</a>
+											</td>							
+											<td>
+												<a class="text-success" ng-if="document.NewRow" ng-disabled="!document.Name" ng-click="fundsCtrl.save()">
+													<span class="fa fa-check"></span>
+												</a>
+												<a class="text-danger" ng-if="!document.NewRow"  ng-click="fundsCtrl.removeDocument($index)">
+													<span class="fa fa-remove"></span>
+												</a>
+											</td>
+										</tr>
+									</tbody> 
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default row" style="margin-top:30px;"  ng-if="fundsCtrl.fund && fundsCtrl.fund.EntityID">
+						<div class="col-sm-12">					
+							<h4>Trades</h4>
+							<div>
+								<button class="btn btn-primary" ui-sref="app.tradeEdit({projectId: fundsCtrl.fund.ProjectID, fundId: fundsCtrl.fund.EntityID,id: 'new'})" ng-if="fundsCtrl.fund && fundsCtrl.fund.EntityID">Add</button>
+								<button class="btn btn-primary" ui-sref="app.tradeEdit({fundId: fundsCtrl.fund.EntityID,id: fundsCtrl.selectedTrade.EntityID})" ng-if="fundsCtrl.selectedTrade">Edit</button>
+							</div>
+							<div class="panel panel-default">
+								<div class="table-responsive no-border">
+									<table class="table table-model-2 table-hover clickable-table">      
+										<thead>
+											<tr class="left-align">
+												<th>Name</th>                             
+											</tr>
+										</thead>
+										<tbody>         
+											<tr class="plain-data" ng-repeat="trade in fundsCtrl.trades" ng-click="fundsCtrl.selectedTrade=trade">
+												<td>
+													<span ng-bind="trade.Name"></span>
+												</td>                                               
+											</tr>  
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-footer pull-right">    
+						<button type="submit" class="btn btn-primary" ng-disabled="fundForm.$invalid">
+							<span>Save</span> 
+						</button>
+						<a class="btn btn-default" href="#/app/projects/{{fundsCtrl.fund.ProjectID}}">
+							<span>Cancel</span> 
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>	

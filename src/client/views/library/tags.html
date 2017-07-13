@@ -1,0 +1,62 @@
+<div class="modal-content" id="library-tags-modal">
+  <div class="modal-header">
+    <h4 class="modal-title"> <span ng-i18next="modal.add_tags.title"></span> </h4>
+  </div>
+  <div class="modal-body">
+    <alert ng-repeat="alert in modal.tagAlerts" type="{{alert.type}}" close="modal.closeAlert($index)"> {{alert.msg}} </alert>
+    <div class="panel panel-default">
+      <div class="panel panel-default">
+        <input type="text" class="cw-search-input" id="tag-field" ng-model="modal.tag">
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered clickable-table table-hover dataTable">
+          <thead>
+            <tr class="left-align">
+              <th class="sorting col-sm-5">
+                <span>Name</span>
+              </th>
+              <th class="sorting col-sm-5">
+                <span>Action</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="tag in modal.tags">
+            <tr>
+              <td>
+                <input class="form-control" ng-model="tag.Name">
+              </td>
+              <td style="text-align: center;">
+                <button type="submit" class="btn btn-primary" ng-click="modal.updateTag(tag)" ng-disabled="modal.removeInProgress">
+                  <span ng-i18next="button.update"></span>
+                </button>
+                <button type="submit" class="btn btn-primary" ng-click="modal.removeTag(tag.EntityID)" ng-disabled="modal.removeInProgress">
+                  <span ng-i18next="button.remove"></span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div ng-if="modal.totalTags > modal.itemsPerPage" class="clearfix">
+        <div class="cw-pagination pull-right">
+          <span class="prev" ng-class="{disabled:modal.currentPage == 1}" ng-click="modal.switchPage(-1)"><i class="fa fa-caret-left"></i>Prev</span>
+          <select ng-model="modal.currentPage" convert-to-number ng-change="modal.pageChange()">
+            <option ng-repeat="page in modal.getPagesArray() track by $index" value="{{$index + 1}}">{{$index + 1}}</option>
+          </select> of {{modal.getNumPages()}}
+          <span class="next" ng-class="{disabled:modal.currentPage == modal.getNumPages()}" ng-click="modal.switchPage(1)">Next<i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <img src="images/cw/ajax-loader.gif" ng-if="modal.removeInProgress">
+    <button type="submit" class="btn btn-primary" ng-click="modal.ok()" ng-disabled="modal.removeInProgress">
+      <span ng-i18next="button.done"></span>
+    </button>
+  </div>
+</form>    
+</div>
+</div>

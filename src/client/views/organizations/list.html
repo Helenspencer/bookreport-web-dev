@@ -1,0 +1,30 @@
+<div class="page" id="organizationsList">
+    <div class="title">
+        <h2 ng-i18next="list.organizations.title"></h2>
+        <div>
+            <a class="btn btn-blue btn-text-symbol" ui-sref="app.organizationEdit({id: 'new'})" href="">+</a>            
+        </div>       
+    </div>
+    <div  style="margin-bottom: 10px;">
+        <button class="btn btn-primary" ng-class="{disabled:!organizationsCtrl.selectedOrganization}" ui-sref="app.organizationEdit({id: organizationsCtrl.selectedOrganization.EntityID})" href=""><i class="fa fa-edit"></i> Edit</button>
+        <button class="btn btn-primary" ng-click="organizationsCtrl.showUserInvitationModal()" href="" ng-if="organizationsCtrl.selectedOrganization && (organizationsCtrl.selectedOrganization.isOrganizationAdmin || organizationsCtrl.selectedOrganization.isManager)"><i class="fa fa-envelope"></i></button>
+    </div>    
+    <div class="panel panel-default">
+        <div class="table-responsive no-border">
+            <table class="table table-model-2 table-hover clickable-table">      
+                <thead>
+                    <tr class="left-align">
+                        <th><span ng-i18next="list.organizations.columns.name"></span></th>                        
+                    </tr>
+                </thead>
+                <tbody>         
+                    <tr class="plain-data" ng-repeat="organization in organizationsCtrl.organizations" ng-click="organizationsCtrl.selectedOrganization=organization;" ng-dblclick="organizationsCtrl.edit(organization)" ng-class="{'active': organizationsCtrl.selectedOrganization.EntityID == organization.EntityID}">
+                        <td>
+                            <span ng-bind="organization.Name"></span>
+                        </td>                        
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

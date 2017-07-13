@@ -1,0 +1,64 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title"><span ng-i18next="modal.my_profile.title"></span></h4>
+  </div>
+  <div class="modal-body">
+    <alert ng-repeat="alert in profileAlerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <form class="form-horizontal" role="form" name="userForm" ng-model="user"  ng-submit="ok()" novalidate>
+      <p class="form-hint"> <strong><span ng-i18next="form.hint_1"></span><span style="color: #e32">*</span><span ng-i18next="form.hint_2"></span></strong>
+       <alert ng-repeat="alert in EmailAlert" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+      <div class="form-group" ng-class="{'has-error': userForm.inputEmail.$dirty && userForm.inputEmail.$invalid}">
+        <label for="inputEmail" class="col-sm-2 control-label"><span ng-i18next="form.profile.fields.email"></span> </label>
+        <div class="col-sm-6">         
+          <ul class="list-group list-group-minimal">           
+            <li class="list-group-item" ng-repeat="email in user.Email track by $index" style="padding:0px 15px;">             
+              {{email}} <a href="" class="btn btn-primary" ng-click="removeEmail($index)" ng-if="isRemove" style="margin-top: 10px;" ng-disabled="loadingUser">
+              <i class="fa fa-times text-danger"></i>
+            </a>
+          </li>              
+        </ul>                    
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': userForm.altEmail.$dirty && userForm.altEmail.$invalid}">
+      <label for="altEmail" class="col-sm-2 control-label">Alternate Email </label>
+      <div class="col-sm-6">                   
+        <input type="text" class="form-control" name="altEmail" ng-model="user.NewEmail" ng-pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/">          
+      </div>
+      <div class="col-sm-1">
+        <a class="btn btn-primary" ng-click="addNewEmail()" ng-disabled="userForm.altEmail.$pristine || userForm.altEmail.$invalid || loadingUser">
+          <i class="fa fa-check"></i>
+        </a>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': userForm.inputFName.$dirty && userForm.inputFName.$invalid}">
+      <label for="inputFName" class="col-sm-2 control-label required" ><span ng-i18next="form.profile.fields.first_name"></label>
+      <div class="col-sm-6">
+        <input type="text" class="form-control" name="inputFName" ng-model="user.FirstName" required>
+        <span ng-show="userForm.inputFName.$dirty && userForm.inputFName.$error.required" class="help-block"><span ng-i18next="form.profile.error_messages.first_name_required"></span></span>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{'has-error': userForm.inputLName.$dirty && userForm.inputLName.$invalid}">
+      <label for="inputLName" class="col-sm-2 control-label required"><span ng-i18next="form.profile.fields.last_name"></label>
+      <div class="col-sm-6">
+        <input type="text" name="inputLName" class="form-control" ng-model="user.LastName" required>
+        <span ng-show="userForm.inputLName.$dirty && userForm.inputLName.$error.required" class="help-block"> <span ng-i18next="form.profile.error_messages.last_name_required"></span></span>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': userForm.email_signature.$dirty && userForm.email_signature.$invalid}">
+      <label for="emailSignature" class="col-sm-2 control-label">
+        <span ng-i18next="form.profile.fields.email_signature"></span>
+      </label>
+      <div class="col-sm-6">
+        <textarea class="cw-input" ng-model="user.EmailSignature" name="emailsignature" highlight-row="selected" rows="5">
+        </textarea>
+      </div>
+    </div>
+
+    <div class="form-footer" style="text-align: right;">
+      <button type="submit" class="btn btn-primary" ng-disabled="!userForm.$dirty || userForm.$invalid"><span ng-i18next="button.save"></span></button>
+      <button type="reset" class="btn btn-default" ng-click="cancel()"><span ng-i18next="button.cancel"></span></button>
+    </div>
+  </form>
+</div>
+</div>

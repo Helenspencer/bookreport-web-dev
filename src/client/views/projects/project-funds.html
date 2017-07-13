@@ -1,0 +1,30 @@
+
+<h3 ng-if="projectsCtrl.project && projectsCtrl.project.EntityID">FUNDS</h3>
+
+<div>
+	<a class="btn btn-primary" ui-sref="app.fundEdit({projectId: projectsCtrl.project.EntityID,id: 'new'})" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID">Add</a>
+	<a class="btn btn-primary" ui-sref="app.fundEdit({projectId: projectsCtrl.project.EntityID,id: projectsCtrl.selectedFund.EntityID})" ng-if="projectsCtrl.selectedFund">Edit</a>
+
+</div>
+<div class="panel panel-default col-sm-12" ng-if="projectsCtrl.project && projectsCtrl.project.EntityID">
+	<div class="table-responsive no-border">
+		<table class="table table-model-2 table-hover clickable-table">      
+			<thead>
+				<tr class="left-align">
+					<th><span ng-i18next="list.projects.columns.name"></span></th>
+					<th>Due Date</th>                                            
+				</tr>
+			</thead>
+			<tbody>         
+				<tr class="plain-data" ng-repeat="fund in projectsCtrl.funds" ng-click="projectsCtrl.selectedFund=fund">
+					<td>
+						<span ng-bind="fund.Name"></span>
+					</td>  
+					<td>
+						<span ng-bind="fund.DueDate| date:'MM/dd/yyyy'"></span>
+					</td>                                               
+				</tr>  
+			</tbody>
+		</table>
+	</div>
+</div>

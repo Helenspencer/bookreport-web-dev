@@ -1,0 +1,123 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong ng-if="!documentRequestsCtrl.isClient">
+					Add/Edit Document Request
+				</strong>
+				<strong ng-if="documentRequestsCtrl.isClient">
+					Fulfill Document Request
+				</strong>
+			</div>
+			<div class="panel-body">					
+				<form name="documentRequestForm">
+					<div class="form-table">
+						<div class="form-group" ng-if="documentRequestsCtrl.documentRequest && !documentRequestsCtrl.isClient">
+							<label class="control-label required">
+								Project member
+							</label>
+							<div class="col-md-4">
+								<select class="form-control" ng-if="documentRequestsCtrl.documentRequest && !documentRequestsCtrl.documentRequest.EntityID" ng-options="member.UserID as member.DisplayName for member in documentRequestsCtrl.project.Members" ng-model="documentRequestsCtrl.documentRequest.RequestedFromID" required>
+								</select>
+								<p class="form-control-static" ng-if="documentRequestsCtrl.documentRequest && documentRequestsCtrl.documentRequest.EntityID" ng-bind="documentRequestsCtrl.documentRequest.RequestedFrom"></p>
+							</div>
+						</div>						
+					</div>
+					<div class="form-table">
+						<div class="form-group" ng-if="documentRequestsCtrl.isClient">
+							<label class="control-label">
+								Project
+							</label>
+							<div>
+								<p class="form-control-static" ng-bind="documentRequestsCtrl.project.Name"></p>
+							</div>
+						</div>						
+					</div>
+					<div class="form-table">
+						<div class="form-group" ng-if="documentRequestsCtrl.isClient">
+							<label class="control-label">
+								Requested By
+							</label>
+							<div>
+								<p class="form-control-static" ng-bind="documentRequestsCtrl.documentRequest.RequestedBy"></p>
+							</div>
+						</div>						
+					</div>
+					<div class="panel panel-default row" style="margin-top:30px;">
+						<div class="col-sm-12">
+							<h4>Documents</h4>
+							<div class="table-responsive col-sm-6">
+								<alert ng-repeat="alert in documentRequestsCtrl.alerts" type="{{alert.type}}" >{{alert.msg}}</alert>		
+								<table class="table table-striped table-bordered clickable-table table-hover dataTable">
+									<thead>
+										<tr class="left-align">                       
+											<th class="col-md-4">
+												<span>Name</span>                            
+											</th>
+											<th class="col-md-1">
+												
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="plain-data" ng-repeat="document in documentRequestsCtrl.documentRequest.Documents">
+											<td>
+												<input class="cw-input" ng-model="document.Name" ng-if="document.NewRow" ng-enter="document.Name && documentRequestsCtrl.addDocument(document)">
+												<p class="form-static-control" ng-bind="document.Name" ng-if="!document.NewRow"></p>
+											</td>
+											<td style="text-align:center;">
+												<div ng-if="!documentRequestsCtrl.isClient">
+													<a class="text-success" ng-if="document.NewRow" ng-disabled="!document.Name" ng-click="documentRequestsCtrl.addDocument(document)">
+														<span class="fa fa-check"></span>
+													</a>
+													<a class="text-danger" ng-if="!document.NewRow && !document.FileID"  ng-click="documentRequestsCtrl.removeDocument($index)">
+														<span class="fa fa-remove"></span>
+													</a>
+
+													<a class="text-danger" ng-if="!document.NewRow && document.FileID">
+														{{document.FileName}}
+													</a>
+												</div>
+												<div ng-if="documentRequestsCtrl.isClient">
+													<div class="btn btn-orange" ngf-select="uploadFile(file, $index)" ng-model="file" name="file" ngf-min-height="100" 
+													ngf-resize="{width: 100, height: 100}" ng-disabled="file.uploading" ng-hide="document.FileID">Upload</div>
+													<span ng-if="document.FileID" ng-bind="document.FileName"></span>
+													<span class="progress" ng-show="file.uploading">
+														<div style="width:{{file.progressPercentage}}%"  
+														ng-bind="file.progressPercentage + '%'"></div>
+													</span>
+												</div>												
+											</td>
+										</tr>
+									</tbody> 
+								</table>
+							</div>
+						</div>
+					</div>	
+					<div class="panel panel-default row" style="margin-top:30px;" ng-if="documentRequestsCtrl.documentRequest && !documentRequestsCtrl.documentRequest.EntityID && !documentRequestsCtrl.isClient">
+						<div class="col-sm-12">
+							<h4>Message</h4>
+							<div class="form-group">								
+								<textarea class="cw-input" style="width:50%" ng-model="documentRequestsCtrl.documentRequest.Message" name="inputMessage" highlight-row="selected" rows="10" required>
+								</textarea>								
+							</div>
+						</div>
+					</div>
+
+					<div class="form-footer">    
+						<a class="btn btn-primary" ng-disabled="documentRequestForm.$invalid" ng-click="documentRequestsCtrl.save()" ng-if="documentRequestsCtrl.documentRequest && (!documentRequestsCtrl.documentRequest.EntityID || !documentRequestsCtrl.isClient)">
+							<span>Save</span> 
+						</a>
+						<a class="btn btn-primary" ng-disabled="documentRequestForm.$invalid" ng-click="documentRequestsCtrl.fulfillRequest()" ng-if="documentRequestsCtrl.documentRequest && documentRequestsCtrl.documentRequest.EntityID && documentRequestsCtrl.isClient">
+							<span>Done</span> 
+						</a>
+						<a class="btn btn-default" href="#/app/projects/{{documentRequestsCtrl.documentRequest.ProjectID}}" ng-if="documentRequestsCtrl.documentRequest && (!documentRequestsCtrl.documentRequest.EntityID || !documentRequestsCtrl.isClient)">
+							<span>Cancel</span> 
+						</a>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>	

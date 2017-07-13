@@ -1,0 +1,83 @@
+<div class="page">
+	<div class="panel panel-default">
+		<div class="content">
+			<div class="panel-heading">
+				<strong>
+					<span class="glyphicon glyphicon-th"></span> 
+					Add/Edit Document Type
+				</strong>
+			</div>
+			<div class="panel-body">				
+				<form name="documentTypeForm" role="form" novalidate class="form-horizontal">
+					<div class="form-table">
+						<div class="form-group" ng-class="{'has-error':documentTypeForm.$dirty &&documentTypeForm.inputName.$invalid}">
+							<label class="control-label required">
+								<span ng-i18next="form.documentTypes.fields.name"></span>
+							</label>
+							<div>
+								<input type="text" class="cw-input" ng-model="documentTypesCtrl.documentType.Name" name="inputName" required >
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default row" >
+						<div class="col-sm-12">
+							<h4 ng-i18next="form.documentTypes.fields.data"></h4>
+							<div class="table-responsive ">
+								<table class="table table-striped table-bordered clickable-table table-hover dataTable">
+									<thead>
+										<tr class="left-align">                       
+											<th class="col-md-4">
+												<span>Name</span>                            
+											</th>
+											<th class="col-md-3">
+												<span>Datatype</span>                            
+											</th>
+											<th class="col-md-1">
+												
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="plain-data" ng-repeat="dataItem in documentTypesCtrl.documentType.Data">
+											<td>
+												<input class="cw-input" ng-model="dataItem.Name" ng-if="dataItem.NewRow">
+												<p class="form-static-control" ng-bind="dataItem.Name" ng-if="!dataItem.NewRow"></p>
+											</td>
+
+											<td>
+												<select  class="form-control " ng-model="dataItem.DataType"  ng-options="type.Value as type.Name for type in documentTypesCtrl.dataTypes" ng-if="dataItem.NewRow"> 
+												</select>	
+												<p class="form-static-control" ng-bind="documentTypesCtrl.dataTypes[dataItem.DataType].Name" ng-if="!dataItem.NewRow"></p>
+											</td>
+											<td style="text-align:center;">
+												<a class="text-success" ng-if="dataItem.NewRow" ng-disabled="!dataItem.Name" ng-click="documentTypesCtrl.save(undefined, true)">
+													<span class="fa fa-check"></span>
+												</a>
+												<a class="text-danger" ng-if="!dataItem.NewRow"  ng-click="documentTypesCtrl.removeDocumentType($index)">
+													<span class="fa fa-remove"></span>
+												</a>
+											</td>
+										</tr>
+									</tbody> 
+								</table>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="form-footer">
+				<a ng-if="documentTypesCtrl.documentType && !documentTypesCtrl.documentType.EntityID" class="btn btn-blue" ng-disabled="saving || documentTypeForm.$invalid" ng-click="documentTypesCtrl.save()">
+					<span ng-i18next="button.create"></span>
+				</a>   
+
+				<a ng-if="documentTypesCtrl.documentType && documentTypesCtrl.documentType.EntityID" class="btn btn-primary" ng-click="documentTypesCtrl.save()"><span ng-i18next="button.done"></span></a>  
+
+				<!-- <a ng-if="documentTypesCtrl.documentType && documentTypesCtrl.documentType.EntityID" class="btn btn-danger" ng-click="documentTypesCtrl.removeDocumentType(documentTypesCtrl.documentType.EntityID)"><span ng-i18next="button.remove"></span></a> -->
+
+				<a href="#/app/documentTypes" class="btn btn-default" ng-if="documentTypesCtrl.documentType && !documentTypesCtrl.documentType.EntityID">
+					<span ng-i18next="button.cancel"></span>
+				</a>  
+			</div>
+			</div>
+		</div>
+	</div>
+</div>	

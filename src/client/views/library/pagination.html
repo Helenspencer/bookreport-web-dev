@@ -1,0 +1,9 @@
+<div ng-if="library.searchResponse.TotalFiles > library.itemsPerPage && library.getNumPages() > 1" class="clearfix">
+	<div class="cw-pagination pull-right">
+		<span class="prev" ng-class="{disabled:library.currentPage == 1}" ng-click="library.switchPage(-1)"><i class="fa fa-caret-left"></i>Prev</span>
+		<select ng-model="library.currentPage" convert-to-number ng-change="library.pageChange()">
+			<option ng-repeat="page in library.getPagesArray() track by $index" value="{{$index + 1}}">{{$index + 1}}</option>
+		</select> of {{library.getNumPages()}}
+		<span class="next" ng-class="{disabled:library.currentPage == library.getNumPages()}" ng-click="library.switchPage(1)">Next<i class="fa fa-caret-right"></i></span>
+	</div>
+</div>

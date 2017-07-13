@@ -1,0 +1,105 @@
+<div class="summary">
+	<span ng-if="library.showItemFileCount">{{library.totalFileCountByItem}}</span>
+	<span ng-if="!library.showItemFileCount">{{library.searchResponse.TotalFiles}}</span> files
+	<span class="total-size"> - {{library.shortenTotalSize}} </span>
+	<button class="btn btn-primary" ng-click="library.exportFileNames()"> Export </button>
+</div>
+<div class="filters">
+	<div class="dropdown dropdown-toggle" dropdown data-toggle="dropdown" dropdown-toggle on-toggle="toggled(open)">
+		<ul class="list-inline list-unstyled">
+			<li>
+				<a href="">
+					<span ng-if="!library.searchCriteria.Tag">All tags</span>
+					<span ng-if="library.searchCriteria.Tag">{{library.searchCriteria.Tag}}</span>
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="dropdown-menu list-unstyled">
+			<li ng-click="library.filterSearch=true;library.searchCriteria.Tag=undefined;" ng-if="library.searchCriteria.Tag">
+				<a href="">		
+					<span >All tags
+					</span>
+				</a>
+			</li>
+			<li ng-repeat="(key,value) in library.searchResponse.FileCountByTags" ng-click="library.filterSearch=true;library.filterByTag(key);">
+				<a href="">		
+					<span >{{key}} ({{value}})
+					</span>
+				</a>
+			</li>
+		</ul>									
+	</div>
+	<div class="dropdown dropdown-toggle" dropdown on-toggle="toggled(open)" data-toggle="dropdown" dropdown-toggle>
+		<ul class="list-inline list-unstyled">
+			<li>
+				<a href="">
+					<span ng-if="!library.searchCriteria.Extension">All file types</span>
+					<span ng-if="library.searchCriteria.Extension">{{library.searchCriteria.Extension}}</span>
+
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="dropdown-menu list-unstyled">
+			<li ng-click="library.filterSearch=true;library.searchCriteria.Extension=undefined;" ng-if="library.searchCriteria.Extension">
+				<a href="">		
+					<span >All file types
+					</span>
+				</a>
+			</li>
+			<li ng-repeat="(key,value) in library.searchResponse.FileCountByType">
+				<a href="" ng-click="library.filterSearch=true;library.searchCriteria.Extension=key;">	
+					<span >{{key}} ({{value}})
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="dropdown dropdown-toggle" dropdown on-toggle="toggled(open)" data-toggle="dropdown" dropdown-toggle>
+		<ul class="list-inline list-unstyled">
+			<li>
+				<a href="">
+					<span ng-if="!library.searchCriteria.FileSize">All file sizes</span>
+					<span ng-if="library.searchCriteria.FileSize == 0">{{library.searchResponse.FileCountBySize["0"].Name}}</span>
+					<span ng-if="library.searchCriteria.FileSize == 1">{{library.searchResponse.FileCountBySize["1"].Name}}</span>
+					<span ng-if="library.searchCriteria.FileSize == 2">{{library.searchResponse.FileCountBySize["2"].Name}}</span>
+					<span ng-if="library.searchCriteria.FileSize == 3">{{library.searchResponse.FileCountBySize["3"].Name}}</span>
+
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="dropdown-menu list-unstyled">			
+			<li ng-click="library.filterSearch=true;library.searchCriteria.FileSize=undefined;" ng-if="library.searchResponse.FileCountBySize[library.searchCriteria.FileSize].Name">
+				<a href="">	
+					<span >All file sizes
+					</span>
+				</a>
+			</li>
+			<li ng-repeat="(key,value) in library.searchResponse.FileCountBySize">
+				<a href="" ng-click="library.filterSearch=true;library.searchCriteria.FileSize=key;">		
+					{{value.Name}} ({{value.Count}})
+				</a>
+			</li>
+		</ul>									
+	</div>
+	<div class="dropdown dropdown-toggle" data-toggle="dropdown" dropdown-toggle dropdown on-toggle="toggled(open)">
+		<ul class="list-inline list-unstyled">
+			<li>
+				<a href="">
+					{{library.itemsPerPage}} results on page
+					<i class="arrow"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="dropdown-menu list-unstyled">
+			<li ng-repeat="pageSize in library.pageSizes">
+				<a href="" ng-click="library.itemsPerPage=pageSize;">	
+					<span >{{pageSize}}
+					</span>
+				</a>
+			</li>
+		</ul>	
+	</div>								
+</div>

@@ -1,0 +1,68 @@
+<!-- <strong>MileStones</strong> -->
+<div class="panel panel-default">
+    <div ng-if="user.IsCedarwoodUser">
+        <a class="btn btn-primary"  ui-sref="app.milestonesEdit({projectId: projectsCtrl.project.EntityID,id: 'new'})">Add</a>
+        <a class="btn btn-primary" ng-disabled="!projectsCtrl.selectedMilestone" href="/#/app/projects/{{projectsCtrl.selectedMilestone.ProjectID}}/milestones/{{projectsCtrl.selectedMilestone.EntityID}}">Edit</a>
+        <a class="btn btn-primary" href="" ng-disabled="!projectsCtrl.selectedMilestone" ng-click="projectsCtrl.removeMilestone()">Delete</a>
+    </div>
+    <div class="table-responsive no-border">
+        <table class="table table-model-2 table-hover clickable-table">      
+            <thead>
+                <tr class="left-align">
+                   <tr class="left-align">                       
+                    <th>
+                        <span>Ordinal</span>                            
+                    </th>
+                    <th>
+                        <span>Name</span>
+                    </th>
+                    <th>
+                        <span>Estimated Start Date</span>
+                    </th>
+                    <th>
+                        <span>Estimated End Date</span>
+                    </th>
+                    <th>
+                        <span>Actual Start Date</span>
+                    </th>
+                    <th>
+                        <span>Actual End Date</span>
+                    </th>
+                    <th>
+                        <span>Status</span>
+                    </th>
+                </tr>                                            
+            </tr>
+        </thead>
+        <tbody ui-sortable="milestonesSortableOptions" ng-model="projectsCtrl.milestones">         
+            <tr class="plain-data" ng-repeat="milestone in projectsCtrl.milestones" ng-click="projectsCtrl.selectedMilestone=milestone;" ng-class="{'active': projectsCtrl.selectedMilestone.EntityID==milestone.EntityID}" style="cursor: move;">
+                <td>
+                    <span ng-bind="milestone.Ordinal"></span>
+                </td> 
+                <td>
+                    <span ng-bind="milestone.Name"></span>
+                </td>    
+                <td>
+                    <span ng-bind="milestone.EstimatedStartDate|date:'MM/dd/yyyy'"></span>
+                </td>  
+                <td>
+                    <span ng-bind="milestone.EstimatedEndDate|date:'MM/dd/yyyy'"></span>
+                </td>    
+                <td>
+                    <span ng-bind="milestone.ActualStartDate|date:'MM/dd/yyyy'"></span>
+                </td>  
+                <td>
+                    <span ng-bind="milestone.ActualEndDate|date:'MM/dd/yyyy'"></span>
+                </td>    
+                <td>
+                    <span ng-if="milestone.Status==0" class="label label-default">
+                        Not started
+                    </span>
+                    <span ng-if="milestone.Status==1" class="label label-info">In progress</span>
+                    <span ng-if="milestone.Status==2" class="label label-success">Completed</span>
+                </td>                                              
+            </tr>  
+        </tbody>
+    </table>
+</div>
+</div>

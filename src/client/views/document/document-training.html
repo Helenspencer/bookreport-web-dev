@@ -1,0 +1,45 @@
+<form name="documentValuesForm" ng-submit="documentCtrl.save()" novalidate>
+    <div class="form-group" ng-show="!documentCtrl.GroundTruthData || documentCtrl.GroundTruthData.length === 0">
+        (No Document Training Data)
+    </div>
+    <div class="row" ng-repeat="trainingData in documentCtrl.GroundTruthData | orderBy:'PageNumber'">
+        <div class="col-md-12">
+            <h5>
+                <a href ng-click="documentCtrl.showDocumentPage(trainingData.PageNumber)" ng-if="!documentCtrl.PageStartsAtOne">
+                    Page {{ trainingData.PageNumber+1}}
+                </a>
+                <a href ng-click="documentCtrl.showDocumentPage(trainingData.PageNumber+1)" ng-if="documentCtrl.PageStartsAtOne">
+                    Page {{ trainingData.PageNumber+1}}
+                </a>
+                <small class="pull-right">{{ documentCtrl.formatDateString(trainingData.when) }}</small>
+            </h5>
+        </div>
+    </div>
+    <a href="#" ng-click="statusUpdatesToggle = !statusUpdatesToggle">
+        View status updates ({{ documentCtrl.InitialWorkUpdates.length }})</a>
+    <div ng-show="statusUpdatesToggle">
+        <hr/>
+        <div class="form-group" ng-show="!documentCtrl.InitialWorkUpdates">
+            (No Model Work Updates)
+        </div>
+        <div class="row" ng-repeat="initialWorkData in documentCtrl.InitialWorkUpdates | orderBy:'when'">
+            <div class="col-md-12">
+                <h5>
+                    {{ initialWorkData.message }}
+                    <small class="pull-right">{{ documentCtrl.formatDateString(initialWorkData.when) }}</small>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <!--
+    <hr/>
+    <div class="form-footer">
+        <button class="btn btn-blue" type="submit" ng-disabled="saving">
+            Save
+        </button>
+        <a href="#/app/documents" class="btn btn-default">
+            <span ng-i18next="button.cancel"></span>
+        </a>
+    </div>
+    -->
+</form>

@@ -1,0 +1,36 @@
+<div class="page" id="engagementsList">
+    <div class="title">
+        <h2 ng-i18next="list.fund_templates.title"></h2>
+        <div>
+            <a class="btn btn-blue btn-text-symbol" ui-sref="app.fundTemplateEdit({id: 'new'})" href="">+</a>
+            <!-- <a class="btn btn-blue btn-text-symbol" ui-sref="app.fundTemplateEdit({id: fundTemplatesCtrl.selectedTemplate.EntityID})" href=""><span class="fa fa-edit"></span></a> -->
+        </div>       
+    </div>  
+    <div  style="margin-bottom: 10px;">
+        <a class="btn btn-primary" ui-sref="app.fundTemplateEdit({id: fundTemplatesCtrl.selectedTemplate.EntityID})" href="" ng-class="{disabled:!fundTemplatesCtrl.selectedTemplate}">Edit fund template</a>
+    </div>     
+    <div class="panel panel-default">
+        <div class="table-responsive no-border">
+            <table class="table table-model-2 table-hover clickable-table">      
+                <thead>
+                    <tr class="left-align">
+                        <th><span ng-i18next="list.fund_templates.columns.name"></span></th> 
+                        <th>Documents</th>
+                    </tr>
+                </thead>
+                <tbody>         
+                    <tr class="plain-data" ng-repeat="fundTemplate in fundTemplatesCtrl.fundTemplates" ng-click="fundTemplatesCtrl.selectedTemplate=fundTemplate;" ng-dblclick="fundTemplatesCtrl.edit(fundTemplate)" ng-class="{'active': fundTemplate.EntityID && fundTemplatesCtrl.selectedTemplate.EntityID == fundTemplate.EntityID}">
+                        <td>
+                            <span ng-bind="fundTemplate.Name"></span>
+                        </td>  
+                        <td>
+                            <ul ng-if="fundTemplate.Documents.length > 0" class="ul-list">
+                                <li ng-repeat="document in fundTemplate.Documents" ng-bind="document"></li>       
+                            </ul>                            
+                        </td>                                              
+                    </tr>  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

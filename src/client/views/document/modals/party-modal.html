@@ -1,0 +1,27 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Add/Edit Party</h4>
+  </div>
+  <div class="modal-body">    
+    <form class="form-horizontal" role="form" name="partyForm" ng-submit="modal.ok()" novalidate>      
+      <div class="form-group" ng-class="{'has-error': partyForm.inputFName.$dirty && partyForm.inputFName.$invalid}">
+        <label for="inputFName" class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="inputFName" ng-model="modal.party.Name" required>
+          <span ng-show="partyForm.inputFName.$dirty && partyForm.inputFName.$error.required" class="help-block"><span ng-i18next="form.profile.error_messages.first_name_required"></span></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputEmail" class="col-sm-2 control-label"><span ng-i18next="form.profile.fields.email"></span></label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" name="inputEmail" ng-model="modal.party.Email" ng-pattern="/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/" required>
+        </div>
+      </div>   
+      
+      <div class="form-footer" style="text-align: right;">
+        <button type="submit" class="btn btn-primary" ng-disabled="!partyForm.$dirty || partyForm.$invalid"><span ng-i18next="button.save"></span></button>
+        <button type="reset" class="btn btn-default" ng-click="modal.cancel()"><span ng-i18next="button.cancel"></span></button>
+      </div>
+    </form>
+  </div>
+</div>
