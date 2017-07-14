@@ -333,12 +333,15 @@ img.img-corona {
 	-webkit-transition: border 0.2s ease;
     transition: border 0.2s ease;
 }
-.modal-lg form.ng-pristine span {
+.modal-lg form.ng-pristine span, .required_fileds_pass {
     padding-left: 20px;
-    WIDTH: 100%;
-    FLOAT: LEFT;
-    TEXT-ALIGN: CENTER;
-    MARGIN-BOTTOM: 20px;
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.modal-content.ng-scope {
+  padding: 30px !important;
 }
 .modal-lg form.ng-pristine .form-footer span, .ng-isolate-scope .form-footer span {padding-left: 0px;}
 .modal-lg .modal-content,  .modal-content{ background: #fff; padding: 0px !important;}
@@ -349,14 +352,19 @@ img.img-corona {
 .firstpopup label span{ text-align: right !important;}
 .fileupload .modal-body { position: relative;   padding: 30px !important;}
  .fileupload .modal-footer { padding: 30px 0px !important;}
-
-
+ .form-hint.my_profile {float: left; margin-bottom: 30px;  margin-top: 30px;  text-align: center;  width: 100%;}
+ .form-hint.my_profile span { float: none !important;}
+ .myprofiles span { float: none !important;}
+ #add-block-modal { padding: 30px;}
 
 @media (min-width: 992px){
 .modal-lg {
     width: 600px !important;
 }
 }
+
+
+
 
 label input[type=radio] {
 	margin-top: 3px;
